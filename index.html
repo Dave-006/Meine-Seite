@@ -324,7 +324,7 @@ button.item:focus-visible{outline:2px solid var(--fg);outline-offset:2px}
         <div class="lnames" id="lnames"></div>
         <p class="lmeta" id="lmeta"></p>
       </div>
-      <p class="lnote" id="lnote">Der Status wird über mcsrvstat.us abgefragt. Erst beim Klick wird eine Verbindung dorthin aufgebaut. Der Dienst erneuert die Daten etwa jede Minute.</p>
+      <p class="lnote" id="lnote">Der Status wird über mcsrvstat.us und mcstatus.io abgefragt. Erst beim Klick wird eine Verbindung dorthin aufgebaut.</p>
     </div>
   </aside>
 </header>
@@ -772,28 +772,36 @@ matchMedia('(prefers-color-scheme: dark)').addEventListener('change',redrawItems
     if(left>0){ btn.disabled=true; btn.textContent='Neu in '+left+' s'; }
     else { btn.disabled=false; btn.textContent='Aktualisieren'; if(next){ next=null; load(); } }
   }
+  async function getA(){ // mcsrvstat.us
+    const d=await (await fetch('https://api.mcsrvstat.us/3/'+HOST+'?t='+Date.now(),{cache:'no-store'})).json();
+    return {online:!!d.online,on:d.players?.online??0,max:d.players?.max??0,names:(d.players?.list||[]).map(p=>p.name||p),ver:d.version||'',
+      at:(d.debug?.cachetime||Date.now()/1000)*1000, exp:(d.debug?.cacheexpire||Date.now()/1000+60)*1000};
+  }
+  async function getB(){ // mcstatus.io
+    const d=await (await fetch('https://api.mcstatus.io/v2/status/java/'+HOST+'?t='+Date.now(),{cache:'no-store'})).json();
+    return {online:!!d.online,on:d.players?.online??0,max:d.players?.max??0,names:(d.players?.list||[]).map(p=>p.name_clean||p.name_raw||''),ver:d.version?.name_clean||'',
+      at:d.retrieved_at||Date.now(), exp:d.expires_at||Date.now()+60000};
+  }
   async function load(){
     if(busy) return; busy=true; btn.disabled=true; btn.textContent='Lädt…'; dot.classList.add('pulse');
-    try{
-      const r=await fetch('https://api.mcsrvstat.us/3/'+HOST+'?t='+Date.now(),{cache:'no-store'}); const d=await r.json();
+    const res=(await Promise.allSettled([getA(),getB()])).filter(x=>x.status==='fulfilled').map(x=>x.value);
+    if(res.length){
+      const d=res.sort((x,y)=>y.at-x.at)[0];
       body.hidden=false; note.hidden=true;
-      const stamp=(d.debug&&d.debug.cachetime)?d.debug.cachetime*1000:Date.now();
-      const exp=(d.debug&&d.debug.cacheexpire)?d.debug.cacheexpire*1000:Date.now()+60000;
       if(d.online){
-        const on=d.players?.online??0, max=d.players?.max??0;
         dot.className='ldot on'; st.textContent='Online';
-        $('lnum').textContent=on; $('lmax').textContent='/ '+max+' Spieler online';
-        $('lfill').style.width=(max?Math.min(100,on/max*100):0)+'%';
-        const names=(d.players?.list||[]).map(p=>p.name||p);
-        $('lnames').innerHTML=names.map(n=>`<span>${String(n).replace(/[<>&]/g,'')}</span>`).join('');
-        $('lmeta').textContent=(d.version?'Version '+d.version+' · ':'')+'Stand '+t(stamp);
+        $('lnum').textContent=d.on; $('lmax').textContent='/ '+d.max+' Spieler online';
+        $('lfill').style.width=(d.max?Math.min(100,d.on/d.max*100):0)+'%';
+        $('lnames').innerHTML=d.names.filter(Boolean).map(n=>`<span>${String(n).replace(/[<>&]/g,'')}</span>`).join('');
+        $('lmeta').textContent=(d.ver?'Version '+d.ver+' · ':'')+'Stand '+t(d.at);
       }else{
         dot.className='ldot off'; st.textContent='Offline';
         $('lnum').textContent=''; $('lmax').textContent='Server gerade nicht erreichbar oder gestoppt'; $('lfill').style.width='0'; $('lnames').innerHTML='';
-        $('lmeta').textContent='Stand '+t(stamp);
+        $('lmeta').textContent='Stand '+t(d.at);
       }
-      next=Math.max(exp+1500, Date.now()+5000);
-    }catch(e){ dot.className='ldot'; st.textContent='Status nicht abrufbar'; next=Date.now()+15000; }
+      const soonest=Math.min(...res.map(x=>x.exp));
+      next=Math.min(Math.max(soonest+1500, Date.now()+5000), Date.now()+60000);
+    }else{ dot.className='ldot'; st.textContent='Status nicht abrufbar'; next=Date.now()+15000; }
     busy=false; dot.classList.remove('pulse'); setBtn();
   }
   function start(){ try{localStorage.setItem(KEY,'1')}catch(e){} load(); clearInterval(tick); tick=setInterval(()=>{ if(!document.hidden) setBtn(); },1000); }
