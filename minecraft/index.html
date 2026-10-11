@@ -208,6 +208,35 @@ footer{color:var(--muted);font-size:.85rem;border-top:1px solid var(--line);padd
   .view{animation:in .25s ease both}
   @keyframes in{from{transform:translateY(6px)}to{transform:none}}
 }
+
+/* Clickable bosses + dialog */
+button.boss{font:inherit;color:inherit;text-align:left;cursor:pointer;width:100%}
+button.boss:focus-visible{outline:2px solid var(--fg);outline-offset:2px}
+.boss .bhead{display:flex;gap:14px;align-items:center}
+.emblem{width:56px;height:56px;image-rendering:pixelated;flex-shrink:0;background:var(--surface-2);border-radius:4px}
+.emblem.big{width:96px;height:96px}
+.boss .bname{display:flex;flex-direction:column;gap:6px;align-items:flex-start;min-width:0}
+.boss .bwhere{font-size:.92rem;color:var(--muted)}
+.boss .more{font-size:.85rem;font-weight:600;color:var(--c);margin-top:auto}
+#p-tf{display:flex;flex-direction:column;gap:16px}
+dialog{border:0;padding:0;background:transparent;max-width:min(720px,calc(100vw - 24px));width:100%;max-height:calc(100dvh - 24px);color:var(--fg)}
+dialog::backdrop{background:rgba(10,12,10,.6)}
+.dlg{--c:var(--ember);background:var(--surface);border-top:6px solid var(--c);border-radius:var(--r);padding:24px;display:flex;flex-direction:column;gap:20px;position:relative;box-shadow:var(--shadow)}
+.dlg-x{position:absolute;top:12px;right:12px;width:36px;height:36px;border:1px solid var(--line);border-radius:var(--r);background:var(--surface-2);color:var(--fg)}
+.dlg-head{display:flex;gap:18px;align-items:center;padding-right:40px}
+.dlg-title{display:flex;flex-direction:column;gap:6px;align-items:flex-start;min-width:0}
+.dlg-title h3{font-size:clamp(1.5rem,5vw,2rem)}
+.dlg-title p{color:var(--muted);font-size:.95rem}
+.dlg-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.block{background:var(--surface-2);border-radius:var(--r);padding:14px 16px;display:flex;flex-direction:column;gap:8px;min-width:0}
+.block h4{margin:0;font-family:var(--f-mono);font-size:.75rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.block p{font-size:.95rem}
+.block ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:5px;font-size:.95rem}
+.block li b{font-weight:600}
+.dlg .tip{border-left:3px solid var(--c);padding-left:12px}
+.wiki{color:var(--c);font-weight:600;text-decoration:none;align-self:flex-start}
+.wiki:hover{text-decoration:underline}
+@media (max-width:600px){.dlg-grid{grid-template-columns:1fr}.dlg{padding:20px 16px}.emblem.big{width:72px;height:72px}}
 </style>
 </head>
 <body>
@@ -306,52 +335,12 @@ footer{color:var(--muted);font-size:.85rem;border-top:1px solid var(--line);padd
     <button class="tab" role="tab" id="tab-tf" aria-controls="p-tf" aria-selected="false" type="button">Twilight Forest</button>
   </div>
 
-  <div id="p-cat" role="tabpanel" aria-labelledby="tab-cat" class="bosses">
-    <article class="boss"><header><h3>Netherite Monstrosity</h3><span class="dim ne">Nether</span></header>
-      <dl><dt>Ort</dt><dd>Soul Black Smith</dd><dt>Beute</dt><dd>Infernal Forge, Asche für Ignis</dd></dl>
-      <p class="tip">Lässt sich in Lava heilen und lädt dort seinen Fernangriff auf. Lockt ihn von der Lava weg.</p><span class="n">01</span></article>
-    <article class="boss"><header><h3>Ender Guardian</h3><span class="dim en">End</span></header>
-      <dl><dt>Ort</dt><dd>Ruined Citadel</dd><dt>Beute</dt><dd>Gauntlet of Guard</dd></dl>
-      <p class="tip">Großer Bruder des Ender Golems. Den Golem vorher als Aufwärmrunde nutzen.</p><span class="n">02</span></article>
-    <article class="boss"><header><h3>The Harbinger</h3><span class="dim ow">Overworld</span></header>
-      <dl><dt>Ort</dt><dd>Ancient Factory (Höhlen)</dd><dt>Beschwörung</dt><dd>Nether Star</dd></dl>
-      <p class="tip">Raketen und Laser. EMP-Blöcke betäuben ihn kurz, nur nicht während des Todeslasers.</p><span class="n">03</span></article>
-    <article class="boss"><header><h3>Ancient Remnant</h3><span class="dim ow">Overworld</span></header>
-      <dl><dt>Ort</dt><dd>Cursed Pyramid (Wüste)</dd><dt>Beute</dt><dd>Wüsten-Waffen</dd></dl>
-      <p class="tip">Viel offene Fläche. Nehmt genug Heiltränke mit.</p><span class="n">04</span></article>
-    <article class="boss"><header><h3>The Leviathan</h3><span class="dim oc">Ozean</span></header>
-      <dl><dt>Ort</dt><dd>Sunken City</dd><dt>Beschwörung</dt><dd>Abyssal Sacrifice</dd><dt>Beute</dt><dd>Tidal Claws</dd></dl>
-      <p class="tip">Unterwasser-Kampf: Wasseratmung oder Conduit vorher besorgen.</p><span class="n">05</span></article>
-    <article class="boss"><header><h3>Scylla</h3><span class="dim oc">Ozean</span></header>
-      <dl><dt>Ort</dt><dd>Acropolis</dd><dt>Beute</dt><dd>Ceraunus, Astrape</dd></dl>
-      <p class="tip">Einer der härtesten Kämpfe. Erst nach dem Leviathan angehen.</p><span class="n">06</span></article>
-    <article class="boss"><header><h3>Maledictus</h3><span class="dim ow">Overworld</span></header>
-      <dl><dt>Ort</dt><dd>Frosted Prison (Schnee)</dd><dt>Beute</dt><dd>Cursium-Material</dd></dl>
-      <p class="tip">Sehr aggressiv und schnell. Nur mit voller Ausrüstung und Team.</p><span class="n">07</span></article>
-    <article class="boss"><header><h3>Ignis</h3><span class="dim ne">Nether</span></header>
-      <dl><dt>Ort</dt><dd>Burning Arena</dd><dt>Beschwörung</dt><dd>Asche der Monstrosity am Altar</dd><dt>Beute</dt><dd>Ignitium, The Incinerator</dd></dl>
-      <p class="tip">Drei Phasen mit Feuerangriffen. Feuerresistenz-Tränke sind Pflicht.</p><span class="n">08</span></article>
+  <div id="p-cat" role="tabpanel" aria-labelledby="tab-cat" class="bosses" data-group="cat"></div>
+  <div id="p-tf" role="tabpanel" aria-labelledby="tab-tf" hidden>
+    <div class="portal"><b>Portal bauen</b><span>2×2 Wasser, rundherum Gras mit Blumen, dann einen Diamanten reinwerfen. Die Bosse schalten die Gebiete nacheinander frei.</span></div>
+    <div class="bosses" data-group="tf"></div>
   </div>
-
-  <div id="p-tf" role="tabpanel" aria-labelledby="tab-tf" class="bosses" hidden>
-    <div class="portal" style="grid-column:1/-1"><b>Portal bauen</b><span>2×2 Wasser, rundherum Gras mit Blumen, dann einen Diamanten reinwerfen. Die Bosse schalten die Gebiete nacheinander frei.</span></div>
-    <article class="boss"><header><h3>Naga</h3><span class="dim tf">Hof der Naga</span></header>
-      <dl><dt>Beute</dt><dd>Naga-Schuppen → Naga-Rüstung</dd></dl><p class="tip">Einstiegsboss. Mit Eisen gut machbar.</p><span class="n">01</span></article>
-    <article class="boss"><header><h3>Lich</h3><span class="dim tf">Lich-Turm</span></header>
-      <dl><dt>Beute</dt><dd>Szepter (Blitz, Zombies, Lebensraub)</dd></dl><p class="tip">Erst die Schild-Kugeln wegschießen, dann zuschlagen.</p><span class="n">02</span></article>
-    <article class="boss"><header><h3>Minoshroom</h3><span class="dim tf">Labyrinth</span></header>
-      <dl><dt>Beute</dt><dd>Diamond Minotaur Axe</dd></dl><p class="tip">Labyrinth unter dem Pilzwald. Fackeln mitnehmen.</p><span class="n">03</span></article>
-    <article class="boss"><header><h3>Hydra</h3><span class="dim tf">Feuersumpf</span></header>
-      <dl><dt>Beute</dt><dd>Fiery Blood → Fiery-Gear</dd></dl><p class="tip">Feuerresistenz! Köpfe einzeln angreifen, wenn sie zubeißen.</p><span class="n">04</span></article>
-    <article class="boss"><header><h3>Knight Phantoms</h3><span class="dim tf">Dunkelwald</span></header>
-      <dl><dt>Beute</dt><dd>Phantom-Rüstung, Knightmetal</dd></dl><p class="tip">Mehrere Gegner gleichzeitig, also besser zu zweit oder dritt rein.</p><span class="n">05</span></article>
-    <article class="boss"><header><h3>Ur-Ghast</h3><span class="dim tf">Dunkler Turm</span></header>
-      <dl><dt>Beute</dt><dd>Fiery Tears</dd></dl><p class="tip">Gute Bögen vorbereiten, viel Fernkampf.</p><span class="n">06</span></article>
-    <article class="boss"><header><h3>Alpha Yeti</h3><span class="dim tf">Schneewald</span></header>
-      <dl><dt>Beute</dt><dd>Alpha-Yeti-Fell → Arctic-Rüstung</dd></dl><p class="tip">Eiszapfen fallen vom Himmel. Bleibt ständig in Bewegung.</p><span class="n">07</span></article>
-    <article class="boss"><header><h3>Snow Queen</h3><span class="dim tf">Aurora-Palast</span></header>
-      <dl><dt>Beute</dt><dd>Ice Bow, Zugang zum Hochland</dd></dl><p class="tip">Letzter großer Boss vor dem Endgebiet.</p><span class="n">08</span></article>
-  </div>
+  <p class="note">Tippe auf einen Boss für Fundort, Beschwörung, Loot und empfohlene Ausrüstung.</p>
 </section>
 
 <section id="tiers" class="view" hidden>
@@ -370,8 +359,8 @@ footer{color:var(--muted);font-size:.85rem;border-top:1px solid var(--line);padd
       <div class="item"><b>Fiery Armor</b><small>Twilight · Hydra / Ur-Ghast</small></div>
       <div class="item"><b>Knightmetal</b><small>Twilight · Dunkelwald</small></div></div></div>
     <div class="tier" data-t="B"><div class="t">B</div><div class="items">
-      <div class="item"><b>Arctic Armor</b><small>Twilight · Alpha Yeti</small></div>
-      <div class="item"><b>Yeti Armor</b><small>Twilight</small></div>
+      <div class="item"><b>Alpha-Yeti-Rüstung</b><small>Twilight · Alpha Yeti</small></div>
+      <div class="item"><b>Arctic Armor</b><small>Twilight · Yetis</small></div>
       <div class="item"><b>Diamant</b><small>Vanilla</small></div></div></div>
     <div class="tier" data-t="C"><div class="t">C</div><div class="items">
       <div class="item"><b>Naga-Rüstung</b><small>Twilight · Naga</small></div>
@@ -419,6 +408,25 @@ footer{color:var(--muted);font-size:.85rem;border-top:1px solid var(--line);padd
     <div><b>Shader?</b><span>Iris ist raus, weil es mit unserer Sodium-Version crasht. Kommt evtl. per Update.</span></div>
   </div>
 </section>
+
+
+<dialog id="bossdlg" aria-labelledby="dlg-name">
+  <div class="dlg">
+    <button class="dlg-x" type="button" id="dlg-close" aria-label="Schließen">✕</button>
+    <div class="dlg-head">
+      <canvas class="emblem big" id="dlg-emblem" width="12" height="12" aria-hidden="true"></canvas>
+      <div class="dlg-title"><span class="dim" id="dlg-dim"></span><h3 id="dlg-name"></h3><p id="dlg-sub"></p></div>
+    </div>
+    <div class="dlg-grid">
+      <div class="block"><h4>Wo findet man ihn</h4><p id="dlg-where"></p></div>
+      <div class="block"><h4>Beschwören</h4><p id="dlg-summon"></p></div>
+      <div class="block"><h4>Loot</h4><ul id="dlg-loot"></ul></div>
+      <div class="block"><h4>Empfohlene Ausrüstung</h4><ul id="dlg-gear"></ul></div>
+    </div>
+    <p class="tip" id="dlg-tip"></p>
+    <a class="wiki" id="dlg-wiki" href="#" target="_blank" rel="noopener">Echte Bilder und Details im Wiki ansehen ↗</a>
+  </div>
+</dialog>
 
 <footer>Server läuft auf G-Portal · Minecraft 1.21.1 · NeoForge · Aether kommt vielleicht als Update.</footer>
 </div>
@@ -477,6 +485,146 @@ show(location.hash.slice(1)||'start');
   matchMedia('(prefers-color-scheme: dark)').addEventListener('change',draw);
   new MutationObserver(draw).observe(document.documentElement,{attributes:true,attributeFilter:['data-theme']});
 })();
+const CG='https://www.minecraft-guides.com/wiki/cataclysm/', TF='https://twilightforest.fandom.com/wiki/';
+const BOSSES=[
+ {g:'cat',n:'Netherite Monstrosity',d:'ne',dl:'Nether',sub:'Lava-Koloss mit Lavabomben',
+  where:'Soul Forge, zufällig in Nether-Biomen. Finden mit dem Eye of Monstrous (Enderauge, 2 Netherite-Schrott, 4 Lavaeimer, 2 Schwarzstein).',
+  summon:'Keine Beschwörung nötig. Er wird aktiv, sobald man nah genug herankommt.',
+  loot:['<b>Infernal Forge</b>: Spitzhacke und Waffe zugleich, 13 Schaden, unzerstörbar','<b>Monstrous Horn</b> für den Monstrous Helm','<b>Lava Power Cell</b>: weckt die Netherite Effigy als kleinen Begleiter'],
+  gear:['Volle verzauberte Netherite-Rüstung','Schild gegen Lavabomben','Feuerresistenz-Tränke, vor allem für Phase 2'],
+  tip:'Heilt sich in Lava und lädt dort seinen Fernangriff auf. Vorher Lava an Säulen und Erhöhungen entfernen.',w:CG+'soul-forge/netherite-monstrosity/'},
+ {g:'cat',n:'Ender Guardian',d:'en',dl:'End',sub:'Endboss der Ruined Citadel',
+  where:'Ruined Citadel im End, dritte Etage am Altar of Void. Vorher muss der Enderdrache besiegt sein.',
+  summon:'Erscheint, sobald man sich dem Altar of Void nähert.',
+  loot:['<b>Gauntlet of Guard</b> (garantiert)','Musik-Disc (10 %)','Die Ender Golems in der Citadel droppen den <b>Void Core</b>'],
+  gear:['Volle Netherite-Rüstung','Schild','Federfall-Stiefel und Enderperlen'],
+  tip:'Die Ender Golems vorher als Aufwärmrunde nutzen. Ihr Void Core ist später ein wichtiges Upgrade-Material.',w:'https://lendercataclysm.wiki.gg/wiki/Ender_Guardian'},
+ {g:'cat',n:'The Harbinger',d:'ow',dl:'Overworld',sub:'Mechanischer Wither mit Lasern',
+  where:'Ancient Factory, eine große Struktur in den Höhlen der Overworld.',
+  summon:'Mit einem Nether Star. Ihr braucht also vorher einen besiegten Wither.',
+  loot:['Witherite-Material','<b>Wither Assault Shoulder Weapon</b>','Genaue Drops im Spiel per JEI prüfen'],
+  gear:['Mindestens spätes Diamant, besser Netherite','Schild gegen Raketen','EMP-Blöcke aus der Fabrik nutzen'],
+  tip:'EMP-Blöcke betäuben ihn kurz, nur nicht während des Todeslasers. In der Flugphase Deckung suchen.',w:'https://lendercataclysm.wiki.gg/wiki/The_Harbinger'},
+ {g:'cat',n:'Ancient Remnant',d:'ow',dl:'Overworld',sub:'Uralter Wüstenkoloss',
+  where:'Cursed Pyramid in der Wüste, im innersten Heiligtum.',
+  summon:'In der Pyramide Suspicious Sand mit einem Pinsel abtragen, bis die Desert Necklace auftaucht. Damit die Überreste im Bosssaal rechtsklicken.',
+  loot:['<b>Sandstorm in a Bottle</b>: zwei Sandstürme kreisen um dich','<b>Ancient Metal</b> für die Bone-Reptile-Rüstung','<b>Remnant Skull</b>: zähmbares Haustier','Musik-Disc (10 %)'],
+  gear:['Starke Nahkampfwaffe, er ist immun gegen Pfeile, Feuer und Lava','Netherite-Rüstung','Pinsel nicht vergessen'],
+  tip:'Über die Stampf-Schockwellen springen und Abstand zum Schwanz halten.',w:CG+'cursed-pyramid/ancient-remnant/'},
+ {g:'cat',n:'The Leviathan',d:'oc',dl:'Ozean',sub:'Herrscher der Sunken City',
+  where:'Sunken City unter Wasser. Der Kampf findet in der Kuppel in der Mitte statt.',
+  summon:'Eine Abyssal Sacrifice herstellen und am Altar of Abyss opfern. Zutaten: Athame (von Deepling Warlocks), Coral Chunks (vom Coralssus), Herz des Meeres, Nautilusschale und Edelmetall-Blöcke.',
+  loot:['<b>Tidal Claws</b>: Nahkampfwaffe und Enterhaken mit 32 Blöcken Reichweite','<b>Abyssal Egg</b>: schlüpft zu einem Baby-Leviathan','Musik-Disc (selten)'],
+  gear:['Netherite mit Schutz IV','Stiefel mit Wasserläufer III','Dreizack mit Harpune V oder Sog III','Wasseratmung, Nachtsicht und Goldäpfel'],
+  tip:'Der Altar ist unzerstörbar, der Kampf läuft also immer unter Wasser. Ohne Wasseratmung keine Chance.',w:CG+'sunken-city/leviathan/'},
+ {g:'cat',n:'Scylla',d:'oc',dl:'Ozean',sub:'Sturmgöttin der Acropolis',
+  where:'Acropolis in der Tiefsee. Finden mit dem Eye of Storm.',
+  summon:'Ganz oben in der Kammer mit dem großen Anker den Anker rechtsklicken. Ihr könnt auch direkt hochfliegen.',
+  loot:['3 bis 4 <b>Essence of the Storm</b>','8 bis 16 <b>Lacrima</b>','Daraus: <b>Ceraunus</b>, <b>Astrape</b> und Scyllas Speer','Musik-Disc (10 %)'],
+  gear:['Volle Netherite-Rüstung','Schild gegen ihre Wellenattacke','Blöcke für schnelle Deckung'],
+  tip:'Der Nässe-Effekt erhöht ihren Blitzschaden stark. Danach erscheint ein Boss Respawner, mit dem Eye of Storm kann man sie erneut rufen.',w:CG+'acropolis/scylla/'},
+ {g:'cat',n:'Maledictus',d:'ow',dl:'Overworld',sub:'Verfluchter Krieger im Eis',
+  where:'Frosted Prison, selten in Schneebiomen. Der Bosssaal liegt ganz unten.',
+  summon:'Zuerst den Mini-Boss Aptgangr besiegen, er droppt den Strange Key. Damit die Door of Seal öffnen und den Cursed Tombstone unter dem Balkon rechtsklicken.',
+  loot:['3 bis 4 <b>Cursium-Barren</b> für Cursium-Rüstung und Top-Waffen','Musik-Disc (selten)','Wiederholbar, der Grabstein lädt nach dem Kampf wieder auf'],
+  gear:['Volle Netherite-Rüstung mit Schutz IV','Gute Stiefel für Beweglichkeit','Goldäpfel'],
+  tip:'Sehr schnell und aggressiv. Den roten Ringen ausweichen und ständig die Position wechseln.',w:CG+'frosted-prison/maledictus/'},
+ {g:'cat',n:'Ignis',d:'ne',dl:'Nether',sub:'Feuerritter, das große Finale',
+  where:'Burning Arena in den Nether Wastes. Finden mit dem Eye of Flame (Enderauge, 2 Netherite-Schrott, 3 Seelensand, 3 Lohenstaub).',
+  summon:'Die Ignited Revenants in der Arena besiegen, sie droppen Burning Ashes. Die Asche oben am Altar of Fire einsetzen.',
+  loot:['3 <b>Ignitium-Barren</b>','Daraus: <b>The Incinerator</b>, <b>Bulwark of the Flame</b> und die <b>Ignitium-Rüstung</b>','Musik-Disc (selten)'],
+  gear:['Netherite mit Schutz IV','Bogen mit Stärke V','Feuerresistenz, Stärke und Schnelligkeit','Goldäpfel, Enderperlen und Milch gegen Blazing Brand','Gear früherer Bosse, z. B. Void Core'],
+  tip:'Drei Phasen mit immer heftigeren Feuerattacken. Milch entfernt den Blazing-Brand-Debuff.',w:CG+'burning-arena/ignis/'},
+ {g:'tf',n:'Naga',d:'tf',dl:'Twilight',sub:'Riesenschlange, der Einstieg',
+  where:'Naga Courtyard, ein ummauerter Hof im normalen Twilight-Wald.',
+  summon:'Ist einfach im Hof unterwegs.',
+  loot:['<b>Naga-Schuppen</b> für Naga-Brustplatte und -Hose','Trophäe'],
+  gear:['Eisen- oder Diamantrüstung','Schwert und Schild'],
+  tip:'Wenn sie losrast, zur Seite ausweichen und von der Seite zuschlagen.',w:TF+'Naga'},
+ {g:'tf',n:'Lich',d:'tf',dl:'Twilight',sub:'Untoter Magier im Turm',
+  where:'Lich Tower, ein hoher Turm im Twilight-Wald.',
+  summon:'Ganz oben im Turm, er ist dort einfach anwesend.',
+  loot:['Eines der Szepter: Twilight, Lifedrain, Zombie oder Fortification','Goldausrüstung, Trophäe'],
+  gear:['Diamantrüstung','Bogen','Heiltränke'],
+  tip:'Er hat mehrere Schilde, jeder Treffer zerstört einen. Seine Feuerbälle kann man zurückschlagen.',w:TF+'Lich'},
+ {g:'tf',n:'Minoshroom',d:'tf',dl:'Twilight',sub:'Pilzminotaurus im Labyrinth',
+  where:'Labyrinth unter dem Pilzwald im Sumpf.',
+  summon:'Wartet im Bossraum des Labyrinths.',
+  loot:['<b>Diamond Minotaur Axe</b>','Meef Stroganoff'],
+  gear:['Diamantrüstung','Fackeln für das Labyrinth','Schild'],
+  tip:'Wenn er Anlauf nimmt, zur Seite ausweichen. Danach ist er kurz verwundbar.',w:TF+'Minoshroom'},
+ {g:'tf',n:'Hydra',d:'ne',dl:'Feuersumpf',sub:'Dreiköpfiger Drache',
+  where:'Hydra Lair im Feuersumpf.',
+  summon:'Taucht in ihrem Unterschlupf auf, sobald man herankommt.',
+  loot:['<b>Fiery Blood</b> für Fiery-Barren','Hydra Chops','Trophäe'],
+  gear:['Diamant oder besser','Feuerresistenz-Tränke','Bogen für die Köpfe'],
+  tip:'Die Köpfe angreifen, wenn sie zubeißen. Abgeschlagene Köpfe wachsen sonst nach.',w:TF+'Hydra'},
+ {g:'tf',n:'Knight Phantoms',d:'en',dl:'Dunkelwald',sub:'Geisterritter in der Festung',
+  where:'Goblin Knight Stronghold im Dunkelwald.',
+  summon:'Erscheinen im Thronsaal ganz innen.',
+  loot:['<b>Phantom-Rüstung</b> und Phantom-Waffen','Knightmetal-Material aus der Festung'],
+  gear:['Diamant oder Knightmetal','Schild','Teamkollegen'],
+  tip:'Es sind mehrere Gegner gleichzeitig. Besser zu zweit oder dritt rein.',w:TF+'Knight_Phantom'},
+ {g:'tf',n:'Ur-Ghast',d:'ne',dl:'Dunkelwald',sub:'Riesen-Ghast im Turm',
+  where:'Dark Tower im Dunkelwald.',
+  summon:'Ganz oben im Turm.',
+  loot:['<b>Fiery Tears</b> für Fiery-Barren','Trophäe'],
+  gear:['Guter Bogen mit viel Munition','Feuerresistenz','Schild'],
+  tip:'Viel Fernkampf. Feuerbälle zurückschlagen, wenn er sie abfeuert.',w:TF+'Ur-Ghast'},
+ {g:'tf',n:'Alpha Yeti',d:'oc',dl:'Schneewald',sub:'Anführer der Yetis',
+  where:'Yeti Lair im Schneewald.',
+  summon:'Wartet in der Höhle.',
+  loot:['<b>Alpha-Yeti-Fell</b> für die Alpha-Yeti-Rüstung'],
+  gear:['Diamant oder Fiery-Rüstung','Wärmende Ausrüstung aus Arctic Fur','Schild'],
+  tip:'Eiszapfen fallen von der Decke. Bleibt ständig in Bewegung.',w:TF+'Alpha_Yeti'},
+ {g:'tf',n:'Snow Queen',d:'oc',dl:'Gletscher',sub:'Herrin des Aurora-Palasts',
+  where:'Aurora Palace im Gletscher.',
+  summon:'Im obersten Raum des Palasts.',
+  loot:['<b>Ice Bow</b>','Zugang zum Hochland','Trophäe'],
+  gear:['Beste Twilight-Rüstung','Bogen','Heiltränke'],
+  tip:'Letzter großer Boss vor dem Endgebiet. Die Eisblöcke um sie herum zuerst zerstören.',w:TF+'Snow_Queen'},
+];
+function hash(t){let h=2166136261;for(const c of t){h^=c.charCodeAt(0);h=Math.imul(h,16777619)}return h>>>0}
+function emblem(cv,b){
+  const cs=getComputedStyle(document.documentElement),v=n=>cs.getPropertyValue(n).trim();
+  const map={ne:'--ember',en:'--void',oc:'--tide',ow:'--moss',tf:'--moss'};
+  const main=v(map[b.d]), dark=v('--fg'), eye=v('--ore-g');
+  const N=12, ctx=cv.getContext('2d'); cv.width=N; cv.height=N; ctx.clearRect(0,0,N,N);
+  let s=hash(b.n); const r=()=>{s=Math.imul(s^(s>>>15),2246822507)>>>0;s^=s>>>13;return (s%1000)/1000};
+  for(let y=1;y<N-1;y++)for(let x=1;x<N/2;x++){
+    const q=r(); const edge=Math.abs(y-N/2)/(N/2)+(N/2-x)/(N);
+    if(q>edge*.3-.05){ctx.fillStyle=q>.82?dark:main;ctx.fillRect(x,y,1,1);ctx.fillRect(N-1-x,y,1,1);}
+  }
+  ctx.fillStyle=eye; const ey=3+(hash(b.n)%3); ctx.fillRect(4,ey,1,1); ctx.fillRect(N-5,ey,1,1);
+}
+const colorOf={ne:'--ember',en:'--void',oc:'--tide',ow:'--moss',tf:'--moss'};
+document.querySelectorAll('[data-group]').forEach(box=>{
+  BOSSES.filter(b=>b.g===box.dataset.group).forEach((b,i)=>{
+    const el=document.createElement('button'); el.type='button'; el.className='boss';
+    el.style.setProperty('--c',`var(${colorOf[b.d]})`);
+    el.innerHTML=`<div class="bhead"><canvas class="emblem" aria-hidden="true"></canvas><div class="bname"><span class="dim ${b.d}">${b.dl}</span><h3>${b.n}</h3></div></div><p class="bwhere">${b.sub}</p><span class="more">Details ansehen →</span><span class="n">${String(i+1).padStart(2,'0')}</span>`;
+    emblem(el.querySelector('canvas'),b);
+    el.addEventListener('click',()=>openBoss(b));
+    box.appendChild(el); b.cv=el.querySelector('canvas');
+  });
+});
+const dlg=document.getElementById('bossdlg'), $=id=>document.getElementById(id);
+function openBoss(b){
+  dlg.querySelector('.dlg').style.setProperty('--c',`var(${colorOf[b.d]})`);
+  $('dlg-name').textContent=b.n; $('dlg-sub').textContent=b.sub;
+  const dim=$('dlg-dim'); dim.className='dim '+b.d; dim.textContent=b.dl;
+  $('dlg-where').textContent=b.where; $('dlg-summon').textContent=b.summon;
+  $('dlg-loot').innerHTML=b.loot.map(x=>`<li>${x}</li>`).join('');
+  $('dlg-gear').innerHTML=b.gear.map(x=>`<li>${x}</li>`).join('');
+  $('dlg-tip').textContent=b.tip; $('dlg-wiki').href=b.w;
+  emblem($('dlg-emblem'),b);
+  if(dlg.showModal) dlg.showModal(); else dlg.setAttribute('open','');
+}
+$('dlg-close').addEventListener('click',()=>dlg.close());
+dlg.addEventListener('click',e=>{if(e.target===dlg) dlg.close();});
+const redraw=()=>BOSSES.forEach(b=>b.cv&&emblem(b.cv,b));
+matchMedia('(prefers-color-scheme: dark)').addEventListener('change',redraw);
+new MutationObserver(redraw).observe(document.documentElement,{attributes:true,attributeFilter:['data-theme']});
 </script>
 </body>
 </html>
