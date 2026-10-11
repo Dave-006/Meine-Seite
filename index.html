@@ -277,6 +277,24 @@ button.item:focus-visible{outline:2px solid var(--fg);outline-offset:2px}
 .lnames{display:flex;flex-wrap:wrap;gap:6px}
 .lnames span{font-family:var(--f-mono);font-size:.78rem;background:var(--moss-soft);color:var(--moss);padding:2px 8px;border-radius:999px}
 .lmeta,.lnote{font-size:.78rem;color:var(--muted)}
+
+/* Progression phases */
+.phases{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;align-items:start}
+.phase{background:var(--surface);border:1px solid var(--line);border-top:4px solid var(--pc);border-radius:var(--r);padding:18px;display:flex;flex-direction:column;gap:16px;box-shadow:var(--shadow);min-width:0}
+.phase-head{display:flex;flex-direction:column;gap:4px}
+.phase-tag{font-family:var(--f-display);font-size:1.5rem;color:var(--pc);line-height:1.1}
+.phase-sub{color:var(--muted);font-size:.9rem}
+.steps2{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:0}
+.steps2>li{display:grid;grid-template-columns:34px 1fr;gap:12px;position:relative;padding-bottom:18px}
+.steps2>li:last-child{padding-bottom:0}
+.steps2>li::before{content:"";position:absolute;left:16px;top:30px;bottom:2px;width:2px;background:var(--line)}
+.steps2>li:last-child::before{display:none}
+.snum{width:34px;height:30px;display:flex;align-items:center;justify-content:center;background:var(--pc);color:var(--bg);font-family:var(--f-mono);font-size:.8rem;font-weight:600;border-radius:4px}
+.sbody{display:flex;flex-direction:column;gap:4px;min-width:0}
+.sbody h3{font-size:1.1rem}
+.sbody p{color:var(--muted);font-size:.9rem}
+.sbody ul{margin:4px 0 0;padding-left:18px;font-size:.92rem;display:flex;flex-direction:column;gap:3px}
+@media (max-width:900px){.phases{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -368,14 +386,34 @@ button.item:focus-visible{outline:2px solid var(--fg);outline-offset:2px}
 </section>
 
 <section id="route" class="view" hidden>
-  <div class="sec-head"><span class="eyebrow">Fortschritt</span><h2>Der Weg nach oben</h2><p class="lede">Grobe Reihenfolge, damit ihr nicht mit Eisen-Rüstung vor Ignis steht.</p></div>
-  <div class="route">
-    <div class="stage"><span class="when">Tag 1 bis 2</span><h3>Eisen & Loot</h3><ul><li>Höhlen nach Eisen</li><li>YUNG's-Minen und Dungeons plündern</li><li>Waystone an der Basis</li></ul></div>
-    <div class="stage"><span class="when">Tag 2 bis 4</span><h3>Diamant & Mending</h3><ul><li>Diamanten auf Y -58</li><li>Bibliothekar auf Mending rollen</li><li>Zaubertisch + 15 Regale</li></ul></div>
-    <div class="stage"><span class="when">Tag 4 bis 7</span><h3>Twilight Forest</h3><ul><li>Naga & Lich zuerst</li><li>Ironwood, später Knightmetal</li><li>Hydra für Fiery-Gear</li></ul></div>
-    <div class="stage"><span class="when">Midgame</span><h3>Netherite</h3><ul><li>Ancient Debris um Y 15</li><li>Upgrade-Templates aus Bastionen</li><li>Erste Cataclysm-Bosse</li></ul></div>
-    <div class="stage hot"><span class="when">Endgame</span><h3>Cataclysm</h3><ul><li>Volle Netherite + Protection IV</li><li>Bosse in empfohlener Reihenfolge</li><li>Ignis als Finale</li></ul></div>
+  <div class="sec-head"><span class="eyebrow">Fortschritt</span><h2>Der Weg nach oben</h2><p class="lede">Grobe Reihenfolge in drei Phasen, damit ihr nicht mit Eisen-Rüstung vor Ignis steht. Spielt im eigenen Tempo, die Stufen sind nur Orientierung.</p></div>
+  <div class="phases">
+  <div class="phase" style="--pc:var(--moss)">
+    <div class="phase-head"><span class="phase-tag">Early Game</span><span class="phase-sub">Ankommen und ausrüsten</span></div>
+    <ol class="steps2">
+      <li><span class="snum">01</span><div class="sbody"><h3>Überleben</h3><p>Holz, Stein, Bett und ein Dach über dem Kopf</p><ul><li>Höhlen nach Eisen und Kohle absuchen</li><li>Erste Waystone an der Basis setzen</li><li>Schild bauen</li></ul></div></li>
+      <li><span class="snum">02</span><div class="sbody"><h3>Erkunden</h3><p>Die Welt nach brauchbarem Loot abgrasen</p><ul><li>YUNG's-Minen und Dungeons plündern</li><li>Dorf suchen und als Stützpunkt sichern</li><li>Bücher und Erfahrung sammeln</li></ul></div></li>
+      <li><span class="snum">03</span><div class="sbody"><h3>Erster Boss</h3><p>Einstieg in den Twilight Forest</p><ul><li>Portal bauen und den Naga besiegen</li><li>Naga-Rüstung für Brust und Beine</li><li>Ironwood aus Liveroot</li></ul></div></li>
+    </ol>
   </div>
+  <div class="phase" style="--pc:var(--tide)">
+    <div class="phase-head"><span class="phase-tag">Mid Game</span><span class="phase-sub">Stark werden</span></div>
+    <ol class="steps2">
+      <li><span class="snum">04</span><div class="sbody"><h3>Diamant & Mending</h3><p>Die Grundlage für alles Weitere</p><ul><li>Diamanten auf Y -58</li><li>Bibliothekar auf Mending rollen</li><li>Zaubertisch mit 15 Regalen</li></ul></div></li>
+      <li><span class="snum">05</span><div class="sbody"><h3>Twilight-Fortschritt</h3><p>Die Bosse der Reihe nach</p><ul><li>Lich, Minoshroom und Hydra</li><li>Fiery- und Knightmetal-Ausrüstung</li><li>Lich-Szepter für Fernkampf</li></ul></div></li>
+      <li><span class="snum">06</span><div class="sbody"><h3>Nether & Netherite</h3><p>Bereit für die harten Gegner</p><ul><li>Ancient Debris um Y 15</li><li>Upgrade-Vorlagen aus Bastionen</li><li>Feuerresistenz-Tränke brauen</li></ul></div></li>
+    </ol>
+  </div>
+  <div class="phase" style="--pc:var(--ember)">
+    <div class="phase-head"><span class="phase-tag">End Game</span><span class="phase-sub">Die großen Bosse</span></div>
+    <ol class="steps2">
+      <li><span class="snum">07</span><div class="sbody"><h3>Vorbereitung</h3><p>Was die Cataclysm-Bosse verlangen</p><ul><li>Enderdrachen besiegen, das End öffnet sich</li><li>Wither besiegen für den Nether Star</li><li>Volle Netherite mit Schutz IV</li></ul></div></li>
+      <li><span class="snum">08</span><div class="sbody"><h3>Erste Cataclysm-Bosse</h3><p>In empfohlener Reihenfolge</p><ul><li>Netherite Monstrosity</li><li>Ender Guardian</li><li>The Harbinger</li></ul></div></li>
+      <li><span class="snum">09</span><div class="sbody"><h3>Wüste & Ozean</h3><p>Die mittleren Brocken</p><ul><li>Ancient Remnant</li><li>Leviathan</li><li>Scylla</li></ul></div></li>
+      <li><span class="snum">10</span><div class="sbody"><h3>Finale</h3><p>Der härteste Teil des Packs</p><ul><li>Maledictus für Cursium</li><li>Ignis für Ignitium</li><li>Snow Queen im Twilight Forest</li></ul></div></li>
+    </ol>
+  </div>
+</div>
 </section>
 
 <section id="bosses" class="view" hidden>
