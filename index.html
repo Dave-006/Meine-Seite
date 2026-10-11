@@ -247,6 +247,15 @@ dialog::backdrop{background:rgba(10,12,10,.6)}
 @media (max-width:600px){.dlg-grid{grid-template-columns:1fr}.dlg{padding:20px 16px}.emblem.big{width:72px;height:72px}}
 footer{line-height:1.7} .flink{color:var(--muted);text-decoration:underline}
 .brand{display:inline-flex;align-items:center;gap:8px}.logo{display:block;height:26px;width:auto}
+
+/* Clickable tier items */
+button.item{font:inherit;color:inherit;cursor:pointer;flex-direction:row;align-items:center;gap:10px;text-align:left}
+button.item:hover{border-color:var(--fg)}
+button.item:focus-visible{outline:2px solid var(--fg);outline-offset:2px}
+.item .icon{width:28px;height:28px;image-rendering:pixelated;flex-shrink:0}
+.itxt{display:flex;flex-direction:column;gap:1px;min-width:0}
+.tierbadge{font-family:var(--f-display);font-size:.9rem;color:var(--bg);padding:2px 10px;border-radius:4px}
+.block.wide{grid-column:1/-1}
 </style>
 </head>
 <body>
@@ -354,7 +363,7 @@ footer{line-height:1.7} .flink{color:var(--muted);text-decoration:underline}
 </section>
 
 <section id="tiers" class="view" hidden>
-  <div class="sec-head"><span class="eyebrow">Ausrüstung</span><h2>Tierlist</h2><p class="lede">Unsere grobe Einschätzung. Eine gut verzauberte B-Rüstung schlägt oft eine unverzauberte A-Rüstung.</p></div>
+  <div class="sec-head"><span class="eyebrow">Ausrüstung</span><h2>Tierlist</h2><p class="lede">Unsere grobe Einschätzung. Tippe auf ein Teil für Fundort, Herstellung und Stärken. Eine gut verzauberte B-Rüstung schlägt oft eine unverzauberte A-Rüstung.</p></div>
   <div class="tabs" role="tablist">
     <button class="tab" role="tab" id="tab-ar" aria-controls="p-ar" aria-selected="true" type="button">Rüstung</button>
     <button class="tab" role="tab" id="tab-we" aria-controls="p-we" aria-selected="false" type="button">Waffen</button>
@@ -362,47 +371,47 @@ footer{line-height:1.7} .flink{color:var(--muted);text-decoration:underline}
 
   <div id="p-ar" role="tabpanel" aria-labelledby="tab-ar" class="tiers">
     <div class="tier" data-t="S"><div class="t">S</div><div class="items">
-      <div class="item"><b>Ignitium-Rüstung</b><small>Cataclysm · Ignis</small></div>
-      <div class="item"><b>Cursium-Rüstung</b><small>Cataclysm · Maledictus</small></div></div></div>
+      <button type="button" class="item" data-item="Ignitium-Rüstung"><span class="itxt"><b>Ignitium-Rüstung</b><small>Cataclysm · Ignis</small></span></button>
+      <button type="button" class="item" data-item="Cursium-Rüstung"><span class="itxt"><b>Cursium-Rüstung</b><small>Cataclysm · Maledictus</small></span></button></div></div>
     <div class="tier" data-t="A"><div class="t">A</div><div class="items">
-      <div class="item"><b>Netherite</b><small>Vanilla</small></div>
-      <div class="item"><b>Fiery Armor</b><small>Twilight · Hydra / Ur-Ghast</small></div>
-      <div class="item"><b>Knightmetal</b><small>Twilight · Dunkelwald</small></div></div></div>
+      <button type="button" class="item" data-item="Netherite"><span class="itxt"><b>Netherite</b><small>Vanilla</small></span></button>
+      <button type="button" class="item" data-item="Fiery Armor"><span class="itxt"><b>Fiery Armor</b><small>Twilight · Hydra / Ur-Ghast</small></span></button>
+      <button type="button" class="item" data-item="Knightmetal"><span class="itxt"><b>Knightmetal</b><small>Twilight · Dunkelwald</small></span></button></div></div>
     <div class="tier" data-t="B"><div class="t">B</div><div class="items">
-      <div class="item"><b>Alpha-Yeti-Rüstung</b><small>Twilight · Alpha Yeti</small></div>
-      <div class="item"><b>Arctic Armor</b><small>Twilight · Yetis</small></div>
-      <div class="item"><b>Diamant</b><small>Vanilla</small></div></div></div>
+      <button type="button" class="item" data-item="Alpha-Yeti-Rüstung"><span class="itxt"><b>Alpha-Yeti-Rüstung</b><small>Twilight · Alpha Yeti</small></span></button>
+      <button type="button" class="item" data-item="Arctic Armor"><span class="itxt"><b>Arctic Armor</b><small>Twilight · Yetis</small></span></button>
+      <button type="button" class="item" data-item="Diamant"><span class="itxt"><b>Diamant</b><small>Vanilla</small></span></button></div></div>
     <div class="tier" data-t="C"><div class="t">C</div><div class="items">
-      <div class="item"><b>Naga-Rüstung</b><small>Twilight · Naga</small></div>
-      <div class="item"><b>Ironwood</b><small>Twilight</small></div>
-      <div class="item"><b>Steeleaf</b><small>Twilight</small></div></div></div>
+      <button type="button" class="item" data-item="Naga-Rüstung"><span class="itxt"><b>Naga-Rüstung</b><small>Twilight · Naga</small></span></button>
+      <button type="button" class="item" data-item="Ironwood"><span class="itxt"><b>Ironwood</b><small>Twilight</small></span></button>
+      <button type="button" class="item" data-item="Steeleaf"><span class="itxt"><b>Steeleaf</b><small>Twilight</small></span></button></div></div>
     <div class="tier" data-t="D"><div class="t">D</div><div class="items">
-      <div class="item"><b>Eisen</b><small>Vanilla</small></div>
-      <div class="item"><b>Kette / Gold</b><small>Vanilla</small></div></div></div>
+      <button type="button" class="item" data-item="Eisen"><span class="itxt"><b>Eisen</b><small>Vanilla</small></span></button>
+      <button type="button" class="item" data-item="Kette / Gold"><span class="itxt"><b>Kette / Gold</b><small>Vanilla</small></span></button></div></div>
   </div>
 
   <div id="p-we" role="tabpanel" aria-labelledby="tab-we" class="tiers" hidden>
     <div class="tier" data-t="S"><div class="t">S</div><div class="items">
-      <div class="item"><b>The Incinerator</b><small>Cataclysm · Ignis</small></div>
-      <div class="item"><b>Infernal Forge</b><small>Cataclysm · Monstrosity</small></div>
-      <div class="item"><b>Gauntlet of Guard</b><small>Cataclysm · Ender Guardian</small></div>
-      <div class="item"><b>Ceraunus / Astrape</b><small>Cataclysm · Scylla</small></div></div></div>
+      <button type="button" class="item" data-item="The Incinerator"><span class="itxt"><b>The Incinerator</b><small>Cataclysm · Ignis</small></span></button>
+      <button type="button" class="item" data-item="Infernal Forge"><span class="itxt"><b>Infernal Forge</b><small>Cataclysm · Monstrosity</small></span></button>
+      <button type="button" class="item" data-item="Gauntlet of Guard"><span class="itxt"><b>Gauntlet of Guard</b><small>Cataclysm · Ender Guardian</small></span></button>
+      <button type="button" class="item" data-item="Ceraunus / Astrape"><span class="itxt"><b>Ceraunus / Astrape</b><small>Cataclysm · Scylla</small></span></button></div></div>
     <div class="tier" data-t="A"><div class="t">A</div><div class="items">
-      <div class="item"><b>Netherite-Schwert / -Axt</b><small>Vanilla</small></div>
-      <div class="item"><b>Tidal Claws</b><small>Cataclysm · Leviathan</small></div>
-      <div class="item"><b>Fiery Sword</b><small>Twilight</small></div></div></div>
+      <button type="button" class="item" data-item="Netherite-Schwert / -Axt"><span class="itxt"><b>Netherite-Schwert / -Axt</b><small>Vanilla</small></span></button>
+      <button type="button" class="item" data-item="Tidal Claws"><span class="itxt"><b>Tidal Claws</b><small>Cataclysm · Leviathan</small></span></button>
+      <button type="button" class="item" data-item="Fiery Sword"><span class="itxt"><b>Fiery Sword</b><small>Twilight</small></span></button></div></div>
     <div class="tier" data-t="B"><div class="t">B</div><div class="items">
-      <div class="item"><b>Knightmetal Sword / Axe</b><small>Twilight</small></div>
-      <div class="item"><b>Giant Sword</b><small>Twilight · große Reichweite</small></div>
-      <div class="item"><b>Lich-Szepter</b><small>Twilight · Fernkampf</small></div>
-      <div class="item"><b>Diamond Minotaur Axe</b><small>Twilight · Minoshroom</small></div></div></div>
+      <button type="button" class="item" data-item="Knightmetal Sword / Axe"><span class="itxt"><b>Knightmetal Sword / Axe</b><small>Twilight</small></span></button>
+      <button type="button" class="item" data-item="Giant Sword"><span class="itxt"><b>Giant Sword</b><small>Twilight · große Reichweite</small></span></button>
+      <button type="button" class="item" data-item="Lich-Szepter"><span class="itxt"><b>Lich-Szepter</b><small>Twilight · Fernkampf</small></span></button>
+      <button type="button" class="item" data-item="Diamond Minotaur Axe"><span class="itxt"><b>Diamond Minotaur Axe</b><small>Twilight · Minoshroom</small></span></button></div></div>
     <div class="tier" data-t="C"><div class="t">C</div><div class="items">
-      <div class="item"><b>Diamant-Schwert</b><small>Vanilla</small></div>
-      <div class="item"><b>Steeleaf / Ironwood Sword</b><small>Twilight</small></div>
-      <div class="item"><b>Triple / Seeker Bow</b><small>Twilight · früh stark</small></div></div></div>
+      <button type="button" class="item" data-item="Diamant-Schwert"><span class="itxt"><b>Diamant-Schwert</b><small>Vanilla</small></span></button>
+      <button type="button" class="item" data-item="Steeleaf / Ironwood Sword"><span class="itxt"><b>Steeleaf / Ironwood Sword</b><small>Twilight</small></span></button>
+      <button type="button" class="item" data-item="Triple / Seeker Bow"><span class="itxt"><b>Triple / Seeker Bow</b><small>Twilight · früh stark</small></span></button></div></div>
     <div class="tier" data-t="D"><div class="t">D</div><div class="items">
-      <div class="item"><b>Eisen-Schwert</b><small>Vanilla</small></div>
-      <div class="item"><b>Steinwerkzeuge</b><small>Vanilla</small></div></div></div>
+      <button type="button" class="item" data-item="Eisen-Schwert"><span class="itxt"><b>Eisen-Schwert</b><small>Vanilla</small></span></button>
+      <button type="button" class="item" data-item="Steinwerkzeuge"><span class="itxt"><b>Steinwerkzeuge</b><small>Vanilla</small></span></button></div></div>
   </div>
   <p class="note">Werte ändern sich zwischen Mod-Versionen. Im Spiel per JEI und Tooltip gegenchecken.</p>
 </section>
@@ -435,6 +444,24 @@ footer{line-height:1.7} .flink{color:var(--muted);text-decoration:underline}
     </div>
     <p class="tip" id="dlg-tip"></p>
     <a class="wiki" id="dlg-wiki" href="#" target="_blank" rel="noopener">Echte Bilder und Details im Wiki ansehen ↗</a>
+  </div>
+</dialog>
+
+
+<dialog id="itemdlg" aria-labelledby="it-name">
+  <div class="dlg">
+    <button class="dlg-x" type="button" id="it-close" aria-label="Schließen">✕</button>
+    <div class="dlg-head">
+      <canvas class="emblem big" id="it-icon" width="12" height="12" aria-hidden="true"></canvas>
+      <div class="dlg-title"><span class="tierbadge" id="it-tier"></span><h3 id="it-name"></h3><p id="it-sub"></p></div>
+    </div>
+    <div class="dlg-grid">
+      <div class="block"><h4>So bekommst du es</h4><p id="it-get"></p></div>
+      <div class="block"><h4>Herstellung</h4><p id="it-make"></p></div>
+      <div class="block wide"><h4>Stärken</h4><ul id="it-good"></ul></div>
+    </div>
+    <p class="tip" id="it-tip"></p>
+    <a class="wiki" id="it-wiki" href="#" target="_blank" rel="noopener">Mehr Details und Bilder im Wiki ↗</a>
   </div>
 </dialog>
 
@@ -635,6 +662,73 @@ dlg.addEventListener('click',e=>{if(e.target===dlg) dlg.close();});
 const redraw=()=>BOSSES.forEach(b=>b.cv&&emblem(b.cv,b));
 matchMedia('(prefers-color-scheme: dark)').addEventListener('change',redraw);
 new MutationObserver(redraw).observe(document.documentElement,{attributes:true,attributeFilter:['data-theme']});
+const CW='https://lendercataclysm.wiki.gg/wiki/', TW='https://twilightforest.fandom.com/wiki/', MW='https://minecraft.wiki/w/';
+const ITEMS={
+ 'Ignitium-Rüstung':{t:'armor',m:'ne',src:'Cataclysm',get:'Ignis besiegen, er droppt 3 Ignitium-Barren pro Kampf.',make:'Ignitium-Barren plus eine spezielle Schmiedevorlage. Für ein volles Set braucht ihr Ignis mehrmals.',good:['Bestes Allround-Set im Pack','Die Brustplatte gibt es auch als Elytra-Variante'],tip:'Lohnt sich erst ganz am Ende. Bis dahin reicht Netherite völlig.',w:'https://www.minecraft-guides.com/wiki/cataclysm/burning-arena/ignis/'},
+ 'Cursium-Rüstung':{t:'armor',m:'en',src:'Cataclysm',get:'Maledictus in der Frosted Prison besiegen, 3 bis 4 Cursium-Barren pro Kampf.',make:'Aus Cursium-Barren. Maledictus kann man wiederholt beschwören, um genug zu farmen.',good:['Top-Set für Nahkämpfer','Farmbar, weil der Boss wiederholbar ist'],tip:'Gut als Gruppenprojekt: Einer beschwört, alle teilen sich die Barren.',w:'https://www.minecraft-guides.com/wiki/cataclysm/frosted-prison/maledictus/'},
+ 'Netherite':{t:'armor',m:'ne',src:'Vanilla',get:'Ancient Debris im Nether, am häufigsten um Y 15. Mit Betten oder TNT freisprengen.',make:'Diamant-Rüstung plus Netherite-Barren und Schmiedevorlage am Schmiedetisch. Die Vorlagen findet ihr in Bastionen.',good:['Rüstung und Härte auf Höchstwert der Vanilla-Rüstungen','Rückstoßresistenz','Verbrennt nicht in Lava'],tip:'Pflicht vor den meisten Cataclysm-Bossen. Mit Schutz IV und Mending kombinieren.',w:MW+'Netherite_Armor'},
+ 'Fiery Armor':{t:'armor',m:'ne',src:'Twilight Forest',get:'Fiery Blood von der Hydra oder Fiery Tears vom Ur-Ghast.',make:'Daraus Fiery-Barren herstellen und zur Rüstung verarbeiten.',good:['Sehr stark für den Twilight-Fortschritt','Feuer-Thema passt gut vor den Nether-Bossen'],tip:'Schneller zu bekommen als Netherite, wenn ihr eh im Twilight Forest unterwegs seid.',w:TW+'Fiery_Armor'},
+ 'Knightmetal':{t:'armor',m:'ow',src:'Twilight Forest',get:'Armor Shards von den Goblin Knights in der Festung im Dunkelwald.',make:'Armor Shards zu Knightmetal-Barren verarbeiten, daraus Rüstung herstellen.',good:['Solide Werte','Passt zum Waffenset aus demselben Material'],tip:'Gut zu farmen, während ihr euch auf die Knight Phantoms vorbereitet.',w:TW+'Knightmetal_Armor'},
+ 'Alpha-Yeti-Rüstung':{t:'armor',m:'oc',src:'Twilight Forest',get:'Alpha Yeti in seiner Höhle im Schneewald besiegen.',make:'Aus Alpha-Yeti-Fell.',good:['Passend für die kalten Twilight-Gebiete','Guter Schritt Richtung Snow Queen'],tip:'Sammelt beim Kampf genug Fell für mehrere Teile.',w:TW+'Alpha_Yeti_Armor'},
+ 'Arctic Armor':{t:'armor',m:'oc',src:'Twilight Forest',get:'Arctic Fur von normalen Yetis im Schneewald.',make:'Aus Arctic Fur, lässt sich einfärben.',good:['Leicht zu bekommen','Für die Schneegebiete'],tip:'Ein guter Zwischenschritt, falls Diamant noch knapp ist.',w:TW+'Arctic_Armor'},
+ 'Diamant':{t:'armor',m:'oc',src:'Vanilla',get:'Diamanten am besten auf Y -58 abbauen. Auch in YUNG\'s-Dungeons und Minen in Truhen.',make:'Ganz normal an der Werkbank.',good:['Gute Basis für Verzauberungen','Wird später zu Netherite aufgewertet'],tip:'Nicht zu viel Erfahrung reinstecken, bevor ihr Mending habt.',w:MW+'Diamond_Armor'},
+ 'Naga-Rüstung':{t:'armor',m:'ow',src:'Twilight Forest',get:'Naga-Schuppen vom Naga, dem ersten Twilight-Boss.',make:'Aus Naga-Schuppen. Es gibt nur Brustplatte und Hose.',good:['Sehr früh verfügbar','Besser als Eisen'],tip:'Mit Eisen-Helm und -Stiefeln kombinieren, bis ihr Diamant habt.',w:TW+'Naga_Scale_Tunic'},
+ 'Ironwood':{t:'armor',m:'ow',src:'Twilight Forest',get:'Liveroot im Twilight Forest abbauen.',make:'Liveroot mit Eisen und Gold zu Ironwood verarbeiten und schmelzen.',good:['Früh herstellbar','Ironwood-Teile kommen oft schon verzaubert'],tip:'Gute Brücke vom Eisen zum Diamant.',w:TW+'Ironwood_Armor'},
+ 'Steeleaf':{t:'armor',m:'ow',src:'Twilight Forest',get:'Steeleaf aus Truhen und Strukturen im Twilight Forest.',make:'Aus Steeleaf-Barren, oft schon mit Verzauberungen.',good:['Früh im Twilight verfügbar'],tip:'Nehmt mit, was ihr findet, aber farmt es nicht gezielt.',w:TW+'Steeleaf_Armor'},
+ 'Eisen':{t:'armor',m:'ow',src:'Vanilla',get:'Eisenerz in Höhlen, Terralith macht die Höhlen groß und offen.',make:'Werkbank.',good:['Schnell zu bekommen'],tip:'Nur für die ersten Tage.',w:MW+'Iron_Armor'},
+ 'Kette / Gold':{t:'armor',m:'ow',src:'Vanilla',get:'Kette nur aus Truhen und Handel, Gold aus Erz.',make:'Gold an der Werkbank, Kette nicht herstellbar.',good:['Gold verhindert, dass Piglins angreifen'],tip:'Ein Goldteil im Nether reicht gegen Piglins.',w:MW+'Golden_Armor'},
+ 'The Incinerator':{t:'sword',m:'ne',src:'Cataclysm',get:'Ignis besiegen und Ignitium-Barren sammeln.',make:'Aus Ignitium-Barren.',good:['Eine der stärksten Waffen im Pack','Feuer-Spezialangriffe'],tip:'Belohnung für das große Finale. Kaum ein Boss hält danach noch lange.',w:'https://www.minecraft-guides.com/wiki/cataclysm/burning-arena/ignis/'},
+ 'Infernal Forge':{t:'tool',m:'ne',src:'Cataclysm',get:'Drop der Netherite Monstrosity in der Soul Forge.',make:'Direkter Drop. Mit Void Core am Mechanical Fusion Anvil zur Void Forge aufwertbar.',good:['Spitzhacke und Waffe zugleich','13 Schaden','Unzerstörbar'],tip:'Der erste große Cataclysm-Loot und ab da euer Werkzeug für alles.',w:'https://www.minecraft-guides.com/wiki/cataclysm/soul-forge/netherite-monstrosity/'},
+ 'Gauntlet of Guard':{t:'fist',m:'en',src:'Cataclysm',get:'Garantierter Drop vom Ender Guardian in der Ruined Citadel.',make:'Direkter Drop.',good:['Starke Nahkampf-Waffe','Garantiert, kein Glück nötig'],tip:'Pro Spieler einmal holen lohnt sich.',w:CW+'Ender_Guardian'},
+ 'Ceraunus / Astrape':{t:'staff',m:'oc',src:'Cataclysm',get:'Scylla in der Acropolis besiegen: 3 bis 4 Essence of the Storm und 8 bis 16 Lacrima.',make:'Aus Essence of the Storm und Lacrima. Ceraunus ist Scyllas Anker.',good:['Blitz- und Sturmangriffe','Gut gegen Gruppen'],tip:'Scylla ist wiederholbar, also genug Material für alle farmen.',w:'https://www.minecraft-guides.com/wiki/cataclysm/acropolis/scylla/'},
+ 'Netherite-Schwert / -Axt':{t:'sword',m:'ne',src:'Vanilla',get:'Diamant-Waffe mit Netherite-Barren aufwerten.',make:'Schmiedetisch mit Netherite-Vorlage.',good:['Bester Vanilla-Schaden','Axt mit hohem Einzelschaden, Schwert mit Schwungangriff'],tip:'Schärfe V und Mending drauf, dann trägt sie euch bis zu den Endbossen.',w:MW+'Netherite_Sword'},
+ 'Tidal Claws':{t:'fist',m:'oc',src:'Cataclysm',get:'Drop vom Leviathan in der Sunken City.',make:'Direkter Drop.',good:['Nahkampfwaffe und Enterhaken mit 32 Blöcken Reichweite','Fernangriff springt auf bis zu fünf Ziele über'],tip:'Der Enterhaken ist auch zum Erkunden super.',w:'https://www.minecraft-guides.com/wiki/cataclysm/sunken-city/leviathan/'},
+ 'Fiery Sword':{t:'sword',m:'ne',src:'Twilight Forest',get:'Fiery Blood von der Hydra oder Fiery Tears vom Ur-Ghast.',make:'Aus Fiery-Barren.',good:['Setzt Gegner in Brand'],tip:'Gegen Nether-Gegner wirkungslos, die sind feuerfest.',w:TW+'Fiery_Sword'},
+ 'Knightmetal Sword / Axe':{t:'axe',m:'ow',src:'Twilight Forest',get:'Armor Shards von Goblin Knights im Dunkelwald.',make:'Aus Knightmetal-Barren.',good:['Guter Mittelweg zwischen Diamant und Netherite'],tip:'Passt perfekt zum Knightmetal-Rüstungsset.',w:TW+'Knightmetal_Sword'},
+ 'Giant Sword':{t:'sword',m:'ow',src:'Twilight Forest',get:'Von den Riesen bei den Wolkenburgen im Twilight Forest.',make:'Direkter Drop.',good:['Deutlich größere Reichweite'],tip:'Super, um Gegner auf Abstand zu halten.',w:TW+'Giant_Sword'},
+ 'Lich-Szepter':{t:'staff',m:'en',src:'Twilight Forest',get:'Der Lich droppt eines von vier Szeptern.',make:'Direkter Drop, nachladbar.',good:['Twilight-Szepter für Fernkampf','Lifedrain heilt dich','Zombie-Szepter ruft Helfer'],tip:'Mehrmals den Lich-Turm besuchen lohnt sich nicht, also das Szepter teilen.',w:TW+'Lich'},
+ 'Diamond Minotaur Axe':{t:'axe',m:'oc',src:'Twilight Forest',get:'Drop vom Minoshroom im Labyrinth.',make:'Direkter Drop.',good:['Extra-Schaden beim Sprinten (Charge)','Stark für die Twilight-Phase'],tip:'Mit Anlauf zuschlagen, das ist ihr Trick.',w:TW+'Minoshroom'},
+ 'Diamant-Schwert':{t:'sword',m:'oc',src:'Vanilla',get:'Diamanten auf Y -58.',make:'Werkbank.',good:['Solide Basis für Verzauberungen'],tip:'Wird später zu Netherite aufgewertet, also gut verzaubern.',w:MW+'Diamond_Sword'},
+ 'Steeleaf / Ironwood Sword':{t:'sword',m:'ow',src:'Twilight Forest',get:'Steeleaf aus Truhen, Ironwood aus Liveroot.',make:'Aus den jeweiligen Barren.',good:['Früh verfügbar','Oft schon verzaubert'],tip:'Gute Starthilfe im Twilight Forest.',w:TW+'Steeleaf_Sword'},
+ 'Triple / Seeker Bow':{t:'bow',m:'ow',src:'Twilight Forest',get:'Aus Truhen im Twilight Forest.',make:'Nicht herstellbar.',good:['Triple Bow schießt drei Pfeile','Seeker Bow verfolgt Ziele'],tip:'Gegen den Ur-Ghast und fliegende Gegner unbezahlbar.',w:TW+'Triple_Bow'},
+ 'Eisen-Schwert':{t:'sword',m:'ow',src:'Vanilla',get:'Eisenerz.',make:'Werkbank.',good:['Schnell gebaut'],tip:'Nur für den Anfang.',w:MW+'Iron_Sword'},
+ 'Steinwerkzeuge':{t:'sword',m:'ow',src:'Vanilla',get:'Bruchstein.',make:'Werkbank.',good:['Sofort verfügbar'],tip:'So schnell wie möglich ersetzen.',w:MW+'Stone_Sword'},
+};
+const SHAPES={
+ armor:["............","..xx....xx..",".xxxx..xxxx.",".xxxxxxxxxx.",".xxxxxxxxxx.","..xxxxxxxx..","..xxxxxxxx..","..xxxxxxxx..","..xxxxxxxx..","..xxxxxxxx..","..xxxxxxxx..","............"],
+ sword:["..........xx",".........xxx","........xxx.",".......xxx..","......xxx...",".....xxx....","..o.xxx.....","...oxx......","....oo......","...o..o.....","..h.........",".h.........."],
+ axe:["......xxx...",".....xxxxx..","....xxxxxx..","....xxxxo...","....xxxo....",".......o....","......o.....",".....o......","....o.......","...o........","..o.........",".o.........."],
+ tool:[".xxxxxxxx...","xx......xx..","x.....o...x.","......o.....",".....o......",".....o......","....o.......","....o.......","...o........","...o........","..o.........","..o........."],
+ staff:["........xxx.",".......xx.x.",".......xxxx.","......oxx...",".....o......","....o.......","....o.......","...o........","...o........","..o.........","..o.........",".o.........."],
+ fist:["............","..x.x.x.x...","..x.x.x.x...","..xxxxxxxx..","..xxxxxxxxx.","..xxxxxxxxx.","..xxxxxxxx..","...xxxxxx...","...oooooo...","...oooooo...","............","............"],
+ bow:["....xxx.....","......xx...s",".......x..s.",".......xxs..","........xs..","........sx..","........xx..","...s...x....","..s...xx....",".s..xx......","xxx.........","............"],
+};
+const MC={ne:'--ember',en:'--void',oc:'--tide',ow:'--moss'};
+function itemIcon(cv,it){
+  const cs=getComputedStyle(document.documentElement),v=n=>cs.getPropertyValue(n).trim();
+  const sh=SHAPES[it.t]||SHAPES.sword, ctx=cv.getContext('2d'); cv.width=12; cv.height=12; ctx.clearRect(0,0,12,12);
+  const c={x:v(MC[it.m]),o:v('--dirt'),h:v('--ore-g'),s:v('--muted')};
+  sh.forEach((row,y)=>[...row].forEach((ch,x)=>{ if(c[ch]){ctx.fillStyle=c[ch];ctx.fillRect(x,y,1,1);} }));
+}
+const idlg=document.getElementById('itemdlg');
+document.querySelectorAll('.item[data-item]').forEach(btn=>{
+  const it=ITEMS[btn.dataset.item]; if(!it) return;
+  const cv=document.createElement('canvas'); cv.className='icon'; cv.setAttribute('aria-hidden','true'); btn.prepend(cv); it.cv=cv; itemIcon(cv,it);
+  btn.addEventListener('click',()=>{
+    const tier=btn.closest('.tier').dataset.t;
+    idlg.querySelector('.dlg').style.setProperty('--c',`var(--t${tier})`);
+    $('it-name').textContent=btn.dataset.item; $('it-sub').textContent=it.src+(it.t==='armor'?' · Rüstung':' · Waffe');
+    const b=$('it-tier'); b.textContent='Tier '+tier; b.style.background=`var(--t${tier})`;
+    $('it-get').textContent=it.get; $('it-make').textContent=it.make;
+    $('it-good').innerHTML=it.good.map(x=>`<li>${x}</li>`).join(''); $('it-tip').textContent=it.tip; $('it-wiki').href=it.w;
+    itemIcon($('it-icon'),it);
+    idlg.showModal ? idlg.showModal() : idlg.setAttribute('open','');
+  });
+});
+$('it-close').addEventListener('click',()=>idlg.close());
+idlg.addEventListener('click',e=>{if(e.target===idlg) idlg.close();});
+const redrawItems=()=>Object.values(ITEMS).forEach(it=>it.cv&&itemIcon(it.cv,it));
+matchMedia('(prefers-color-scheme: dark)').addEventListener('change',redrawItems);
 </script>
 </body>
 </html>
