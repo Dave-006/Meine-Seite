@@ -4,10 +4,16 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Cataclysm & Twilight</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@500;700&family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap">
 <style>
+/* Schriften liegen lokal, kein Abruf bei Google */
+@font-face{font-family:"Pixelify Sans";font-style:normal;font-weight:500;font-display:swap;src:url("fonts/pixelify-sans-latin-500-normal.woff2") format("woff2")}
+@font-face{font-family:"Pixelify Sans";font-style:normal;font-weight:700;font-display:swap;src:url("fonts/pixelify-sans-latin-700-normal.woff2") format("woff2")}
+@font-face{font-family:"Instrument Sans";font-style:normal;font-weight:400;font-display:swap;src:url("fonts/instrument-sans-latin-400-normal.woff2") format("woff2")}
+@font-face{font-family:"Instrument Sans";font-style:normal;font-weight:500;font-display:swap;src:url("fonts/instrument-sans-latin-500-normal.woff2") format("woff2")}
+@font-face{font-family:"Instrument Sans";font-style:normal;font-weight:600;font-display:swap;src:url("fonts/instrument-sans-latin-600-normal.woff2") format("woff2")}
+@font-face{font-family:"Instrument Sans";font-style:normal;font-weight:700;font-display:swap;src:url("fonts/instrument-sans-latin-700-normal.woff2") format("woff2")}
+@font-face{font-family:"JetBrains Mono";font-style:normal;font-weight:400;font-display:swap;src:url("fonts/jetbrains-mono-latin-400-normal.woff2") format("woff2")}
+@font-face{font-family:"JetBrains Mono";font-style:normal;font-weight:600;font-display:swap;src:url("fonts/jetbrains-mono-latin-600-normal.woff2") format("woff2")}
 /* Layout: stacked chapters like a quest log, hero with server card, then progression, bosses, tier lists */
 :root{
   --bg:#eef0ea; --surface:#ffffff; --surface-2:#e3e7dd; --line:#cdd3c6;
@@ -237,6 +243,7 @@ dialog::backdrop{background:rgba(10,12,10,.6)}
 .wiki{color:var(--c);font-weight:600;text-decoration:none;align-self:flex-start}
 .wiki:hover{text-decoration:underline}
 @media (max-width:600px){.dlg-grid{grid-template-columns:1fr}.dlg{padding:20px 16px}.emblem.big{width:72px;height:72px}}
+footer{line-height:1.7} .flink{color:var(--muted);text-decoration:underline}
 </style>
 </head>
 <body>
@@ -428,7 +435,7 @@ dialog::backdrop{background:rgba(10,12,10,.6)}
   </div>
 </dialog>
 
-<footer>Server läuft auf G-Portal · Minecraft 1.21.1 · NeoForge · Aether kommt vielleicht als Update.</footer>
+<footer>Server läuft auf G-Portal · Minecraft 1.21.1 · NeoForge · Aether kommt vielleicht als Update.<br>Kein offizielles Minecraft-Produkt. Nicht von Mojang oder Microsoft genehmigt oder mit ihnen verbunden. · <a href="datenschutz.html" class="flink">Datenschutz</a></footer>
 </div>
 
 <script>
