@@ -256,6 +256,24 @@ button.item:focus-visible{outline:2px solid var(--fg);outline-offset:2px}
 .itxt{display:flex;flex-direction:column;gap:1px;min-width:0}
 .tierbadge{font-family:var(--f-display);font-size:.9rem;color:var(--bg);padding:2px 10px;border-radius:4px}
 .block.wide{grid-column:1/-1}
+
+/* Live status */
+.live{border-top:1px dashed var(--line);padding-top:14px;display:flex;flex-direction:column;gap:10px}
+.live-head{display:flex;align-items:center;gap:8px;font-size:.92rem;color:var(--muted)}
+.ldot{width:10px;height:10px;border-radius:2px;background:var(--line);flex-shrink:0}
+.ldot.on{background:var(--moss);box-shadow:0 0 0 4px var(--moss-soft)}
+.ldot.off{background:var(--ore-r)}
+.lbtn{margin-left:auto;background:var(--surface-2);border:1px solid var(--line);border-radius:var(--r);padding:4px 10px;color:var(--fg);font-size:.85rem;font-weight:600}
+.lbtn:focus-visible{outline:2px solid var(--fg);outline-offset:2px}
+#lbody{display:flex;flex-direction:column;gap:8px}
+.lcount{display:flex;align-items:baseline;gap:6px;font-variant-numeric:tabular-nums}
+.lcount b{font-family:var(--f-display);font-size:1.8rem;line-height:1}
+.lcount span{color:var(--muted);font-size:.9rem}
+.lbar{height:8px;background:var(--surface-2);border-radius:2px;overflow:hidden}
+.lbar span{display:block;height:100%;width:0;background:var(--moss);transition:width .4s ease}
+.lnames{display:flex;flex-wrap:wrap;gap:6px}
+.lnames span{font-family:var(--f-mono);font-size:.78rem;background:var(--moss-soft);color:var(--moss);padding:2px 8px;border-radius:999px}
+.lmeta,.lnote{font-size:.78rem;color:var(--muted)}
 </style>
 </head>
 <body>
@@ -287,14 +305,24 @@ button.item:focus-visible{outline:2px solid var(--fg);outline-offset:2px}
     </div>
   </div>
   <aside class="server" aria-label="Serverdaten">
-    <span class="status"><span class="dot"></span>Server-Adresse</span>
+    <span class="status">Server-Adresse</span>
     <div class="addr">
-      <code id="addr">eu8784603.g-portal.game</code>
+      <code id="addr">mc.geisler-costa.de</code>
       <button class="btn" id="copy" type="button">Kopieren</button>
     </div>
     <div class="row"><span>Version</span><span>1.21.1</span></div>
     <div class="row"><span>Modloader</span><span>NeoForge 21.1.x</span></div>
     <div class="row"><span>Launcher</span><span>CurseForge App</span></div>
+      <div class="live" id="live" aria-live="polite">
+      <div class="live-head"><span class="ldot" id="ldot"></span><span id="lstate">Live-Status</span><button type="button" class="lbtn" id="lbtn">Status anzeigen</button></div>
+      <div id="lbody" hidden>
+        <div class="lcount"><b id="lnum">0</b><span id="lmax">/ 0 Spieler online</span></div>
+        <div class="lbar"><span id="lfill"></span></div>
+        <div class="lnames" id="lnames"></div>
+        <p class="lmeta" id="lmeta"></p>
+      </div>
+      <p class="lnote" id="lnote">Der Status wird über mcsrvstat.us abgefragt. Erst beim Klick wird eine Verbindung dorthin aufgebaut.</p>
+    </div>
   </aside>
 </header>
 <canvas class="terrain" id="terrain" aria-hidden="true"></canvas>
@@ -729,6 +757,37 @@ $('it-close').addEventListener('click',()=>idlg.close());
 idlg.addEventListener('click',e=>{if(e.target===idlg) idlg.close();});
 const redrawItems=()=>Object.values(ITEMS).forEach(it=>it.cv&&itemIcon(it.cv,it));
 matchMedia('(prefers-color-scheme: dark)').addEventListener('change',redrawItems);
+
+(function(){
+  const HOST='mc.geisler-costa.de', KEY='mp26-status';
+  const btn=$('lbtn'), body=$('lbody'), dot=$('ldot'), st=$('lstate'), note=$('lnote');
+  let timer=null;
+  async function load(){
+    btn.disabled=true; btn.textContent='Lädt…';
+    try{
+      const r=await fetch('https://api.mcsrvstat.us/3/'+HOST,{cache:'no-store'}); const d=await r.json();
+      body.hidden=false; note.hidden=true;
+      if(d.online){
+        const on=d.players?.online??0, max=d.players?.max??0;
+        dot.className='ldot on'; st.textContent='Online';
+        $('lnum').textContent=on; $('lmax').textContent='/ '+max+' Spieler online';
+        $('lfill').style.width=(max?Math.min(100,on/max*100):0)+'%';
+        const names=(d.players?.list||[]).map(p=>p.name||p);
+        $('lnames').innerHTML=names.map(n=>`<span>${String(n).replace(/[<>&]/g,'')}</span>`).join('');
+        $('lmeta').textContent=(d.version?'Version '+d.version+' · ':'')+'Aktualisiert '+new Date().toLocaleTimeString('de-DE',{hour:'2-digit',minute:'2-digit'});
+      }else{
+        dot.className='ldot off'; st.textContent='Offline';
+        $('lnum').textContent='0'; $('lmax').textContent='Server gerade nicht erreichbar'; $('lfill').style.width='0'; $('lnames').innerHTML='';
+        $('lmeta').textContent='Aktualisiert '+new Date().toLocaleTimeString('de-DE',{hour:'2-digit',minute:'2-digit'});
+      }
+    }catch(e){ dot.className='ldot'; st.textContent='Status nicht abrufbar'; }
+    btn.disabled=false; btn.textContent='Aktualisieren';
+  }
+  function start(){ try{localStorage.setItem(KEY,'1')}catch(e){} load(); clearInterval(timer); timer=setInterval(()=>{ if(!document.hidden) load(); },60000); }
+  btn.addEventListener('click',start);
+  let ok=false; try{ok=localStorage.getItem(KEY)==='1'}catch(e){}
+  if(ok) start();
+})();
 </script>
 </body>
 </html>
