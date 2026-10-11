@@ -43,6 +43,7 @@
   color-scheme:dark;
 }
 *{box-sizing:border-box}
+[hidden]{display:none!important}
 body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--f-body);font-size:16px;line-height:1.55;padding-inline:16px;padding-block:0 64px}
 .wrap{max-width:1040px;margin:0 auto;display:flex;flex-direction:column;gap:72px}
 h1,h2,h3{font-family:var(--f-display);font-weight:700;line-height:1.1;text-wrap:balance;margin:0}
@@ -155,12 +156,38 @@ footer{color:var(--muted);font-size:.85rem;border-top:1px solid var(--line);padd
   .tier .t{font-size:1.4rem}
 }
 @media (prefers-reduced-motion:no-preference){ .tab{transition:color .15s,border-color .15s} }
+
+/* Top menu */
+.topnav{position:sticky;top:env(safe-area-inset-top,0px);z-index:10;background:var(--bg);border-bottom:1px solid var(--line);margin-inline:-16px;padding:0 16px;display:flex;align-items:center;gap:16px}
+.brand{font-family:var(--f-display);font-weight:700;font-size:1.3rem;color:var(--fg);text-decoration:none;padding:12px 0;flex-shrink:0}
+.brand span{color:var(--ember)}
+.navlinks{display:flex;gap:2px;overflow-x:auto;scrollbar-width:none;min-width:0}
+.navlinks::-webkit-scrollbar{display:none}
+.navlinks a{color:var(--muted);text-decoration:none;font-weight:600;font-size:.95rem;padding:16px 12px 13px;border-bottom:3px solid transparent;white-space:nowrap}
+.navlinks a:hover{color:var(--fg)}
+.navlinks a[aria-current="page"]{color:var(--fg);border-bottom-color:var(--ember)}
+.navlinks a:focus-visible,.brand:focus-visible{outline:2px solid var(--fg);outline-offset:-2px}
+.wrap{padding-top:40px}
+.view#start{display:flex;flex-direction:column;gap:56px}
+.view#start .hero{padding-top:0}
 </style>
 </head>
 <body>
 
+<nav class="topnav" aria-label="Bereiche">
+  <a class="brand" href="#start" data-view="start">C<span>&amp;</span>T</a>
+  <div class="navlinks">
+    <a href="#start" data-view="start" aria-current="page">Start</a>
+    <a href="#mods" data-view="mods">Mods</a>
+    <a href="#route" data-view="route">Fortschritt</a>
+    <a href="#bosses" data-view="bosses">Bosse</a>
+    <a href="#tiers" data-view="tiers">Tierlist</a>
+    <a href="#tips" data-view="tips">Tipps</a>
+  </div>
+</nav>
 <div class="wrap">
 
+<div class="view" id="start">
 <header class="hero">
   <div class="hero-text">
     <span class="eyebrow">Unser Server · Saison 1</span>
@@ -185,7 +212,7 @@ footer{color:var(--muted);font-size:.85rem;border-top:1px solid var(--line);padd
   </aside>
 </header>
 
-<section id="join">
+<section id="join" class="joinsec">
   <div class="sec-head"><span class="eyebrow">So kommst du rein</span><h2>In vier Schritten auf den Server</h2></div>
   <ol class="steps">
     <li><b>CurseForge App installieren</b><span>Von curseforge.com herunterladen und mit dem Minecraft-Account verbinden.</span></li>
@@ -194,8 +221,9 @@ footer{color:var(--muted);font-size:.85rem;border-top:1px solid var(--line);padd
     <li><b>Joinen</b><span>Spiel starten → Multiplayer → Adresse oben einfügen.</span></li>
   </ol>
 </section>
+</div>
 
-<section id="mods">
+<section id="mods" class="view" hidden>
   <div class="sec-head"><span class="eyebrow">Was drin ist</span><h2>Die Mods</h2></div>
   <div class="mods">
     <div class="modgroup"><h3>Inhalt</h3><ul>
@@ -221,7 +249,7 @@ footer{color:var(--muted);font-size:.85rem;border-top:1px solid var(--line);padd
   </div>
 </section>
 
-<section id="route">
+<section id="route" class="view" hidden>
   <div class="sec-head"><span class="eyebrow">Fortschritt</span><h2>Der Weg nach oben</h2><p class="lede">Grobe Reihenfolge, damit ihr nicht mit Eisen-Rüstung vor Ignis steht.</p></div>
   <div class="route">
     <div class="stage"><span class="when">Tag 1–2</span><h3>Eisen & Loot</h3><ul><li>Höhlen nach Eisen</li><li>YUNG's-Minen und Dungeons plündern</li><li>Waystone an der Basis</li></ul></div>
@@ -232,7 +260,7 @@ footer{color:var(--muted);font-size:.85rem;border-top:1px solid var(--line);padd
   </div>
 </section>
 
-<section id="bosses">
+<section id="bosses" class="view" hidden>
   <div class="sec-head"><span class="eyebrow">Die Gegner</span><h2>Bosse</h2></div>
   <div class="tabs" role="tablist">
     <button class="tab" role="tab" id="tab-cat" aria-controls="p-cat" aria-selected="true" type="button">Cataclysm</button>
@@ -287,7 +315,7 @@ footer{color:var(--muted);font-size:.85rem;border-top:1px solid var(--line);padd
   </div>
 </section>
 
-<section id="tiers">
+<section id="tiers" class="view" hidden>
   <div class="sec-head"><span class="eyebrow">Ausrüstung</span><h2>Tierlist</h2><p class="lede">Unsere grobe Einschätzung. Eine gut verzauberte B-Rüstung schlägt oft eine unverzauberte A-Rüstung.</p></div>
   <div class="tabs" role="tablist">
     <button class="tab" role="tab" id="tab-ar" aria-controls="p-ar" aria-selected="true" type="button">Rüstung</button>
@@ -341,7 +369,7 @@ footer{color:var(--muted);font-size:.85rem;border-top:1px solid var(--line);padd
   <p class="note">Werte ändern sich zwischen Mod-Versionen. Im Spiel per JEI und Tooltip gegenchecken.</p>
 </section>
 
-<section id="tips">
+<section id="tips" class="view" hidden>
   <div class="sec-head"><span class="eyebrow">Gut zu wissen</span><h2>Tipps für die Gruppe</h2></div>
   <div class="tips">
     <div><b>Waystones früh setzen</b><span>An Basis, Dorf und jedem Portal. Spart später Stunden Laufweg.</span></div>
@@ -371,6 +399,19 @@ document.querySelectorAll('[role="tablist"]').forEach(list => {
     tabs.forEach(t => { const on = t === tab; t.setAttribute('aria-selected', on); document.getElementById(t.getAttribute('aria-controls')).hidden = !on; });
   }));
 });
+
+const views=[...document.querySelectorAll('.view')], links=[...document.querySelectorAll('[data-view]')];
+function show(id,push){
+  if(!views.some(v=>v.id===id)) id='start';
+  views.forEach(v=>v.hidden=v.id!==id);
+  links.forEach(a=>{ if(a.classList.contains('brand')) return; a.dataset.view===id?a.setAttribute('aria-current','page'):a.removeAttribute('aria-current'); });
+  const cur=document.querySelector('.navlinks [aria-current]'); if(cur) cur.scrollIntoView({block:'nearest',inline:'nearest'});
+  if(push) history.replaceState(null,'','#'+id);
+  window.scrollTo(0,0);
+}
+links.forEach(a=>a.addEventListener('click',e=>{e.preventDefault();show(a.dataset.view,true);}));
+window.addEventListener('hashchange',()=>show(location.hash.slice(1)));
+show(location.hash.slice(1)||'start');
 </script>
 </body>
 </html>
