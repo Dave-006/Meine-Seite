@@ -295,6 +295,35 @@ button.item:focus-visible{outline:2px solid var(--fg);outline-offset:2px}
 .sbody p{color:var(--muted);font-size:.9rem}
 .sbody ul{margin:4px 0 0;padding-left:18px;font-size:.92rem;display:flex;flex-direction:column;gap:3px}
 @media (max-width:900px){.phases{grid-template-columns:1fr}}
+
+/* FAQ */
+.faq{display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:start}
+.faqcat{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:18px;display:flex;flex-direction:column;gap:4px;box-shadow:var(--shadow);min-width:0}
+.faqhead{display:flex;flex-direction:column;gap:2px;margin-bottom:8px}
+.faqhead h3{font-size:1.25rem}
+.faqhead span{color:var(--muted);font-size:.9rem}
+.faq details{border-top:1px solid var(--line)}
+.faq summary{cursor:pointer;list-style:none;padding:12px 28px 12px 0;font-weight:600;position:relative}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";position:absolute;right:4px;top:50%;transform:translateY(-50%);font-family:var(--f-mono);color:var(--ember);font-size:1.2rem}
+.faq details[open] summary::after{content:"−"}
+.faq summary:focus-visible{outline:2px solid var(--fg);outline-offset:2px}
+.faq details p{color:var(--muted);padding:0 0 14px;font-size:.95rem}
+@media (max-width:820px){.faq{grid-template-columns:1fr}}
+/* Recipes */
+.recwrap{display:flex;flex-wrap:wrap;align-items:center;gap:14px}
+.grid3{display:grid;grid-template-columns:repeat(3,44px);grid-template-rows:repeat(3,44px);gap:3px;background:var(--line);padding:3px;border-radius:4px}
+.smith{display:grid;grid-template-columns:repeat(3,44px);gap:3px;background:var(--line);padding:3px;border-radius:4px}
+.slot{background:var(--surface);display:flex;align-items:center;justify-content:center;font-family:var(--f-mono);font-size:.75rem;font-weight:600;color:var(--bg);border-radius:2px;box-shadow:inset 2px 2px 0 rgba(0,0,0,.06)}
+.slot i{display:flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:3px;font-style:normal;box-shadow:inset -3px -3px 0 rgba(0,0,0,.2)}
+.arrow{font-family:var(--f-display);font-size:1.6rem;color:var(--muted)}
+.result{width:56px;height:56px;background:var(--surface);border:3px solid var(--line);border-radius:4px;display:flex;align-items:center;justify-content:center}
+.result canvas{width:40px;height:40px;image-rendering:pixelated}
+.legend{display:flex;flex-direction:column;gap:6px;font-size:.88rem;min-width:0}
+.legend span{display:flex;align-items:center;gap:8px}
+.legend i{width:18px;height:18px;border-radius:3px;font-style:normal;font-family:var(--f-mono);font-size:.65rem;font-weight:600;color:var(--bg);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.recnote{font-size:.85rem;color:var(--muted);margin-top:10px}
+.recdrop{display:flex;gap:12px;align-items:center;color:var(--fg);font-size:.95rem}
 </style>
 </head>
 <body>
@@ -486,14 +515,35 @@ button.item:focus-visible{outline:2px solid var(--fg);outline-offset:2px}
 </section>
 
 <section id="tips" class="view" hidden>
-  <div class="sec-head"><span class="eyebrow">Gut zu wissen</span><h2>Tipps für die Gruppe</h2></div>
-  <div class="tips">
-    <div><b>Waystones früh setzen</b><span>An Basis, Dorf und jedem Portal. Spart später Stunden Laufweg.</span></div>
-    <div><b>Sterben ist okay</b><span>Gravestone sammelt eure Items in einem Grab. Zurücklaufen und einsammeln.</span></div>
-    <div><b>JEI benutzen</b><span>Taste R auf einem Item zeigt das Rezept, U zeigt, wofür man es braucht.</span></div>
-    <div><b>Aufgaben teilen</b><span>Einer Villager, einer Dungeons, einer Minen. So seid ihr viel schneller.</span></div>
-    <div><b>Bosse im Team</b><span>Cataclysm-Bosse sind für Gruppen gemacht. Zu dritt deutlich entspannter.</span></div>
-    <div><b>Shader?</b><span>Iris ist raus, weil es mit unserer Sodium-Version crasht. Kommt evtl. per Update.</span></div>
+  <div class="sec-head"><span class="eyebrow">Gut zu wissen</span><h2>Tipps für die Gruppe</h2><p class="lede">Tippe auf eine Frage, um die Antwort aufzuklappen.</p></div>
+  <div class="faq">
+    <div class="faqcat"><div class="faqhead"><h3>Einstieg</h3><span>Die ersten Stunden auf dem Server</span></div>
+      <details><summary>Wie verbinde ich mich?</summary><p>CurseForge App öffnen, unser Modpack starten, unter Multiplayer die Adresse mc.geisler-costa.de eintragen. Mods nicht selbst updaten, sonst passen die Versionen nicht mehr zum Server und ihr kommt nicht rein.</p></details>
+      <details><summary>Wo baue ich meine Basis?</summary><p>Nicht direkt am Spawn, da ist später viel Verkehr. Ein paar hundert Blöcke weg in einem Biom, das euch gefällt. Setzt euch vorher eine Waystone, damit ihr schnell zurückkommt.</p></details>
+      <details><summary>Was mache ich zuerst?</summary><p>Holz, Steinwerkzeuge, Bett. Dann sofort in die Höhlen nach Eisen. Terralith macht die Höhlen groß und offen, Fackeln und Essen mitnehmen.</p></details>
+    </div>
+    <div class="faqcat"><div class="faqhead"><h3>Mods richtig nutzen</h3><span>Die Helfer im Pack</span></div>
+      <details><summary>JEI: Rezepte finden</summary><p>Rechts im Inventar ist die JEI-Liste. Über ein Item fahren und R drücken zeigt das Rezept, U zeigt, wofür man es braucht. In der Suche mit @cataclysm oder @twilightforest nur Items eines Mods anzeigen.</p></details>
+      <details><summary>Karte und Wegpunkte</summary><p>M öffnet die Weltkarte, B setzt einen Wegpunkt an deiner Position. Markiert Dörfer, Dungeons und Portale, dann findet ihr sie wieder.</p></details>
+      <details><summary>Waystones</summary><p>In vielen Dörfern stehen schon Waystones. Rechtsklick schaltet sie für dich frei, danach kannst du dich zwischen allen freigeschalteten Steinen teleportieren.</p></details>
+      <details><summary>Gestorben, was nun?</summary><p>Deine Items liegen in einem Grabstein an der Todesstelle, nichts despawnt. Hinlaufen und den Grabstein öffnen. Die Koordinaten stehen im Chat.</p></details>
+    </div>
+    <div class="faqcat"><div class="faqhead"><h3>Kampf & Bosse</h3><span>Damit ihr nicht ständig im Grab landet</span></div>
+      <details><summary>Wann bin ich bereit für Cataclysm?</summary><p>Volle Netherite mit Schutz IV, Mending und ein gutes Schwert. Dazu Goldäpfel, Feuerresistenz und Heiltränke. Mit Diamant macht nur der Harbinger halbwegs Spaß.</p></details>
+      <details><summary>Wie finde ich die Boss-Strukturen?</summary><p>Die meisten Cataclysm-Strukturen haben ein eigenes Such-Auge, ähnlich wie das Enderauge. Rezepte findet ihr in JEI oder auf der Boss-Seite hier.</p></details>
+      <details><summary>Bosse im Team</summary><p>Die Cataclysm-Bosse sind sehr hart, zu zweit oder dritt geht es deutlich entspannter. Vorher abstimmen, wer den Loot bekommt, manche Bosse lassen sich erneut rufen.</p></details>
+      <details><summary>Twilight Forest Reihenfolge</summary><p>Die Gebiete im Twilight Forest sind gesperrt, bis der vorherige Boss tot ist. Ihr werdet sonst mit Effekten wie Blindheit oder Feuer bestraft. Einfach der Reihenfolge auf der Boss-Seite folgen.</p></details>
+    </div>
+    <div class="faqcat"><div class="faqhead"><h3>Technik & Probleme</h3><span>Wenn etwas hakt</span></div>
+      <details><summary>Das Spiel ruckelt</summary><p>In den Videoeinstellungen die Sichtweite auf 8 bis 12 Chunks setzen. Der CurseForge App 6 bis 8 GB RAM geben, mehr bringt meistens nichts.</p></details>
+      <details><summary>Das Spiel stürzt ab</summary><p>Den Crash-Report aus dem Ordner crash-reports in die Gruppe schicken. Meistens ist es eine einzelne Mod mit falscher Version.</p></details>
+      <details><summary>Der Server laggt</summary><p>Kurz in der Gruppe melden. Ein Admin kann mit /spark health sehen, was den Server ausbremst.</p></details>
+    </div>
+    <div class="faqcat"><div class="faqhead"><h3>Miteinander</h3><span>Damit es für alle Spaß macht</span></div>
+      <details><summary>Fremde Basen</summary><p>Nichts abbauen oder aus fremden Truhen nehmen, ohne zu fragen. Gemeinsame Kisten kennzeichnen.</p></details>
+      <details><summary>Aufgaben teilen</summary><p>Einer kümmert sich um Villager, einer um Dungeons, einer minet. So kommt die ganze Gruppe schneller voran.</p></details>
+      <details><summary>Natur stehen lassen</summary><p>Bäume am Spawn nachpflanzen und keine riesigen Krater neben Wegen hinterlassen.</p></details>
+    </div>
   </div>
 </section>
 
@@ -528,6 +578,7 @@ button.item:focus-visible{outline:2px solid var(--fg);outline-offset:2px}
       <div class="block"><h4>So bekommst du es</h4><p id="it-get"></p></div>
       <div class="block"><h4>Herstellung</h4><p id="it-make"></p></div>
       <div class="block wide"><h4>Stärken</h4><ul id="it-good"></ul></div>
+      <div class="block wide"><h4 id="rec-title">Rezept</h4><div id="rec"></div></div>
     </div>
     <p class="tip" id="it-tip"></p>
     <a class="wiki" id="it-wiki" href="#" target="_blank" rel="noopener">Mehr Details und Bilder im Wiki ↗</a>
@@ -556,6 +607,7 @@ document.querySelectorAll('[role="tablist"]').forEach(list => {
 const views=[...document.querySelectorAll('.view')], links=[...document.querySelectorAll('[data-view]')];
 function show(id,push){
   if(!views.some(v=>v.id===id)) id='start';
+  document.querySelectorAll('dialog[open]').forEach(d=>d.close());
   views.forEach(v=>v.hidden=v.id!==id);
   links.forEach(a=>{ if(a.classList.contains('brand')) return; a.dataset.view===id?a.setAttribute('aria-current','page'):a.removeAttribute('aria-current'); });
   const cur=document.querySelector('.navlinks [aria-current]'); if(cur) cur.scrollIntoView({block:'nearest',inline:'nearest'});
@@ -847,6 +899,52 @@ matchMedia('(prefers-color-scheme: dark)').addEventListener('change',redrawItems
   let ok=false; try{ok=localStorage.getItem(KEY)==='1'}catch(e){}
   if(ok) start();
 })();
+
+const ING={
+ D:['Diamant','#4fd1c5'], I:['Eisenbarren','#c9ccc7'], N:['Netherite-Barren','#4a4446'], S:['Stock','#9c6b3c'], C:['Bruchstein','#8d918c'],
+ G:['Goldbarren','#e3b23c'], F:['Fiery-Barren','#e0602a'], K:['Knightmetal-Barren','#9fb59a'], L:['Steeleaf','#5c9a3c'], W:['Ironwood-Barren','#8a7a3a'],
+ A:['Arctic Fur','#e9eef2'], Y:['Alpha-Yeti-Fell','#a9d3e8'], B:['Lohenrute','#f0a020'], T:['Netherite-Vorlage','#6a3fa0'],
+ dC:['Diamant-Brustplatte','#4fd1c5'], dS:['Diamant-Schwert','#4fd1c5']
+};
+const CHEST=['X X','XXX','XXX'], SWORD=[' X ',' X ',' S '];
+const REC={
+ 'Netherite':{smith:['T','dC','N'],note:'Am Schmiedetisch, gilt genauso für Helm, Hose und Stiefel.'},
+ 'Diamant':{grid:CHEST,X:'D',note:'Am Beispiel der Brustplatte. Helm, Hose und Stiefel in den üblichen Formen.'},
+ 'Eisen':{grid:CHEST,X:'I',note:'Am Beispiel der Brustplatte.'},
+ 'Fiery Armor':{grid:CHEST,X:'F',note:'Fiery-Barren: Fiery Blood oder Fiery Tears zusammen mit einem Eisenbarren.'},
+ 'Knightmetal':{grid:CHEST,X:'K',note:'Knightmetal-Barren: Armor Shards zu einem Cluster verarbeiten und schmelzen.'},
+ 'Steeleaf':{grid:CHEST,X:'L',note:'Am Beispiel der Brustplatte.'},
+ 'Ironwood':{grid:CHEST,X:'W',note:'Ironwood: Liveroot, Rohes Eisen und Goldnugget herstellen, dann schmelzen.'},
+ 'Arctic Armor':{grid:CHEST,X:'A',note:'Am Beispiel der Brustplatte.'},
+ 'Alpha-Yeti-Rüstung':{grid:CHEST,X:'Y',note:'Am Beispiel der Brustplatte.'},
+ 'Kette / Gold':{grid:CHEST,X:'G',note:'Goldrüstung. Kettenrüstung lässt sich nicht herstellen, nur finden oder ertauschen.'},
+ 'Netherite-Schwert / -Axt':{smith:['T','dS','N'],note:'Am Schmiedetisch, die Axt genauso mit einer Diamant-Axt.'},
+ 'Diamant-Schwert':{grid:SWORD,X:'D'},
+ 'Eisen-Schwert':{grid:SWORD,X:'I'},
+ 'Steinwerkzeuge':{grid:SWORD,X:'C',note:'Am Beispiel des Schwerts.'},
+ 'Knightmetal Sword / Axe':{grid:SWORD,X:'K',note:'Am Beispiel des Schwerts.'},
+ 'Steeleaf / Ironwood Sword':{grid:SWORD,X:'L',note:'Steeleaf-Schwert. Das Ironwood-Schwert genauso mit Ironwood-Barren.'},
+ 'Fiery Sword':{grid:[' X ',' X ',' B '],note:'Statt eines Stocks wird eine Lohenrute als Griff verwendet.'},
+};
+function cell(k){ if(!k||k===' ') return '<div class="slot"></div>'; const [n,c]=ING[k]; return `<div class="slot" title="${n}"><i style="background:${c}">${k.length>1?'':k}</i></div>`; }
+function renderRecipe(name,it){
+  const box=$('rec'), r=REC[name];
+  if(!r){
+    const drop=/Drop|droppt|Truhen|Riesen/.test(it.make+it.get);
+    $('rec-title').textContent=drop?'Herkunft':'Rezept';
+    box.innerHTML=`<div class="recdrop">${drop?'Kein Rezept nötig, das bekommst du direkt als Beute.':'Das genaue Rezept hängt von der Mod-Version ab. Im Spiel per JEI nachsehen: Item suchen und R drücken.'}</div>`;
+    return;
+  }
+  $('rec-title').textContent=r.smith?'Rezept · Schmiedetisch':'Rezept · Werkbank';
+  let keys=[], slots='';
+  if(r.smith){ slots='<div class="smith">'+r.smith.map(cell).join('')+'</div>'; keys=r.smith; }
+  else { const g=r.grid.join('').split('').map(ch=>ch==='X'?r.X:(ch===' '?' ':ch)); slots='<div class="grid3">'+g.map(cell).join('')+'</div>'; keys=g.filter(k=>k!==' '); }
+  const uniq=[...new Set(keys)];
+  const leg=uniq.map(k=>`<span><i style="background:${ING[k][1]}">${k.length>1?'':k}</i>${ING[k][0]}</span>`).join('');
+  box.innerHTML=`<div class="recwrap">${slots}<span class="arrow">→</span><div class="result"><canvas id="rec-out" width="12" height="12"></canvas></div><div class="legend">${leg}</div></div>${r.note?`<p class="recnote">${r.note}</p>`:''}<p class="recnote">Mod-Rezepte können sich zwischen Versionen ändern. Im Zweifel zeigt JEI im Spiel das aktuelle Rezept.</p>`;
+  itemIcon($('rec-out'),it);
+}
+document.querySelectorAll('.item[data-item]').forEach(btn=>btn.addEventListener('click',()=>{const it=ITEMS[btn.dataset.item]; if(it) renderRecipe(btn.dataset.item,it);}));
 </script>
 </body>
 </html>
