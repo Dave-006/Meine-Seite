@@ -78,7 +78,7 @@ section{display:flex;flex-direction:column;gap:24px}
 .tag{font-family:var(--f-mono);font-size:.8rem;padding:4px 10px;border:1px solid var(--line);border-radius:999px;background:var(--surface)}
 .server{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:20px;display:flex;flex-direction:column;gap:14px;min-width:0}
 .server .row{display:flex;justify-content:space-between;gap:12px;border-bottom:1px dashed var(--line);padding-bottom:10px;font-size:.95rem}
-.server .row:last-of-type{border-bottom:0}
+.server .row:last-of-type,.server .row:has(+ .live){border-bottom:0}
 .server .row span:first-child{color:var(--muted)}
 .server .row span:last-child{font-family:var(--f-mono);text-align:right}
 .addr{display:flex;gap:8px;align-items:stretch}
@@ -267,6 +267,7 @@ button.item:focus-visible{outline:2px solid var(--fg);outline-offset:2px}
 .lbtn:focus-visible{outline:2px solid var(--fg);outline-offset:2px}
 #lbody{display:flex;flex-direction:column;gap:8px}
 .lcount{display:flex;align-items:baseline;gap:6px;font-variant-numeric:tabular-nums}
+.lcount b:empty{display:none}
 .lcount b{font-family:var(--f-display);font-size:1.8rem;line-height:1}
 .lcount span{color:var(--muted);font-size:.9rem}
 .lbar{height:8px;background:var(--surface-2);border-radius:2px;overflow:hidden}
@@ -759,7 +760,7 @@ const redrawItems=()=>Object.values(ITEMS).forEach(it=>it.cv&&itemIcon(it.cv,it)
 matchMedia('(prefers-color-scheme: dark)').addEventListener('change',redrawItems);
 
 (function(){
-  const HOST='mc.geisler-costa.de', KEY='mp26-status';
+  const HOST='eu8784603.g-portal.game', KEY='mp26-status';
   const btn=$('lbtn'), body=$('lbody'), dot=$('ldot'), st=$('lstate'), note=$('lnote');
   let timer=null;
   async function load(){
@@ -777,7 +778,7 @@ matchMedia('(prefers-color-scheme: dark)').addEventListener('change',redrawItems
         $('lmeta').textContent=(d.version?'Version '+d.version+' · ':'')+'Aktualisiert '+new Date().toLocaleTimeString('de-DE',{hour:'2-digit',minute:'2-digit'});
       }else{
         dot.className='ldot off'; st.textContent='Offline';
-        $('lnum').textContent='0'; $('lmax').textContent='Server gerade nicht erreichbar'; $('lfill').style.width='0'; $('lnames').innerHTML='';
+        $('lnum').textContent=''; $('lmax').textContent='Server gerade nicht erreichbar oder gestoppt'; $('lfill').style.width='0'; $('lnames').innerHTML='';
         $('lmeta').textContent='Aktualisiert '+new Date().toLocaleTimeString('de-DE',{hour:'2-digit',minute:'2-digit'});
       }
     }catch(e){ dot.className='ldot'; st.textContent='Status nicht abrufbar'; }
