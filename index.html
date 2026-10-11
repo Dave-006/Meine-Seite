@@ -3,6 +3,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<meta name="referrer" content="no-referrer">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src https://api.mcsrvstat.us https://api.mcstatus.io; base-uri 'self'; form-action 'none'">
 <title>MC Projekt 2026</title>
 <link rel="icon" href="favicon.png" type="image/png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
@@ -329,6 +332,11 @@ button.item:focus-visible{outline:2px solid var(--fg);outline-offset:2px}
 .result i,.slot i{display:flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:3px;font-style:normal;font-family:var(--f-mono);font-size:.75rem;font-weight:600;box-shadow:inset -3px -3px 0 rgba(0,0,0,.2)}
 .result canvas{width:40px;height:40px;image-rendering:pixelated}
 .legend i{width:18px;height:18px;box-shadow:none;font-size:.62rem}
+
+footer.legal{display:flex;flex-direction:column;gap:8px}
+footer.legal .disclaimer{font-family:var(--f-mono);font-size:.75rem;letter-spacing:.04em;color:var(--fg)}
+.legal-links{display:flex;gap:16px;flex-wrap:wrap}
+.lrevoke{background:none;border:0;padding:0;color:var(--muted);text-decoration:underline;font-size:.78rem;cursor:pointer;align-self:flex-start}
 </style>
 </head>
 <body>
@@ -376,7 +384,8 @@ button.item:focus-visible{outline:2px solid var(--fg);outline-offset:2px}
         <div class="lnames" id="lnames"></div>
         <p class="lmeta" id="lmeta"></p>
       </div>
-      <p class="lnote" id="lnote">Der Status wird über mcsrvstat.us und mcstatus.io abgefragt. Erst beim Klick wird eine Verbindung dorthin aufgebaut.</p>
+      <p class="lnote" id="lnote">Mit dem Klick fragt dein Browser den Status bei mcsrvstat.us und mcstatus.io ab. Dabei wird deine IP-Adresse an diese Dienste übertragen, und dein Browser merkt sich die Wahl für den nächsten Besuch. <a href="datenschutz.html#status" class="flink">Mehr dazu</a></p>
+      <button type="button" class="lrevoke" id="lrevoke" hidden>Status nicht mehr automatisch laden</button>
     </div>
   </aside>
 </header>
@@ -591,7 +600,12 @@ button.item:focus-visible{outline:2px solid var(--fg);outline-offset:2px}
   </div>
 </dialog>
 
-<footer>Server läuft auf G-Portal · Minecraft 1.21.1 · NeoForge · Aether kommt vielleicht als Update.<br>Kein offizielles Minecraft-Produkt. Nicht von Mojang oder Microsoft genehmigt oder mit ihnen verbunden. · <a href="datenschutz.html" class="flink">Datenschutz</a></footer>
+<footer class="legal">
+  <p>Server läuft auf G-Portal · Minecraft 1.21.1 · NeoForge · Aether kommt vielleicht als Update.</p>
+  <p class="disclaimer" lang="en">NOT AN OFFICIAL MINECRAFT SERVICE. NOT APPROVED BY OR ASSOCIATED WITH MOJANG OR MICROSOFT.</p>
+  <p>Privates, nicht kommerzielles Fanprojekt. Minecraft ist eine Marke von Mojang Synergies AB. Mod-Namen gehören ihren jeweiligen Entwicklern. Schriften: Pixelify Sans, Instrument Sans, JetBrains Mono (SIL Open Font License 1.1).</p>
+  <nav class="legal-links" aria-label="Rechtliches"><a href="datenschutz.html" class="flink">Datenschutz</a></nav>
+</footer>
 </div>
 
 <script>
@@ -859,6 +873,8 @@ matchMedia('(prefers-color-scheme: dark)').addEventListener('change',redrawItems
 
 (function(){
   const HOST='eu8784603.g-portal.game', KEY='mp26-status';
+  // Spielernamen sind personenbezogene Daten der Mitspieler. Nur auf true setzen, wenn alle damit einverstanden sind.
+  const SHOW_NAMES=false;
   const btn=$('lbtn'), body=$('lbody'), dot=$('ldot'), st=$('lstate'), note=$('lnote');
   let next=null, tick=null, busy=false;
   const t=ms=>new Date(ms).toLocaleTimeString('de-DE',{hour:'2-digit',minute:'2-digit',second:'2-digit'});
@@ -888,7 +904,7 @@ matchMedia('(prefers-color-scheme: dark)').addEventListener('change',redrawItems
         dot.className='ldot on'; st.textContent='Online';
         $('lnum').textContent=d.on; $('lmax').textContent='/ '+d.max+' Spieler online';
         $('lfill').style.width=(d.max?Math.min(100,d.on/d.max*100):0)+'%';
-        $('lnames').innerHTML=d.names.filter(Boolean).map(n=>`<span>${String(n).replace(/[<>&]/g,'')}</span>`).join('');
+        $('lnames').innerHTML=(SHOW_NAMES?d.names:[]).filter(Boolean).map(n=>`<span>${String(n).replace(/[<>&]/g,'')}</span>`).join('');
         $('lmeta').textContent=(d.ver?'Version '+d.ver+' · ':'')+'Stand '+t(d.at);
       }else{
         dot.className='ldot off'; st.textContent='Offline';
@@ -900,8 +916,9 @@ matchMedia('(prefers-color-scheme: dark)').addEventListener('change',redrawItems
     }else{ dot.className='ldot'; st.textContent='Status nicht abrufbar'; next=Date.now()+15000; }
     busy=false; dot.classList.remove('pulse'); setBtn();
   }
-  function start(){ try{localStorage.setItem(KEY,'1')}catch(e){} load(); clearInterval(tick); tick=setInterval(()=>{ if(!document.hidden) setBtn(); },1000); }
+  function start(){ try{localStorage.setItem(KEY,'1')}catch(e){} $('lrevoke').hidden=false; load(); clearInterval(tick); tick=setInterval(()=>{ if(!document.hidden) setBtn(); },1000); }
   btn.addEventListener('click',()=>{ if(!btn.disabled) start(); });
+  $('lrevoke').addEventListener('click',()=>{ try{localStorage.removeItem(KEY)}catch(e){} clearInterval(tick); next=null; $('lrevoke').hidden=true; body.hidden=true; note.hidden=false; dot.className='ldot'; st.textContent='Live-Status'; btn.disabled=false; btn.textContent='Status anzeigen'; });
   let ok=false; try{ok=localStorage.getItem(KEY)==='1'}catch(e){}
   if(ok) start();
 })();
