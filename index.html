@@ -324,6 +324,11 @@ button.item:focus-visible{outline:2px solid var(--fg);outline-offset:2px}
 .legend i{width:18px;height:18px;border-radius:3px;font-style:normal;font-family:var(--f-mono);font-size:.65rem;font-weight:600;color:var(--bg);display:flex;align-items:center;justify-content:center;flex-shrink:0}
 .recnote{font-size:.85rem;color:var(--muted);margin-top:10px}
 .recdrop{display:flex;gap:12px;align-items:center;color:var(--fg);font-size:.95rem}
+.rstep{font-weight:600;font-size:.92rem;margin:0 0 8px}
+.rsep{height:1px;background:var(--line);margin:14px 0}
+.result i,.slot i{display:flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:3px;font-style:normal;font-family:var(--f-mono);font-size:.75rem;font-weight:600;box-shadow:inset -3px -3px 0 rgba(0,0,0,.2)}
+.result canvas{width:40px;height:40px;image-rendering:pixelated}
+.legend i{width:18px;height:18px;box-shadow:none;font-size:.62rem}
 </style>
 </head>
 <body>
@@ -560,6 +565,7 @@ button.item:focus-visible{outline:2px solid var(--fg);outline-offset:2px}
       <div class="block"><h4>Beschwören</h4><p id="dlg-summon"></p></div>
       <div class="block"><h4>Loot</h4><ul id="dlg-loot"></ul></div>
       <div class="block"><h4>Empfohlene Ausrüstung</h4><ul id="dlg-gear"></ul></div>
+      <div class="block wide" id="dlg-eye" hidden><h4>Such-Auge herstellen</h4><div id="eye-body"></div></div>
     </div>
     <p class="tip" id="dlg-tip"></p>
     <a class="wiki" id="dlg-wiki" href="#" target="_blank" rel="noopener">Echte Bilder und Details im Wiki ansehen ↗</a>
@@ -806,7 +812,7 @@ const ITEMS={
  'Tidal Claws':{t:'fist',m:'oc',src:'Cataclysm',get:'Drop vom Leviathan in der Sunken City.',make:'Direkter Drop.',good:['Nahkampfwaffe und Enterhaken mit 32 Blöcken Reichweite','Fernangriff springt auf bis zu fünf Ziele über'],tip:'Der Enterhaken ist auch zum Erkunden super.',w:'https://www.minecraft-guides.com/wiki/cataclysm/sunken-city/leviathan/'},
  'Fiery Sword':{t:'sword',m:'ne',src:'Twilight Forest',get:'Fiery Blood von der Hydra oder Fiery Tears vom Ur-Ghast.',make:'Aus Fiery-Barren.',good:['Setzt Gegner in Brand'],tip:'Gegen Nether-Gegner wirkungslos, die sind feuerfest.',w:TW+'Fiery_Sword'},
  'Knightmetal Sword / Axe':{t:'axe',m:'ow',src:'Twilight Forest',get:'Armor Shards von Goblin Knights im Dunkelwald.',make:'Aus Knightmetal-Barren.',good:['Guter Mittelweg zwischen Diamant und Netherite'],tip:'Passt perfekt zum Knightmetal-Rüstungsset.',w:TW+'Knightmetal_Sword'},
- 'Giant Sword':{t:'sword',m:'ow',src:'Twilight Forest',get:'Von den Riesen bei den Wolkenburgen im Twilight Forest.',make:'Direkter Drop.',good:['Deutlich größere Reichweite'],tip:'Super, um Gegner auf Abstand zu halten.',w:TW+'Giant_Sword'},
+ 'Giant Sword':{t:'sword',m:'ow',src:'Twilight Forest',get:'Material von den Riesen bei den Wolkenburgen im Twilight Forest.',make:'Aus Riesen-Bruchstein und Riesen-Holz an der Werkbank.',good:['Deutlich größere Reichweite'],tip:'Super, um Gegner auf Abstand zu halten.',w:TW+'Giant_Sword'},
  'Lich-Szepter':{t:'staff',m:'en',src:'Twilight Forest',get:'Der Lich droppt eines von vier Szeptern.',make:'Direkter Drop, nachladbar.',good:['Twilight-Szepter für Fernkampf','Lifedrain heilt dich','Zombie-Szepter ruft Helfer'],tip:'Mehrmals den Lich-Turm besuchen lohnt sich nicht, also das Szepter teilen.',w:TW+'Lich'},
  'Diamond Minotaur Axe':{t:'axe',m:'oc',src:'Twilight Forest',get:'Drop vom Minoshroom im Labyrinth.',make:'Direkter Drop.',good:['Extra-Schaden beim Sprinten (Charge)','Stark für die Twilight-Phase'],tip:'Mit Anlauf zuschlagen, das ist ihr Trick.',w:TW+'Minoshroom'},
  'Diamant-Schwert':{t:'sword',m:'oc',src:'Vanilla',get:'Diamanten auf Y -58.',make:'Werkbank.',good:['Solide Basis für Verzauberungen'],tip:'Wird später zu Netherite aufgewertet, also gut verzaubern.',w:MW+'Diamond_Sword'},
@@ -901,50 +907,100 @@ matchMedia('(prefers-color-scheme: dark)').addEventListener('change',redrawItems
 })();
 
 const ING={
- D:['Diamant','#4fd1c5'], I:['Eisenbarren','#c9ccc7'], N:['Netherite-Barren','#4a4446'], S:['Stock','#9c6b3c'], C:['Bruchstein','#8d918c'],
- G:['Goldbarren','#e3b23c'], F:['Fiery-Barren','#e0602a'], K:['Knightmetal-Barren','#9fb59a'], L:['Steeleaf','#5c9a3c'], W:['Ironwood-Barren','#8a7a3a'],
- A:['Arctic Fur','#e9eef2'], Y:['Alpha-Yeti-Fell','#a9d3e8'], B:['Lohenrute','#f0a020'], T:['Netherite-Vorlage','#6a3fa0'],
- dC:['Diamant-Brustplatte','#4fd1c5'], dS:['Diamant-Schwert','#4fd1c5']
+ 'Diamant':'#4fd1c5','Eisenbarren':'#c9ccc7','Netherite-Barren':'#4a4446','Stock':'#9c6b3c','Bruchstein':'#8d918c','Goldbarren':'#e3b23c',
+ 'Fiery-Barren':'#e0602a','Knightmetal-Barren':'#9fb59a','Steeleaf':'#5c9a3c','Ironwood-Barren':'#8a7a3a','Arctic Fur':'#e9eef2','Alpha-Yeti-Fell':'#a9d3e8',
+ 'Lohenrute':'#f0a020','Lohenstaub':'#f6c453','Netherite-Vorlage':'#6a3fa0','Diamant-Brustplatte':'#4fd1c5','Diamant-Schwert':'#4fd1c5',
+ 'Netherite-Brustplatte':'#4a4446','Netherite-Schwert':'#4a4446','Ignitium-Barren':'#ff7a1a','Ignitium-Vorlage':'#c4521b','Cursium-Barren':'#59c8b8','Cursium-Vorlage':'#2f8f86',
+ 'Netherziegel':'#6a2f2f','Netherziegelblock':'#5a2626','Schild':'#a07040','Schwarzstahl-Barren':'#3a3d45','Lacrima':'#8fd3ff','Essence of the Storm':'#5a7cff',
+ 'Witherite-Barren':'#2b2b33','Schwarzpulver':'#6e6e6e','Redstone-Block':'#c0261f','Enderauge':'#3a9a6a','Netherite-Schrott':'#6b4a3a','Lavaeimer':'#e85a10',
+ 'Schwarzstein':'#2f2a30','Seelensand':'#6a5040','Blitzableiter':'#c87a4a','Prismarinscherbe':'#5fa79a','Prismarinkristalle':'#cfe8d8','Wassereimer':'#3f76e4',
+ 'Purpursäule':'#a77ba7','Purpurblock':'#b48ab4','Shulkerschale':'#8e6aa0','Endsteinziegel':'#e6e4a8','Weinender Obsidian':'#4a2a8a','Obsidian':'#1e1630',
+ 'Gemeißelter Sandstein':'#d8c58a','Smaragd':'#2ecc71','Toter Busch':'#8a6a3a','Kaktus':'#3f8a3a','Verrottetes Fleisch':'#9a5a3a','Knochen':'#ece8d8','Phantomhaut':'#b8b6c8',
+ 'Monstrous Eye':'#e85a10','Void Eye':'#8e6aa0','Mech Eye':'#c0261f','Desert Eye':'#d8c58a','Abyss Eye':'#4a2a8a','Storm Eye':'#5a7cff','Cursed Eye':'#59c8b8','Flame Eye':'#f0a020',
+ 'Ceraunus':'#5a7cff','Astrape':'#8fd3ff','Naga-Schuppe':'#4c8532','Giant Cobblestone':'#7a7e79','Giant Log':'#6b4a2a'
 };
+function lum(h){const n=parseInt(h.slice(1),16);return (0.299*(n>>16)+0.587*((n>>8)&255)+0.114*(n&255))/255}
 const CHEST=['X X','XXX','XXX'], SWORD=[' X ',' X ',' S '];
+const g=(rows,key)=>({grid:rows,key});
 const REC={
- 'Netherite':{smith:['T','dC','N'],note:'Am Schmiedetisch, gilt genauso für Helm, Hose und Stiefel.'},
- 'Diamant':{grid:CHEST,X:'D',note:'Am Beispiel der Brustplatte. Helm, Hose und Stiefel in den üblichen Formen.'},
- 'Eisen':{grid:CHEST,X:'I',note:'Am Beispiel der Brustplatte.'},
- 'Fiery Armor':{grid:CHEST,X:'F',note:'Fiery-Barren: Fiery Blood oder Fiery Tears zusammen mit einem Eisenbarren.'},
- 'Knightmetal':{grid:CHEST,X:'K',note:'Knightmetal-Barren: Armor Shards zu einem Cluster verarbeiten und schmelzen.'},
- 'Steeleaf':{grid:CHEST,X:'L',note:'Am Beispiel der Brustplatte.'},
- 'Ironwood':{grid:CHEST,X:'W',note:'Ironwood: Liveroot, Rohes Eisen und Goldnugget herstellen, dann schmelzen.'},
- 'Arctic Armor':{grid:CHEST,X:'A',note:'Am Beispiel der Brustplatte.'},
- 'Alpha-Yeti-Rüstung':{grid:CHEST,X:'Y',note:'Am Beispiel der Brustplatte.'},
- 'Kette / Gold':{grid:CHEST,X:'G',note:'Goldrüstung. Kettenrüstung lässt sich nicht herstellen, nur finden oder ertauschen.'},
- 'Netherite-Schwert / -Axt':{smith:['T','dS','N'],note:'Am Schmiedetisch, die Axt genauso mit einer Diamant-Axt.'},
- 'Diamant-Schwert':{grid:SWORD,X:'D'},
- 'Eisen-Schwert':{grid:SWORD,X:'I'},
- 'Steinwerkzeuge':{grid:SWORD,X:'C',note:'Am Beispiel des Schwerts.'},
- 'Knightmetal Sword / Axe':{grid:SWORD,X:'K',note:'Am Beispiel des Schwerts.'},
- 'Steeleaf / Ironwood Sword':{grid:SWORD,X:'L',note:'Steeleaf-Schwert. Das Ironwood-Schwert genauso mit Ironwood-Barren.'},
- 'Fiery Sword':{grid:[' X ',' X ',' B '],note:'Statt eines Stocks wird eine Lohenrute als Griff verwendet.'},
+ 'Netherite':{steps:[{smith:['Netherite-Vorlage','Diamant-Brustplatte','Netherite-Barren']}],note:'Am Schmiedetisch. Helm, Hose und Stiefel genauso mit dem jeweiligen Diamant-Teil.'},
+ 'Ignitium-Rüstung':{steps:[
+   {title:'1. Ignitium-Vorlage herstellen',out:'Ignitium-Vorlage',...g(['N#N','#O#','N#N'],{N:'Netherziegelblock','#':'Lohenstaub',O:'Netherite-Vorlage'})},
+   {title:'2. Am Schmiedetisch aufwerten',smith:['Ignitium-Vorlage','Netherite-Brustplatte','Ignitium-Barren']}],
+   note:'Die Vorlage wird beim Aufwerten verbraucht, für vier Teile also vier Vorlagen bauen. Basis ist immer das passende Netherite-Teil.'},
+ 'Cursium-Rüstung':{steps:[
+   {title:'1. Cursium-Vorlage herstellen',out:'Cursium-Vorlage',...g(['###','NON','###'],{'#':'Goldbarren',N:'Schwarzstahl-Barren',O:'Netherite-Vorlage'})},
+   {title:'2. Am Schmiedetisch aufwerten',smith:['Cursium-Vorlage','Netherite-Brustplatte','Cursium-Barren']}],
+   note:'Gilt für alle vier Teile, Basis ist das passende Netherite-Teil. Schwarzstahl findet ihr in Cataclysm-Strukturen.'},
+ 'The Incinerator':{steps:[g([' /#','/#/','N/ '],{'/':'Lohenrute','#':'Ignitium-Barren',N:'Netherite-Schwert'})],note:'Dafür wird ein Netherite-Schwert verbraucht.'},
+ 'Ceraunus / Astrape':{steps:[
+   {title:'Ceraunus',out:'Ceraunus',...g(['X#X',' # ',' # '],{X:'Essence of the Storm','#':'Lacrima'})},
+   {title:'Astrape',out:'Astrape',...g([' X#',' #X','#  '],{X:'Essence of the Storm','#':'Lacrima'})}]},
+ 'Diamant':{steps:[g(CHEST,{X:'Diamant'})],note:'Am Beispiel der Brustplatte.'},
+ 'Eisen':{steps:[g(CHEST,{X:'Eisenbarren'})],note:'Am Beispiel der Brustplatte.'},
+ 'Fiery Armor':{steps:[g(CHEST,{X:'Fiery-Barren'})],note:'Am Beispiel der Brustplatte. Fiery-Barren: Fiery Blood oder Fiery Tears zusammen mit einem Eisenbarren.'},
+ 'Knightmetal':{steps:[g(CHEST,{X:'Knightmetal-Barren'})],note:'Am Beispiel der Brustplatte. Knightmetal-Barren: Armor Shards zu einem Cluster verarbeiten und schmelzen.'},
+ 'Steeleaf':{steps:[g(CHEST,{X:'Steeleaf'})],note:'Am Beispiel der Brustplatte.'},
+ 'Ironwood':{steps:[g(CHEST,{X:'Ironwood-Barren'})],note:'Am Beispiel der Brustplatte. Ironwood: Liveroot, Rohes Eisen und Goldnugget herstellen, dann schmelzen.'},
+ 'Arctic Armor':{steps:[g(CHEST,{X:'Arctic Fur'})],note:'Am Beispiel der Brustplatte.'},
+ 'Alpha-Yeti-Rüstung':{steps:[g(CHEST,{X:'Alpha-Yeti-Fell'})],note:'Am Beispiel der Brustplatte.'},
+ 'Kette / Gold':{steps:[g(CHEST,{X:'Goldbarren'})],note:'Goldrüstung. Kettenrüstung lässt sich nicht herstellen, nur finden oder ertauschen.'},
+ 'Netherite-Schwert / -Axt':{steps:[{smith:['Netherite-Vorlage','Diamant-Schwert','Netherite-Barren']}],note:'Am Schmiedetisch, die Axt genauso mit einer Diamant-Axt.'},
+ 'Diamant-Schwert':{steps:[g(SWORD,{X:'Diamant',S:'Stock'})]},
+ 'Eisen-Schwert':{steps:[g(SWORD,{X:'Eisenbarren',S:'Stock'})]},
+ 'Steinwerkzeuge':{steps:[g(SWORD,{X:'Bruchstein',S:'Stock'})],note:'Am Beispiel des Schwerts.'},
+ 'Knightmetal Sword / Axe':{steps:[g(SWORD,{X:'Knightmetal-Barren',S:'Stock'})],note:'Am Beispiel des Schwerts.'},
+ 'Steeleaf / Ironwood Sword':{steps:[g(SWORD,{X:'Steeleaf',S:'Stock'})],note:'Steeleaf-Schwert. Das Ironwood-Schwert genauso mit Ironwood-Barren.'},
+ 'Naga-Rüstung':{steps:[g(CHEST,{X:'Naga-Schuppe'})],note:'Brustplatte. Die Hose entsteht genauso in der normalen Hosenform.'},
+ 'Giant Sword':{steps:[g([' X ',' X ',' S '],{X:'Giant Cobblestone',S:'Giant Log'})],note:'Riesen-Bruchstein und Riesen-Holz findet ihr bei den Riesen an den Wolkenburgen.'},
+ 'Fiery Sword':{steps:[g(SWORD,{X:'Fiery-Barren',S:'Lohenrute'})],note:'Statt eines Stocks wird eine Lohenrute als Griff verwendet.'},
 };
-function cell(k){ if(!k||k===' ') return '<div class="slot"></div>'; const [n,c]=ING[k]; return `<div class="slot" title="${n}"><i style="background:${c}">${k.length>1?'':k}</i></div>`; }
+const EYES={
+ 'Netherite Monstrosity':{out:'Monstrous Eye',...g(['#N#','GEG','#N#'],{'#':'Lavaeimer',N:'Netherite-Schrott',G:'Schwarzstein',E:'Enderauge'})},
+ 'Ender Guardian':{out:'Void Eye',...g(['#S#','EVE','PSP'],{'#':'Purpursäule',S:'Shulkerschale',E:'Endsteinziegel',V:'Enderauge',P:'Purpurblock'})},
+ 'The Harbinger':{out:'Mech Eye',...g(['#i#','iEi','#i#'],{'#':'Redstone-Block',i:'Eisenbarren',E:'Enderauge'})},
+ 'Ancient Remnant':{out:'Desert Eye',...g(['gCE','DOG','RCB'],{g:'Goldbarren',C:'Gemeißelter Sandstein',E:'Smaragd',D:'Toter Busch',O:'Enderauge',G:'Kaktus',R:'Verrottetes Fleisch',B:'Knochen'})},
+ 'The Leviathan':{out:'Abyss Eye',...g(['#O#','OEO','#O#'],{'#':'Weinender Obsidian',O:'Obsidian',E:'Enderauge'})},
+ 'Scylla':{out:'Storm Eye',...g(['#L#','EVE','CWC'],{'#':'Prismarinscherbe',L:'Blitzableiter',E:'Diamant',V:'Enderauge',C:'Prismarinkristalle',W:'Wassereimer'})},
+ 'Maledictus':{out:'Cursed Eye',...g(['gBg','PEP','gRg'],{g:'Goldbarren',B:'Knochen',P:'Phantomhaut',E:'Enderauge',R:'Verrottetes Fleisch'})},
+ 'Ignis':{out:'Flame Eye',...g(['###','NEN','SSS'],{'#':'Lohenstaub',N:'Netherite-Schrott',E:'Enderauge',S:'Seelensand'})},
+};
+function tile(name,letter){ const c=ING[name]||'#888'; const fg=lum(c)>.6?'#1c2119':'#fff'; return `<i style="background:${c};color:${fg}">${letter}</i>`; }
+function stepHTML(st,outIcon){
+  const letters={}; let n=0; const L='ABCDEFGHIJ';
+  const letterOf=nm=>letters[nm]||(letters[nm]=L[n++]);
+  let slots;
+  if(st.smith){ slots='<div class="smith">'+st.smith.map(nm=>`<div class="slot" title="${nm}">${tile(nm,letterOf(nm))}</div>`).join('')+'</div>'; }
+  else {
+    const rows=st.grid.map(r=>r.padEnd(3,' '));
+    const cells=[]; for(let y=0;y<3;y++) for(let x=0;x<3;x++){ const ch=(rows[y]||'   ')[x]; const nm=ch&&ch!==' '?st.key[ch]:null; cells.push(nm?`<div class="slot" title="${nm}">${tile(nm,letterOf(nm))}</div>`:'<div class="slot"></div>'); }
+    slots='<div class="grid3">'+cells.join('')+'</div>';
+  }
+  const out=st.out?`<div class="result" title="${st.out}">${tile(st.out,'')}</div>`:`<div class="result">${outIcon}</div>`;
+  const leg=Object.entries(letters).map(([nm,l])=>`<span>${tile(nm,l)}${nm}</span>`).join('');
+  return `${st.title?`<p class="rstep">${st.title}</p>`:''}<div class="recwrap">${slots}<span class="arrow">→</span>${out}<div class="legend">${leg}</div></div>`;
+}
 function renderRecipe(name,it){
   const box=$('rec'), r=REC[name];
   if(!r){
     const drop=/Drop|droppt|Truhen|Riesen/.test(it.make+it.get);
     $('rec-title').textContent=drop?'Herkunft':'Rezept';
-    box.innerHTML=`<div class="recdrop">${drop?'Kein Rezept nötig, das bekommst du direkt als Beute.':'Das genaue Rezept hängt von der Mod-Version ab. Im Spiel per JEI nachsehen: Item suchen und R drücken.'}</div>`;
+    box.innerHTML=`<div class="recdrop">${drop?'Kein Rezept nötig, das bekommst du direkt als Beute.':'Wird nicht an der Werkbank hergestellt. Wie du es bekommst, steht oben.'}</div>`;
     return;
   }
-  $('rec-title').textContent=r.smith?'Rezept · Schmiedetisch':'Rezept · Werkbank';
-  let keys=[], slots='';
-  if(r.smith){ slots='<div class="smith">'+r.smith.map(cell).join('')+'</div>'; keys=r.smith; }
-  else { const g=r.grid.join('').split('').map(ch=>ch==='X'?r.X:(ch===' '?' ':ch)); slots='<div class="grid3">'+g.map(cell).join('')+'</div>'; keys=g.filter(k=>k!==' '); }
-  const uniq=[...new Set(keys)];
-  const leg=uniq.map(k=>`<span><i style="background:${ING[k][1]}">${k.length>1?'':k}</i>${ING[k][0]}</span>`).join('');
-  box.innerHTML=`<div class="recwrap">${slots}<span class="arrow">→</span><div class="result"><canvas id="rec-out" width="12" height="12"></canvas></div><div class="legend">${leg}</div></div>${r.note?`<p class="recnote">${r.note}</p>`:''}<p class="recnote">Mod-Rezepte können sich zwischen Versionen ändern. Im Zweifel zeigt JEI im Spiel das aktuelle Rezept.</p>`;
-  itemIcon($('rec-out'),it);
+  $('rec-title').textContent='Rezept';
+  box.innerHTML=r.steps.map((st,i)=>stepHTML(st,`<canvas class="rec-out" width="12" height="12"></canvas>`)).join('<div class="rsep"></div>')+(r.note?`<p class="recnote">${r.note}</p>`:'');
+  box.querySelectorAll('.rec-out').forEach(cv=>itemIcon(cv,it));
 }
 document.querySelectorAll('.item[data-item]').forEach(btn=>btn.addEventListener('click',()=>{const it=ITEMS[btn.dataset.item]; if(it) renderRecipe(btn.dataset.item,it);}));
+// Boss locator eyes
+const eyeBlock=document.getElementById('dlg-eye');
+document.querySelectorAll('button.boss').forEach(btn=>btn.addEventListener('click',()=>{
+  const name=btn.querySelector('h3').textContent, e=EYES[name];
+  eyeBlock.hidden=!e; if(!e) return;
+  $('eye-body').innerHTML=`<p class="recnote" style="margin:0 0 10px">Zeigt beim Werfen die Richtung zur Struktur, wie ein Enderauge.</p>`+stepHTML({...e,title:e.out},'');
+}));
+
 </script>
 </body>
 </html>
