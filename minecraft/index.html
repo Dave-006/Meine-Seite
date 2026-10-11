@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@500;700&family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap">
 <style>
-/* Layout: stacked chapters like a quest log – hero with server card, then progression, bosses, tier lists */
+/* Layout: stacked chapters like a quest log, hero with server card, then progression, bosses, tier lists */
 :root{
   --bg:#eef0ea; --surface:#ffffff; --surface-2:#e3e7dd; --line:#cdd3c6;
   --fg:#1c2119; --muted:#5c6656;
@@ -16,6 +16,8 @@
   --moss:#3f7a3a; --moss-soft:#d9ead4;
   --void:#6a3fa0; --void-soft:#e7dcf4;
   --tide:#1f6f8b; --tide-soft:#d3e8ef;
+  --dirt:#8a5a35; --dirt-2:#74482a; --grass:#5c9a3c; --grass-2:#4c8532; --stone:#8d918c; --stone-2:#7a7e79; --deep:#4f5452; --ore-d:#4fd1c5; --ore-g:#e3b23c; --ore-r:#d0342c;
+  --shadow:0 1px 0 rgba(0,0,0,.04),0 8px 24px -12px rgba(28,33,25,.25);
   --tS:#c4521b; --tA:#b8860b; --tB:#3f7a3a; --tC:#1f6f8b; --tD:#6b7266;
   --f-display:"Pixelify Sans", "Courier New", monospace;
   --f-body:"Instrument Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
@@ -29,6 +31,8 @@
   --moss:#7cc06f; --moss-soft:#1f3020;
   --void:#b48ae8; --void-soft:#2c2240;
   --tide:#5fb6d4; --tide-soft:#16303a;
+  --dirt:#6d4628; --dirt-2:#5a3a20; --grass:#4f8a34; --grass-2:#3f742a; --stone:#5b605d; --stone-2:#4c514e; --deep:#2e3331; --ore-d:#5fe0d3; --ore-g:#f0c04a; --ore-r:#e04a3e;
+  --shadow:0 1px 0 rgba(0,0,0,.3),0 10px 28px -12px rgba(0,0,0,.6);
   --tS:#f07a3e; --tA:#e0b23c; --tB:#7cc06f; --tC:#5fb6d4; --tD:#8d958a;
   color-scheme:dark;
 }}
@@ -39,6 +43,8 @@
   --moss:#7cc06f; --moss-soft:#1f3020;
   --void:#b48ae8; --void-soft:#2c2240;
   --tide:#5fb6d4; --tide-soft:#16303a;
+  --dirt:#6d4628; --dirt-2:#5a3a20; --grass:#4f8a34; --grass-2:#3f742a; --stone:#5b605d; --stone-2:#4c514e; --deep:#2e3331; --ore-d:#5fe0d3; --ore-g:#f0c04a; --ore-r:#e04a3e;
+  --shadow:0 1px 0 rgba(0,0,0,.3),0 10px 28px -12px rgba(0,0,0,.6);
   --tS:#f07a3e; --tA:#e0b23c; --tB:#7cc06f; --tC:#5fb6d4; --tD:#8d958a;
   color-scheme:dark;
 }
@@ -170,6 +176,38 @@ footer{color:var(--muted);font-size:.85rem;border-top:1px solid var(--line);padd
 .wrap{padding-top:40px}
 .view#start{display:flex;flex-direction:column;gap:56px}
 .view#start .hero{padding-top:0}
+
+/* Polish */
+.hero h1{text-shadow:4px 4px 0 var(--surface-2)}
+.sec-head .eyebrow{display:inline-flex;align-items:center;gap:8px}
+.sec-head .eyebrow::before{content:"";width:8px;height:8px;background:var(--ember)}
+.server{border-width:2px;box-shadow:var(--shadow)}
+.addr code{box-shadow:inset 2px 2px 0 rgba(0,0,0,.08)}
+.terrain{display:block;width:calc(100% + 32px);margin-inline:-16px;height:112px;image-rendering:pixelated}
+.steps li{background:var(--surface);border:1px solid var(--line);border-top:3px solid var(--fg);border-radius:0 0 var(--r) var(--r);padding:14px 16px 16px}
+.modgroup{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:18px}
+.modgroup h3{display:flex;align-items:center;gap:8px}
+.modgroup h3::before{content:"";width:10px;height:10px;background:var(--c,var(--ember))}
+.modgroup:nth-child(1){--c:var(--ember)} .modgroup:nth-child(2){--c:var(--moss)} .modgroup:nth-child(3){--c:var(--tide)}
+.modgroup li:last-child{border-bottom:0;padding-bottom:0}
+.boss{--c:var(--line);border-top:4px solid var(--c);box-shadow:var(--shadow)}
+.boss:has(.dim.ow),.boss:has(.dim.tf){--c:var(--moss)} .boss:has(.dim.ne){--c:var(--ember)} .boss:has(.dim.en){--c:var(--void)} .boss:has(.dim.oc){--c:var(--tide)}
+.boss h3{font-size:1.35rem}
+.boss .tip{border-left-color:var(--c)}
+.tier{box-shadow:var(--shadow)}
+.tier .t{text-shadow:2px 2px 0 rgba(0,0,0,.18)}
+.item{border:1px solid var(--line)}
+.tips div{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:16px}
+.tips b{display:flex;align-items:center;gap:8px}
+.tips b::before{content:"";width:8px;height:8px;background:var(--moss)}
+.portal{border:1px solid var(--moss)}
+@media (prefers-reduced-motion:no-preference){
+  .boss,.item,.modgroup{transition:transform .15s ease, box-shadow .15s ease}
+  .boss:hover{transform:translateY(-3px)}
+  .item:hover{transform:translateY(-2px)}
+  .view{animation:in .25s ease both}
+  @keyframes in{from{transform:translateY(6px)}to{transform:none}}
+}
 </style>
 </head>
 <body>
@@ -192,7 +230,7 @@ footer{color:var(--muted);font-size:.85rem;border-top:1px solid var(--line);padd
   <div class="hero-text">
     <span class="eyebrow">Unser Server · Saison 1</span>
     <h1>Cataclysm <span class="amp">&</span> Twilight</h1>
-    <p class="lede">Vanilla+ für sieben Leute: schönere Welt, ein Grab statt Item-Verlust, Waystones zum Teleportieren – und genug Bosse, dass nach dem Enderdrachen erst richtig was los ist.</p>
+    <p class="lede">Vanilla+ für sieben Leute: schönere Welt, ein Grab statt Item-Verlust, Waystones zum Teleportieren. Dazu genug Bosse, dass es nach dem Enderdrachen erst richtig losgeht.</p>
     <div class="tags">
       <span class="tag">Minecraft 1.21.1</span>
       <span class="tag">NeoForge</span>
@@ -211,13 +249,14 @@ footer{color:var(--muted);font-size:.85rem;border-top:1px solid var(--line);padd
     <div class="row"><span>Launcher</span><span>CurseForge App</span></div>
   </aside>
 </header>
+<canvas class="terrain" id="terrain" aria-hidden="true"></canvas>
 
 <section id="join" class="joinsec">
   <div class="sec-head"><span class="eyebrow">So kommst du rein</span><h2>In vier Schritten auf den Server</h2></div>
   <ol class="steps">
     <li><b>CurseForge App installieren</b><span>Von curseforge.com herunterladen und mit dem Minecraft-Account verbinden.</span></li>
     <li><b>Modpack importieren</b><span>Die ZIP aus der Gruppe über „Import“ laden. Alle Mods kommen automatisch mit.</span></li>
-    <li><b>RAM einstellen</b><span>In den Einstellungen 6–8 GB für Minecraft freigeben.</span></li>
+    <li><b>RAM einstellen</b><span>In den Einstellungen 6 bis 8 GB für Minecraft freigeben.</span></li>
     <li><b>Joinen</b><span>Spiel starten → Multiplayer → Adresse oben einfügen.</span></li>
   </ol>
 </section>
@@ -252,9 +291,9 @@ footer{color:var(--muted);font-size:.85rem;border-top:1px solid var(--line);padd
 <section id="route" class="view" hidden>
   <div class="sec-head"><span class="eyebrow">Fortschritt</span><h2>Der Weg nach oben</h2><p class="lede">Grobe Reihenfolge, damit ihr nicht mit Eisen-Rüstung vor Ignis steht.</p></div>
   <div class="route">
-    <div class="stage"><span class="when">Tag 1–2</span><h3>Eisen & Loot</h3><ul><li>Höhlen nach Eisen</li><li>YUNG's-Minen und Dungeons plündern</li><li>Waystone an der Basis</li></ul></div>
-    <div class="stage"><span class="when">Tag 2–4</span><h3>Diamant & Mending</h3><ul><li>Diamanten auf Y −58</li><li>Bibliothekar auf Mending rollen</li><li>Zaubertisch + 15 Regale</li></ul></div>
-    <div class="stage"><span class="when">Tag 4–7</span><h3>Twilight Forest</h3><ul><li>Naga & Lich zuerst</li><li>Ironwood, später Knightmetal</li><li>Hydra für Fiery-Gear</li></ul></div>
+    <div class="stage"><span class="when">Tag 1 bis 2</span><h3>Eisen & Loot</h3><ul><li>Höhlen nach Eisen</li><li>YUNG's-Minen und Dungeons plündern</li><li>Waystone an der Basis</li></ul></div>
+    <div class="stage"><span class="when">Tag 2 bis 4</span><h3>Diamant & Mending</h3><ul><li>Diamanten auf Y -58</li><li>Bibliothekar auf Mending rollen</li><li>Zaubertisch + 15 Regale</li></ul></div>
+    <div class="stage"><span class="when">Tag 4 bis 7</span><h3>Twilight Forest</h3><ul><li>Naga & Lich zuerst</li><li>Ironwood, später Knightmetal</li><li>Hydra für Fiery-Gear</li></ul></div>
     <div class="stage"><span class="when">Midgame</span><h3>Netherite</h3><ul><li>Ancient Debris um Y 15</li><li>Upgrade-Templates aus Bastionen</li><li>Erste Cataclysm-Bosse</li></ul></div>
     <div class="stage hot"><span class="when">Endgame</span><h3>Cataclysm</h3><ul><li>Volle Netherite + Protection IV</li><li>Bosse in empfohlener Reihenfolge</li><li>Ignis als Finale</li></ul></div>
   </div>
@@ -270,22 +309,22 @@ footer{color:var(--muted);font-size:.85rem;border-top:1px solid var(--line);padd
   <div id="p-cat" role="tabpanel" aria-labelledby="tab-cat" class="bosses">
     <article class="boss"><header><h3>Netherite Monstrosity</h3><span class="dim ne">Nether</span></header>
       <dl><dt>Ort</dt><dd>Soul Black Smith</dd><dt>Beute</dt><dd>Infernal Forge, Asche für Ignis</dd></dl>
-      <p class="tip">Lässt sich in Lava heilen und lädt dort seinen Fernangriff auf – weg von der Lava locken.</p><span class="n">01</span></article>
+      <p class="tip">Lässt sich in Lava heilen und lädt dort seinen Fernangriff auf. Lockt ihn von der Lava weg.</p><span class="n">01</span></article>
     <article class="boss"><header><h3>Ender Guardian</h3><span class="dim en">End</span></header>
       <dl><dt>Ort</dt><dd>Ruined Citadel</dd><dt>Beute</dt><dd>Gauntlet of Guard</dd></dl>
       <p class="tip">Großer Bruder des Ender Golems. Den Golem vorher als Aufwärmrunde nutzen.</p><span class="n">02</span></article>
     <article class="boss"><header><h3>The Harbinger</h3><span class="dim ow">Overworld</span></header>
       <dl><dt>Ort</dt><dd>Ancient Factory (Höhlen)</dd><dt>Beschwörung</dt><dd>Nether Star</dd></dl>
-      <p class="tip">Raketen und Laser. EMP-Blöcke betäuben ihn kurz – außer während des Todeslasers.</p><span class="n">03</span></article>
+      <p class="tip">Raketen und Laser. EMP-Blöcke betäuben ihn kurz, nur nicht während des Todeslasers.</p><span class="n">03</span></article>
     <article class="boss"><header><h3>Ancient Remnant</h3><span class="dim ow">Overworld</span></header>
       <dl><dt>Ort</dt><dd>Cursed Pyramid (Wüste)</dd><dt>Beute</dt><dd>Wüsten-Waffen</dd></dl>
-      <p class="tip">Viel offene Fläche – Ausdauer und Heiltränke mitnehmen.</p><span class="n">04</span></article>
+      <p class="tip">Viel offene Fläche. Nehmt genug Heiltränke mit.</p><span class="n">04</span></article>
     <article class="boss"><header><h3>The Leviathan</h3><span class="dim oc">Ozean</span></header>
       <dl><dt>Ort</dt><dd>Sunken City</dd><dt>Beschwörung</dt><dd>Abyssal Sacrifice</dd><dt>Beute</dt><dd>Tidal Claws</dd></dl>
       <p class="tip">Unterwasser-Kampf: Wasseratmung oder Conduit vorher besorgen.</p><span class="n">05</span></article>
     <article class="boss"><header><h3>Scylla</h3><span class="dim oc">Ozean</span></header>
       <dl><dt>Ort</dt><dd>Acropolis</dd><dt>Beute</dt><dd>Ceraunus, Astrape</dd></dl>
-      <p class="tip">Einer der härtesten Kämpfe – erst nach Leviathan angehen.</p><span class="n">06</span></article>
+      <p class="tip">Einer der härtesten Kämpfe. Erst nach dem Leviathan angehen.</p><span class="n">06</span></article>
     <article class="boss"><header><h3>Maledictus</h3><span class="dim ow">Overworld</span></header>
       <dl><dt>Ort</dt><dd>Frosted Prison (Schnee)</dd><dt>Beute</dt><dd>Cursium-Material</dd></dl>
       <p class="tip">Sehr aggressiv und schnell. Nur mit voller Ausrüstung und Team.</p><span class="n">07</span></article>
@@ -305,11 +344,11 @@ footer{color:var(--muted);font-size:.85rem;border-top:1px solid var(--line);padd
     <article class="boss"><header><h3>Hydra</h3><span class="dim tf">Feuersumpf</span></header>
       <dl><dt>Beute</dt><dd>Fiery Blood → Fiery-Gear</dd></dl><p class="tip">Feuerresistenz! Köpfe einzeln angreifen, wenn sie zubeißen.</p><span class="n">04</span></article>
     <article class="boss"><header><h3>Knight Phantoms</h3><span class="dim tf">Dunkelwald</span></header>
-      <dl><dt>Beute</dt><dd>Phantom-Rüstung, Knightmetal</dd></dl><p class="tip">Mehrere Gegner gleichzeitig – zu zweit oder dritt rein.</p><span class="n">05</span></article>
+      <dl><dt>Beute</dt><dd>Phantom-Rüstung, Knightmetal</dd></dl><p class="tip">Mehrere Gegner gleichzeitig, also besser zu zweit oder dritt rein.</p><span class="n">05</span></article>
     <article class="boss"><header><h3>Ur-Ghast</h3><span class="dim tf">Dunkler Turm</span></header>
       <dl><dt>Beute</dt><dd>Fiery Tears</dd></dl><p class="tip">Gute Bögen vorbereiten, viel Fernkampf.</p><span class="n">06</span></article>
     <article class="boss"><header><h3>Alpha Yeti</h3><span class="dim tf">Schneewald</span></header>
-      <dl><dt>Beute</dt><dd>Alpha-Yeti-Fell → Arctic-Rüstung</dd></dl><p class="tip">Eiszapfen vom Himmel – ständig in Bewegung bleiben.</p><span class="n">07</span></article>
+      <dl><dt>Beute</dt><dd>Alpha-Yeti-Fell → Arctic-Rüstung</dd></dl><p class="tip">Eiszapfen fallen vom Himmel. Bleibt ständig in Bewegung.</p><span class="n">07</span></article>
     <article class="boss"><header><h3>Snow Queen</h3><span class="dim tf">Aurora-Palast</span></header>
       <dl><dt>Beute</dt><dd>Ice Bow, Zugang zum Hochland</dd></dl><p class="tip">Letzter großer Boss vor dem Endgebiet.</p><span class="n">08</span></article>
   </div>
@@ -375,7 +414,7 @@ footer{color:var(--muted);font-size:.85rem;border-top:1px solid var(--line);padd
     <div><b>Waystones früh setzen</b><span>An Basis, Dorf und jedem Portal. Spart später Stunden Laufweg.</span></div>
     <div><b>Sterben ist okay</b><span>Gravestone sammelt eure Items in einem Grab. Zurücklaufen und einsammeln.</span></div>
     <div><b>JEI benutzen</b><span>Taste R auf einem Item zeigt das Rezept, U zeigt, wofür man es braucht.</span></div>
-    <div><b>Aufgaben teilen</b><span>Einer Villager, einer Dungeons, einer Minen – so seid ihr viel schneller.</span></div>
+    <div><b>Aufgaben teilen</b><span>Einer Villager, einer Dungeons, einer Minen. So seid ihr viel schneller.</span></div>
     <div><b>Bosse im Team</b><span>Cataclysm-Bosse sind für Gruppen gemacht. Zu dritt deutlich entspannter.</span></div>
     <div><b>Shader?</b><span>Iris ist raus, weil es mit unserer Sodium-Version crasht. Kommt evtl. per Update.</span></div>
   </div>
@@ -412,6 +451,32 @@ function show(id,push){
 links.forEach(a=>a.addEventListener('click',e=>{e.preventDefault();show(a.dataset.view,true);}));
 window.addEventListener('hashchange',()=>show(location.hash.slice(1)));
 show(location.hash.slice(1)||'start');
+
+(function(){
+  const c=document.getElementById('terrain'); if(!c) return;
+  const ctx=c.getContext('2d'); const B=8; let seed=7;
+  const rnd=()=>{seed=(seed*16807)%2147483647;return seed/2147483647};
+  function draw(){
+    const cs=getComputedStyle(document.documentElement), v=n=>cs.getPropertyValue(n).trim();
+    const w=Math.ceil(c.clientWidth/B), h=Math.ceil(c.clientHeight/B); c.width=w; c.height=h; seed=7;
+    const col={g:v('--grass'),g2:v('--grass-2'),d:v('--dirt'),d2:v('--dirt-2'),s:v('--stone'),s2:v('--stone-2'),k:v('--deep'),od:v('--ore-d'),og:v('--ore-g'),or:v('--ore-r')};
+    let top=3;
+    for(let x=0;x<w;x++){
+      if(rnd()<.18) top=Math.max(1,Math.min(6,top+(rnd()<.5?-1:1)));
+      for(let y=0;y<h;y++){
+        let f=null;
+        if(y===top) f=rnd()<.5?col.g:col.g2;
+        else if(y>top&&y<=top+3) f=rnd()<.6?col.d:col.d2;
+        else if(y>top+3){ const r=rnd(); f=y>h-3?col.k:(r<.5?col.s:col.s2);
+          if(r>.985) f=y>h-5?col.od:col.or; else if(r>.97) f=col.og; }
+        if(f){ctx.fillStyle=f;ctx.fillRect(x,y,1,1);}
+      }
+    }
+  }
+  draw(); addEventListener('resize',draw);
+  matchMedia('(prefers-color-scheme: dark)').addEventListener('change',draw);
+  new MutationObserver(draw).observe(document.documentElement,{attributes:true,attributeFilter:['data-theme']});
+})();
 </script>
 </body>
 </html>
