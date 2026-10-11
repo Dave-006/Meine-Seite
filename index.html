@@ -3,73 +3,628 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Meine Seite</title>
+<title>Cataclysm & Twilight</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@500;700&family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap">
 <style>
-  :root {
-    --bg: #f6f4ef;
-    --fg: #1d1d1b;
-    --muted: #6b6a66;
-    --accent: #2f6f4e;
-    --card: #ffffff;
-    --line: #e4e1d8;
-  }
-  @media (prefers-color-scheme: dark) {
-    :root {
-      --bg: #141513;
-      --fg: #ecebe6;
-      --muted: #9a9993;
-      --accent: #7fc4a0;
-      --card: #1d1f1c;
-      --line: #2c2e2a;
-    }
-  }
-  * { box-sizing: border-box; }
-  body {
-    margin: 0;
-    background: var(--bg);
-    color: var(--fg);
-    font: 17px/1.6 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 24px 16px;
-  }
-  main {
-    width: 100%;
-    max-width: 560px;
-    background: var(--card);
-    border: 1px solid var(--line);
-    border-radius: 16px;
-    padding: 40px 32px;
-  }
-  .tag {
-    display: inline-block;
-    font-size: 13px;
-    letter-spacing: .04em;
-    text-transform: uppercase;
-    color: var(--accent);
-    margin-bottom: 12px;
-  }
-  h1 { font-size: 34px; line-height: 1.15; margin: 0 0 12px; }
-  p { margin: 0 0 16px; color: var(--muted); }
-  footer {
-    margin-top: 28px;
-    padding-top: 16px;
-    border-top: 1px solid var(--line);
-    font-size: 14px;
-    color: var(--muted);
-  }
+/* Layout: stacked chapters like a quest log, hero with server card, then progression, bosses, tier lists */
+:root{
+  --bg:#eef0ea; --surface:#ffffff; --surface-2:#e3e7dd; --line:#cdd3c6;
+  --fg:#1c2119; --muted:#5c6656;
+  --ember:#c4521b; --ember-soft:#f6dccd;
+  --moss:#3f7a3a; --moss-soft:#d9ead4;
+  --void:#6a3fa0; --void-soft:#e7dcf4;
+  --tide:#1f6f8b; --tide-soft:#d3e8ef;
+  --dirt:#8a5a35; --dirt-2:#74482a; --grass:#5c9a3c; --grass-2:#4c8532; --stone:#8d918c; --stone-2:#7a7e79; --deep:#4f5452; --ore-d:#4fd1c5; --ore-g:#e3b23c; --ore-r:#d0342c;
+  --shadow:0 1px 0 rgba(0,0,0,.04),0 8px 24px -12px rgba(28,33,25,.25);
+  --tS:#c4521b; --tA:#b8860b; --tB:#3f7a3a; --tC:#1f6f8b; --tD:#6b7266;
+  --f-display:"Pixelify Sans", "Courier New", monospace;
+  --f-body:"Instrument Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --f-mono:"JetBrains Mono", ui-monospace, Consolas, monospace;
+  --r:6px;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --bg:#14171a; --surface:#1d2125; --surface-2:#262b30; --line:#343a40;
+  --fg:#e8ebe4; --muted:#9aa395;
+  --ember:#f07a3e; --ember-soft:#3a2418;
+  --moss:#7cc06f; --moss-soft:#1f3020;
+  --void:#b48ae8; --void-soft:#2c2240;
+  --tide:#5fb6d4; --tide-soft:#16303a;
+  --dirt:#6d4628; --dirt-2:#5a3a20; --grass:#4f8a34; --grass-2:#3f742a; --stone:#5b605d; --stone-2:#4c514e; --deep:#2e3331; --ore-d:#5fe0d3; --ore-g:#f0c04a; --ore-r:#e04a3e;
+  --shadow:0 1px 0 rgba(0,0,0,.3),0 10px 28px -12px rgba(0,0,0,.6);
+  --tS:#f07a3e; --tA:#e0b23c; --tB:#7cc06f; --tC:#5fb6d4; --tD:#8d958a;
+  color-scheme:dark;
+}}
+:root[data-theme="dark"]{
+  --bg:#14171a; --surface:#1d2125; --surface-2:#262b30; --line:#343a40;
+  --fg:#e8ebe4; --muted:#9aa395;
+  --ember:#f07a3e; --ember-soft:#3a2418;
+  --moss:#7cc06f; --moss-soft:#1f3020;
+  --void:#b48ae8; --void-soft:#2c2240;
+  --tide:#5fb6d4; --tide-soft:#16303a;
+  --dirt:#6d4628; --dirt-2:#5a3a20; --grass:#4f8a34; --grass-2:#3f742a; --stone:#5b605d; --stone-2:#4c514e; --deep:#2e3331; --ore-d:#5fe0d3; --ore-g:#f0c04a; --ore-r:#e04a3e;
+  --shadow:0 1px 0 rgba(0,0,0,.3),0 10px 28px -12px rgba(0,0,0,.6);
+  --tS:#f07a3e; --tA:#e0b23c; --tB:#7cc06f; --tC:#5fb6d4; --tD:#8d958a;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--f-body);font-size:16px;line-height:1.55;padding-inline:16px;padding-block:0 64px}
+.wrap{max-width:1040px;margin:0 auto;display:flex;flex-direction:column;gap:72px}
+h1,h2,h3{font-family:var(--f-display);font-weight:700;line-height:1.1;text-wrap:balance;margin:0}
+h2{font-size:clamp(1.8rem,4vw,2.4rem)}
+h3{font-size:1.25rem}
+p{margin:0}
+.eyebrow{font-family:var(--f-mono);font-size:.75rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.lede{color:var(--muted);max-width:62ch}
+section{display:flex;flex-direction:column;gap:24px}
+.sec-head{display:flex;flex-direction:column;gap:8px}
+
+/* Hero */
+.hero{padding-top:48px;display:grid;grid-template-columns:1.3fr 1fr;gap:32px;align-items:end}
+.hero h1{font-size:clamp(2.6rem,8vw,4.8rem);letter-spacing:-.01em}
+.hero h1 .amp{color:var(--ember)}
+.hero-text{display:flex;flex-direction:column;gap:16px;min-width:0}
+.tags{display:flex;flex-wrap:wrap;gap:8px}
+.tag{font-family:var(--f-mono);font-size:.8rem;padding:4px 10px;border:1px solid var(--line);border-radius:999px;background:var(--surface)}
+.server{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:20px;display:flex;flex-direction:column;gap:14px;min-width:0}
+.server .row{display:flex;justify-content:space-between;gap:12px;border-bottom:1px dashed var(--line);padding-bottom:10px;font-size:.95rem}
+.server .row:last-of-type{border-bottom:0}
+.server .row span:first-child{color:var(--muted)}
+.server .row span:last-child{font-family:var(--f-mono);text-align:right}
+.addr{display:flex;gap:8px;align-items:stretch}
+.addr code{flex:1;min-width:0;overflow-wrap:anywhere;font-family:var(--f-mono);font-size:.95rem;background:var(--surface-2);padding:10px 12px;border-radius:var(--r);user-select:all}
+button{font:inherit;cursor:pointer}
+.btn{background:var(--ember);color:var(--bg);border:0;border-radius:var(--r);padding:0 14px;font-weight:600}
+.btn:focus-visible,.tab:focus-visible{outline:2px solid var(--fg);outline-offset:2px}
+.status{display:inline-flex;align-items:center;gap:8px;font-size:.85rem;color:var(--muted)}
+.dot{width:8px;height:8px;background:var(--moss);border-radius:2px}
+
+/* Join steps */
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;counter-reset:s;list-style:none;padding:0;margin:0}
+.steps li{counter-increment:s;display:flex;flex-direction:column;gap:6px;padding-top:12px;border-top:3px solid var(--fg)}
+.steps li::before{content:counter(s);font-family:var(--f-display);font-size:1.6rem;color:var(--ember)}
+.steps li b{font-weight:600}
+.steps li span{color:var(--muted);font-size:.92rem}
+
+/* Mods */
+.mods{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.modgroup{display:flex;flex-direction:column;gap:10px}
+.modgroup h3{font-size:1rem;font-family:var(--f-body);font-weight:700}
+.modgroup ul{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:6px}
+.modgroup li{display:flex;justify-content:space-between;gap:8px;font-size:.95rem;border-bottom:1px solid var(--line);padding-bottom:6px}
+.modgroup li small{color:var(--muted);font-size:.8rem;text-align:right}
+
+/* Route */
+.route{display:grid;grid-template-columns:repeat(5,1fr);gap:0;position:relative}
+.stage{display:flex;flex-direction:column;gap:8px;padding:16px 14px 16px 0;border-top:3px solid var(--line);position:relative;min-width:0}
+.stage::before{content:"";position:absolute;top:-8px;left:0;width:13px;height:13px;background:var(--bg);border:3px solid var(--fg)}
+.stage.hot::before{background:var(--ember);border-color:var(--ember)}
+.stage .when{font-family:var(--f-mono);font-size:.75rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em}
+.stage h3{font-size:1.1rem}
+.stage ul{margin:0;padding-left:18px;font-size:.92rem;color:var(--muted);display:flex;flex-direction:column;gap:4px}
+
+/* Tabs */
+.tabs{display:flex;gap:4px;flex-wrap:wrap;border-bottom:1px solid var(--line)}
+.tab{background:none;border:0;border-bottom:3px solid transparent;padding:10px 14px;color:var(--muted);font-weight:600}
+.tab[aria-selected="true"]{color:var(--fg);border-bottom-color:var(--ember)}
+
+/* Bosses */
+.bosses{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+.boss{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:18px;display:flex;flex-direction:column;gap:10px;min-width:0}
+.boss header{display:flex;justify-content:space-between;align-items:baseline;gap:12px}
+.boss .n{font-family:var(--f-mono);font-size:.75rem;color:var(--muted);align-self:flex-end;letter-spacing:.1em}
+.boss .n::before{content:"Reihenfolge "}
+.dim{font-family:var(--f-mono);font-size:.72rem;padding:3px 8px;border-radius:999px;white-space:nowrap}
+.dim.ow{background:var(--moss-soft);color:var(--moss)}
+.dim.ne{background:var(--ember-soft);color:var(--ember)}
+.dim.en{background:var(--void-soft);color:var(--void)}
+.dim.oc{background:var(--tide-soft);color:var(--tide)}
+.dim.tf{background:var(--moss-soft);color:var(--moss)}
+.boss dl{display:grid;grid-template-columns:auto 1fr;gap:4px 12px;margin:0;font-size:.92rem}
+.boss dt{color:var(--muted)}
+.boss dd{margin:0;min-width:0}
+.boss .tip{font-size:.9rem;border-left:3px solid var(--ember);padding-left:10px;color:var(--fg)}
+.portal{background:var(--moss-soft);border-radius:var(--r);padding:16px 18px;display:flex;flex-direction:column;gap:6px}
+.portal b{color:var(--moss)}
+
+/* Tier list */
+.tiers{display:flex;flex-direction:column;gap:6px}
+.tier{display:grid;grid-template-columns:64px 1fr;gap:0;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
+.tier .t{font-family:var(--f-display);font-size:1.8rem;display:flex;align-items:center;justify-content:center;color:var(--bg)}
+.tier[data-t="S"] .t{background:var(--tS)} .tier[data-t="A"] .t{background:var(--tA)} .tier[data-t="B"] .t{background:var(--tB)} .tier[data-t="C"] .t{background:var(--tC)} .tier[data-t="D"] .t{background:var(--tD)}
+.items{display:flex;flex-wrap:wrap;gap:8px;padding:12px;min-width:0}
+.item{background:var(--surface-2);border-radius:4px;padding:6px 10px;display:flex;flex-direction:column;gap:1px;min-width:0}
+.item b{font-weight:600;font-size:.95rem}
+.item small{font-size:.78rem;color:var(--muted)}
+.note{font-size:.88rem;color:var(--muted)}
+
+/* Tips */
+.tips{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.tips div{display:flex;flex-direction:column;gap:6px;padding-top:12px;border-top:1px solid var(--line)}
+.tips b{font-weight:700}
+.tips span{color:var(--muted);font-size:.93rem}
+
+footer{color:var(--muted);font-size:.85rem;border-top:1px solid var(--line);padding-top:16px}
+
+@media (max-width:820px){
+  .hero{grid-template-columns:1fr;padding-top:32px}
+  .steps,.mods,.tips{grid-template-columns:1fr 1fr}
+  .route{grid-template-columns:1fr}
+  .stage{border-top:0;border-left:3px solid var(--line);padding:0 0 20px 20px}
+  .stage::before{top:2px;left:-8px}
+  .bosses{grid-template-columns:1fr}
+}
+@media (max-width:520px){
+  .steps,.mods,.tips{grid-template-columns:1fr}
+  .tier{grid-template-columns:48px 1fr}
+  .tier .t{font-size:1.4rem}
+}
+@media (prefers-reduced-motion:no-preference){ .tab{transition:color .15s,border-color .15s} }
+
+/* Top menu */
+.topnav{position:sticky;top:env(safe-area-inset-top,0px);z-index:10;background:var(--bg);border-bottom:1px solid var(--line);margin-inline:-16px;padding:0 16px;display:flex;align-items:center;gap:16px}
+.brand{font-family:var(--f-display);font-weight:700;font-size:1.3rem;color:var(--fg);text-decoration:none;padding:12px 0;flex-shrink:0}
+.brand span{color:var(--ember)}
+.navlinks{display:flex;gap:2px;overflow-x:auto;scrollbar-width:none;min-width:0}
+.navlinks::-webkit-scrollbar{display:none}
+.navlinks a{color:var(--muted);text-decoration:none;font-weight:600;font-size:.95rem;padding:16px 12px 13px;border-bottom:3px solid transparent;white-space:nowrap}
+.navlinks a:hover{color:var(--fg)}
+.navlinks a[aria-current="page"]{color:var(--fg);border-bottom-color:var(--ember)}
+.navlinks a:focus-visible,.brand:focus-visible{outline:2px solid var(--fg);outline-offset:-2px}
+.wrap{padding-top:40px}
+.view#start{display:flex;flex-direction:column;gap:56px}
+.view#start .hero{padding-top:0}
+
+/* Polish */
+.hero h1{text-shadow:4px 4px 0 var(--surface-2)}
+.sec-head .eyebrow{display:inline-flex;align-items:center;gap:8px}
+.sec-head .eyebrow::before{content:"";width:8px;height:8px;background:var(--ember)}
+.server{border-width:2px;box-shadow:var(--shadow)}
+.addr code{box-shadow:inset 2px 2px 0 rgba(0,0,0,.08)}
+.terrain{display:block;width:calc(100% + 32px);margin-inline:-16px;height:112px;image-rendering:pixelated}
+.steps li{background:var(--surface);border:1px solid var(--line);border-top:3px solid var(--fg);border-radius:0 0 var(--r) var(--r);padding:14px 16px 16px}
+.modgroup{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:18px}
+.modgroup h3{display:flex;align-items:center;gap:8px}
+.modgroup h3::before{content:"";width:10px;height:10px;background:var(--c,var(--ember))}
+.modgroup:nth-child(1){--c:var(--ember)} .modgroup:nth-child(2){--c:var(--moss)} .modgroup:nth-child(3){--c:var(--tide)}
+.modgroup li:last-child{border-bottom:0;padding-bottom:0}
+.boss{--c:var(--line);border-top:4px solid var(--c);box-shadow:var(--shadow)}
+.boss:has(.dim.ow),.boss:has(.dim.tf){--c:var(--moss)} .boss:has(.dim.ne){--c:var(--ember)} .boss:has(.dim.en){--c:var(--void)} .boss:has(.dim.oc){--c:var(--tide)}
+.boss h3{font-size:1.35rem}
+.boss .tip{border-left-color:var(--c)}
+.tier{box-shadow:var(--shadow)}
+.tier .t{text-shadow:2px 2px 0 rgba(0,0,0,.18)}
+.item{border:1px solid var(--line)}
+.tips div{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:16px}
+.tips b{display:flex;align-items:center;gap:8px}
+.tips b::before{content:"";width:8px;height:8px;background:var(--moss)}
+.portal{border:1px solid var(--moss)}
+@media (prefers-reduced-motion:no-preference){
+  .boss,.item,.modgroup{transition:transform .15s ease, box-shadow .15s ease}
+  .boss:hover{transform:translateY(-3px)}
+  .item:hover{transform:translateY(-2px)}
+  .view{animation:in .25s ease both}
+  @keyframes in{from{transform:translateY(6px)}to{transform:none}}
+}
+
+/* Clickable bosses + dialog */
+button.boss{font:inherit;color:inherit;text-align:left;cursor:pointer;width:100%}
+button.boss:focus-visible{outline:2px solid var(--fg);outline-offset:2px}
+.boss .bhead{display:flex;gap:14px;align-items:center}
+.emblem{width:56px;height:56px;image-rendering:pixelated;flex-shrink:0;background:var(--surface-2);border-radius:4px}
+.emblem.big{width:96px;height:96px}
+.boss .bname{display:flex;flex-direction:column;gap:6px;align-items:flex-start;min-width:0}
+.boss .bwhere{font-size:.92rem;color:var(--muted)}
+.boss .more{font-size:.85rem;font-weight:600;color:var(--c);margin-top:auto}
+#p-tf{display:flex;flex-direction:column;gap:16px}
+dialog{border:0;padding:0;background:transparent;max-width:min(720px,calc(100vw - 24px));width:100%;max-height:calc(100dvh - 24px);color:var(--fg)}
+dialog::backdrop{background:rgba(10,12,10,.6)}
+.dlg{--c:var(--ember);background:var(--surface);border-top:6px solid var(--c);border-radius:var(--r);padding:24px;display:flex;flex-direction:column;gap:20px;position:relative;box-shadow:var(--shadow)}
+.dlg-x{position:absolute;top:12px;right:12px;width:36px;height:36px;border:1px solid var(--line);border-radius:var(--r);background:var(--surface-2);color:var(--fg)}
+.dlg-head{display:flex;gap:18px;align-items:center;padding-right:40px}
+.dlg-title{display:flex;flex-direction:column;gap:6px;align-items:flex-start;min-width:0}
+.dlg-title h3{font-size:clamp(1.5rem,5vw,2rem)}
+.dlg-title p{color:var(--muted);font-size:.95rem}
+.dlg-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.block{background:var(--surface-2);border-radius:var(--r);padding:14px 16px;display:flex;flex-direction:column;gap:8px;min-width:0}
+.block h4{margin:0;font-family:var(--f-mono);font-size:.75rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.block p{font-size:.95rem}
+.block ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:5px;font-size:.95rem}
+.block li b{font-weight:600}
+.dlg .tip{border-left:3px solid var(--c);padding-left:12px}
+.wiki{color:var(--c);font-weight:600;text-decoration:none;align-self:flex-start}
+.wiki:hover{text-decoration:underline}
+@media (max-width:600px){.dlg-grid{grid-template-columns:1fr}.dlg{padding:20px 16px}.emblem.big{width:72px;height:72px}}
 </style>
 </head>
 <body>
-<main>
-  <span class="tag">Im Aufbau</span>
-  <h1>Willkommen auf meiner Seite</h1>
-  <p>Hier entsteht gerade etwas Neues. Schau bald wieder vorbei.</p>
-  <p><a href="minecraft/" style="color: var(--accent); font-weight: 600;">Zum Minecraft-Modpack →</a></p>
-  <footer>© <span id="y"></span> David</footer>
-</main>
-<script>document.getElementById('y').textContent = new Date().getFullYear();</script>
+
+<nav class="topnav" aria-label="Bereiche">
+  <a class="brand" href="#start" data-view="start">C<span>&amp;</span>T</a>
+  <div class="navlinks">
+    <a href="#start" data-view="start" aria-current="page">Start</a>
+    <a href="#mods" data-view="mods">Mods</a>
+    <a href="#route" data-view="route">Fortschritt</a>
+    <a href="#bosses" data-view="bosses">Bosse</a>
+    <a href="#tiers" data-view="tiers">Tierlist</a>
+    <a href="#tips" data-view="tips">Tipps</a>
+  </div>
+</nav>
+<div class="wrap">
+
+<div class="view" id="start">
+<header class="hero">
+  <div class="hero-text">
+    <span class="eyebrow">Unser Server · Saison 1</span>
+    <h1>Cataclysm <span class="amp">&</span> Twilight</h1>
+    <p class="lede">Vanilla+ für sieben Leute: schönere Welt, ein Grab statt Item-Verlust, Waystones zum Teleportieren. Dazu genug Bosse, dass es nach dem Enderdrachen erst richtig losgeht.</p>
+    <div class="tags">
+      <span class="tag">Minecraft 1.21.1</span>
+      <span class="tag">NeoForge</span>
+      <span class="tag">7 Spieler</span>
+      <span class="tag">G-Portal</span>
+    </div>
+  </div>
+  <aside class="server" aria-label="Serverdaten">
+    <span class="status"><span class="dot"></span>Server-Adresse</span>
+    <div class="addr">
+      <code id="addr">eu8784603.g-portal.game</code>
+      <button class="btn" id="copy" type="button">Kopieren</button>
+    </div>
+    <div class="row"><span>Version</span><span>1.21.1</span></div>
+    <div class="row"><span>Modloader</span><span>NeoForge 21.1.x</span></div>
+    <div class="row"><span>Launcher</span><span>CurseForge App</span></div>
+  </aside>
+</header>
+<canvas class="terrain" id="terrain" aria-hidden="true"></canvas>
+
+<section id="join" class="joinsec">
+  <div class="sec-head"><span class="eyebrow">So kommst du rein</span><h2>In vier Schritten auf den Server</h2></div>
+  <ol class="steps">
+    <li><b>CurseForge App installieren</b><span>Von curseforge.com herunterladen und mit dem Minecraft-Account verbinden.</span></li>
+    <li><b>Modpack importieren</b><span>Die ZIP aus der Gruppe über „Import“ laden. Alle Mods kommen automatisch mit.</span></li>
+    <li><b>RAM einstellen</b><span>In den Einstellungen 6 bis 8 GB für Minecraft freigeben.</span></li>
+    <li><b>Joinen</b><span>Spiel starten → Multiplayer → Adresse oben einfügen.</span></li>
+  </ol>
+</section>
+</div>
+
+<section id="mods" class="view" hidden>
+  <div class="sec-head"><span class="eyebrow">Was drin ist</span><h2>Die Mods</h2></div>
+  <div class="mods">
+    <div class="modgroup"><h3>Inhalt</h3><ul>
+      <li>L_Ender's Cataclysm <small>Bosse & Dungeons</small></li>
+      <li>Twilight Forest <small>Neue Dimension</small></li>
+      <li>Waystones <small>Teleport</small></li>
+      <li>Gravestone <small>Grab beim Tod</small></li>
+      <li>JEI <small>Rezepte</small></li>
+    </ul></div>
+    <div class="modgroup"><h3>Welt</h3><ul>
+      <li>Terralith <small>Biome & Gelände</small></li>
+      <li>YUNG's Better Dungeons <small>Strukturen</small></li>
+      <li>YUNG's Better Mineshafts <small>Strukturen</small></li>
+      <li>YUNG's Better Strongholds <small>Strukturen</small></li>
+    </ul></div>
+    <div class="modgroup"><h3>Komfort & Leistung</h3><ul>
+      <li>Sodium <small>Mehr FPS</small></li>
+      <li>Xaero's Minimap & World Map <small>Karte</small></li>
+      <li>Jade <small>Block-Info</small></li>
+      <li>AppleSkin · Mouse Tweaks <small>QoL</small></li>
+      <li>FerriteCore · ModernFix <small>RAM</small></li>
+    </ul></div>
+  </div>
+</section>
+
+<section id="route" class="view" hidden>
+  <div class="sec-head"><span class="eyebrow">Fortschritt</span><h2>Der Weg nach oben</h2><p class="lede">Grobe Reihenfolge, damit ihr nicht mit Eisen-Rüstung vor Ignis steht.</p></div>
+  <div class="route">
+    <div class="stage"><span class="when">Tag 1 bis 2</span><h3>Eisen & Loot</h3><ul><li>Höhlen nach Eisen</li><li>YUNG's-Minen und Dungeons plündern</li><li>Waystone an der Basis</li></ul></div>
+    <div class="stage"><span class="when">Tag 2 bis 4</span><h3>Diamant & Mending</h3><ul><li>Diamanten auf Y -58</li><li>Bibliothekar auf Mending rollen</li><li>Zaubertisch + 15 Regale</li></ul></div>
+    <div class="stage"><span class="when">Tag 4 bis 7</span><h3>Twilight Forest</h3><ul><li>Naga & Lich zuerst</li><li>Ironwood, später Knightmetal</li><li>Hydra für Fiery-Gear</li></ul></div>
+    <div class="stage"><span class="when">Midgame</span><h3>Netherite</h3><ul><li>Ancient Debris um Y 15</li><li>Upgrade-Templates aus Bastionen</li><li>Erste Cataclysm-Bosse</li></ul></div>
+    <div class="stage hot"><span class="when">Endgame</span><h3>Cataclysm</h3><ul><li>Volle Netherite + Protection IV</li><li>Bosse in empfohlener Reihenfolge</li><li>Ignis als Finale</li></ul></div>
+  </div>
+</section>
+
+<section id="bosses" class="view" hidden>
+  <div class="sec-head"><span class="eyebrow">Die Gegner</span><h2>Bosse</h2></div>
+  <div class="tabs" role="tablist">
+    <button class="tab" role="tab" id="tab-cat" aria-controls="p-cat" aria-selected="true" type="button">Cataclysm</button>
+    <button class="tab" role="tab" id="tab-tf" aria-controls="p-tf" aria-selected="false" type="button">Twilight Forest</button>
+  </div>
+
+  <div id="p-cat" role="tabpanel" aria-labelledby="tab-cat" class="bosses" data-group="cat"></div>
+  <div id="p-tf" role="tabpanel" aria-labelledby="tab-tf" hidden>
+    <div class="portal"><b>Portal bauen</b><span>2×2 Wasser, rundherum Gras mit Blumen, dann einen Diamanten reinwerfen. Die Bosse schalten die Gebiete nacheinander frei.</span></div>
+    <div class="bosses" data-group="tf"></div>
+  </div>
+  <p class="note">Tippe auf einen Boss für Fundort, Beschwörung, Loot und empfohlene Ausrüstung.</p>
+</section>
+
+<section id="tiers" class="view" hidden>
+  <div class="sec-head"><span class="eyebrow">Ausrüstung</span><h2>Tierlist</h2><p class="lede">Unsere grobe Einschätzung. Eine gut verzauberte B-Rüstung schlägt oft eine unverzauberte A-Rüstung.</p></div>
+  <div class="tabs" role="tablist">
+    <button class="tab" role="tab" id="tab-ar" aria-controls="p-ar" aria-selected="true" type="button">Rüstung</button>
+    <button class="tab" role="tab" id="tab-we" aria-controls="p-we" aria-selected="false" type="button">Waffen</button>
+  </div>
+
+  <div id="p-ar" role="tabpanel" aria-labelledby="tab-ar" class="tiers">
+    <div class="tier" data-t="S"><div class="t">S</div><div class="items">
+      <div class="item"><b>Ignitium-Rüstung</b><small>Cataclysm · Ignis</small></div>
+      <div class="item"><b>Cursium-Rüstung</b><small>Cataclysm · Maledictus</small></div></div></div>
+    <div class="tier" data-t="A"><div class="t">A</div><div class="items">
+      <div class="item"><b>Netherite</b><small>Vanilla</small></div>
+      <div class="item"><b>Fiery Armor</b><small>Twilight · Hydra / Ur-Ghast</small></div>
+      <div class="item"><b>Knightmetal</b><small>Twilight · Dunkelwald</small></div></div></div>
+    <div class="tier" data-t="B"><div class="t">B</div><div class="items">
+      <div class="item"><b>Alpha-Yeti-Rüstung</b><small>Twilight · Alpha Yeti</small></div>
+      <div class="item"><b>Arctic Armor</b><small>Twilight · Yetis</small></div>
+      <div class="item"><b>Diamant</b><small>Vanilla</small></div></div></div>
+    <div class="tier" data-t="C"><div class="t">C</div><div class="items">
+      <div class="item"><b>Naga-Rüstung</b><small>Twilight · Naga</small></div>
+      <div class="item"><b>Ironwood</b><small>Twilight</small></div>
+      <div class="item"><b>Steeleaf</b><small>Twilight</small></div></div></div>
+    <div class="tier" data-t="D"><div class="t">D</div><div class="items">
+      <div class="item"><b>Eisen</b><small>Vanilla</small></div>
+      <div class="item"><b>Kette / Gold</b><small>Vanilla</small></div></div></div>
+  </div>
+
+  <div id="p-we" role="tabpanel" aria-labelledby="tab-we" class="tiers" hidden>
+    <div class="tier" data-t="S"><div class="t">S</div><div class="items">
+      <div class="item"><b>The Incinerator</b><small>Cataclysm · Ignis</small></div>
+      <div class="item"><b>Infernal Forge</b><small>Cataclysm · Monstrosity</small></div>
+      <div class="item"><b>Gauntlet of Guard</b><small>Cataclysm · Ender Guardian</small></div>
+      <div class="item"><b>Ceraunus / Astrape</b><small>Cataclysm · Scylla</small></div></div></div>
+    <div class="tier" data-t="A"><div class="t">A</div><div class="items">
+      <div class="item"><b>Netherite-Schwert / -Axt</b><small>Vanilla</small></div>
+      <div class="item"><b>Tidal Claws</b><small>Cataclysm · Leviathan</small></div>
+      <div class="item"><b>Fiery Sword</b><small>Twilight</small></div></div></div>
+    <div class="tier" data-t="B"><div class="t">B</div><div class="items">
+      <div class="item"><b>Knightmetal Sword / Axe</b><small>Twilight</small></div>
+      <div class="item"><b>Giant Sword</b><small>Twilight · große Reichweite</small></div>
+      <div class="item"><b>Lich-Szepter</b><small>Twilight · Fernkampf</small></div>
+      <div class="item"><b>Diamond Minotaur Axe</b><small>Twilight · Minoshroom</small></div></div></div>
+    <div class="tier" data-t="C"><div class="t">C</div><div class="items">
+      <div class="item"><b>Diamant-Schwert</b><small>Vanilla</small></div>
+      <div class="item"><b>Steeleaf / Ironwood Sword</b><small>Twilight</small></div>
+      <div class="item"><b>Triple / Seeker Bow</b><small>Twilight · früh stark</small></div></div></div>
+    <div class="tier" data-t="D"><div class="t">D</div><div class="items">
+      <div class="item"><b>Eisen-Schwert</b><small>Vanilla</small></div>
+      <div class="item"><b>Steinwerkzeuge</b><small>Vanilla</small></div></div></div>
+  </div>
+  <p class="note">Werte ändern sich zwischen Mod-Versionen. Im Spiel per JEI und Tooltip gegenchecken.</p>
+</section>
+
+<section id="tips" class="view" hidden>
+  <div class="sec-head"><span class="eyebrow">Gut zu wissen</span><h2>Tipps für die Gruppe</h2></div>
+  <div class="tips">
+    <div><b>Waystones früh setzen</b><span>An Basis, Dorf und jedem Portal. Spart später Stunden Laufweg.</span></div>
+    <div><b>Sterben ist okay</b><span>Gravestone sammelt eure Items in einem Grab. Zurücklaufen und einsammeln.</span></div>
+    <div><b>JEI benutzen</b><span>Taste R auf einem Item zeigt das Rezept, U zeigt, wofür man es braucht.</span></div>
+    <div><b>Aufgaben teilen</b><span>Einer Villager, einer Dungeons, einer Minen. So seid ihr viel schneller.</span></div>
+    <div><b>Bosse im Team</b><span>Cataclysm-Bosse sind für Gruppen gemacht. Zu dritt deutlich entspannter.</span></div>
+    <div><b>Shader?</b><span>Iris ist raus, weil es mit unserer Sodium-Version crasht. Kommt evtl. per Update.</span></div>
+  </div>
+</section>
+
+
+<dialog id="bossdlg" aria-labelledby="dlg-name">
+  <div class="dlg">
+    <button class="dlg-x" type="button" id="dlg-close" aria-label="Schließen">✕</button>
+    <div class="dlg-head">
+      <canvas class="emblem big" id="dlg-emblem" width="12" height="12" aria-hidden="true"></canvas>
+      <div class="dlg-title"><span class="dim" id="dlg-dim"></span><h3 id="dlg-name"></h3><p id="dlg-sub"></p></div>
+    </div>
+    <div class="dlg-grid">
+      <div class="block"><h4>Wo findet man ihn</h4><p id="dlg-where"></p></div>
+      <div class="block"><h4>Beschwören</h4><p id="dlg-summon"></p></div>
+      <div class="block"><h4>Loot</h4><ul id="dlg-loot"></ul></div>
+      <div class="block"><h4>Empfohlene Ausrüstung</h4><ul id="dlg-gear"></ul></div>
+    </div>
+    <p class="tip" id="dlg-tip"></p>
+    <a class="wiki" id="dlg-wiki" href="#" target="_blank" rel="noopener">Echte Bilder und Details im Wiki ansehen ↗</a>
+  </div>
+</dialog>
+
+<footer>Server läuft auf G-Portal · Minecraft 1.21.1 · NeoForge · Aether kommt vielleicht als Update.</footer>
+</div>
+
+<script>
+document.getElementById('copy').addEventListener('click', e => {
+  const t = document.getElementById('addr').textContent, b = e.currentTarget;
+  const done = () => { b.textContent = 'Kopiert'; setTimeout(() => b.textContent = 'Kopieren', 1600); };
+  try {
+    navigator.clipboard.writeText(t).then(done, () => sel());
+  } catch (_) { sel(); }
+  function sel(){ const r = document.createRange(); r.selectNodeContents(document.getElementById('addr')); const s = getSelection(); s.removeAllRanges(); s.addRange(r); }
+});
+document.querySelectorAll('[role="tablist"]').forEach(list => {
+  const tabs = [...list.querySelectorAll('[role="tab"]')];
+  tabs.forEach(tab => tab.addEventListener('click', () => {
+    tabs.forEach(t => { const on = t === tab; t.setAttribute('aria-selected', on); document.getElementById(t.getAttribute('aria-controls')).hidden = !on; });
+  }));
+});
+
+const views=[...document.querySelectorAll('.view')], links=[...document.querySelectorAll('[data-view]')];
+function show(id,push){
+  if(!views.some(v=>v.id===id)) id='start';
+  views.forEach(v=>v.hidden=v.id!==id);
+  links.forEach(a=>{ if(a.classList.contains('brand')) return; a.dataset.view===id?a.setAttribute('aria-current','page'):a.removeAttribute('aria-current'); });
+  const cur=document.querySelector('.navlinks [aria-current]'); if(cur) cur.scrollIntoView({block:'nearest',inline:'nearest'});
+  if(push) history.replaceState(null,'','#'+id);
+  window.scrollTo(0,0);
+}
+links.forEach(a=>a.addEventListener('click',e=>{e.preventDefault();show(a.dataset.view,true);}));
+window.addEventListener('hashchange',()=>show(location.hash.slice(1)));
+show(location.hash.slice(1)||'start');
+
+(function(){
+  const c=document.getElementById('terrain'); if(!c) return;
+  const ctx=c.getContext('2d'); const B=8; let seed=7;
+  const rnd=()=>{seed=(seed*16807)%2147483647;return seed/2147483647};
+  function draw(){
+    const cs=getComputedStyle(document.documentElement), v=n=>cs.getPropertyValue(n).trim();
+    const w=Math.ceil(c.clientWidth/B), h=Math.ceil(c.clientHeight/B); c.width=w; c.height=h; seed=7;
+    const col={g:v('--grass'),g2:v('--grass-2'),d:v('--dirt'),d2:v('--dirt-2'),s:v('--stone'),s2:v('--stone-2'),k:v('--deep'),od:v('--ore-d'),og:v('--ore-g'),or:v('--ore-r')};
+    let top=3;
+    for(let x=0;x<w;x++){
+      if(rnd()<.18) top=Math.max(1,Math.min(6,top+(rnd()<.5?-1:1)));
+      for(let y=0;y<h;y++){
+        let f=null;
+        if(y===top) f=rnd()<.5?col.g:col.g2;
+        else if(y>top&&y<=top+3) f=rnd()<.6?col.d:col.d2;
+        else if(y>top+3){ const r=rnd(); f=y>h-3?col.k:(r<.5?col.s:col.s2);
+          if(r>.985) f=y>h-5?col.od:col.or; else if(r>.97) f=col.og; }
+        if(f){ctx.fillStyle=f;ctx.fillRect(x,y,1,1);}
+      }
+    }
+  }
+  draw(); addEventListener('resize',draw);
+  matchMedia('(prefers-color-scheme: dark)').addEventListener('change',draw);
+  new MutationObserver(draw).observe(document.documentElement,{attributes:true,attributeFilter:['data-theme']});
+})();
+const CG='https://www.minecraft-guides.com/wiki/cataclysm/', TF='https://twilightforest.fandom.com/wiki/';
+const BOSSES=[
+ {g:'cat',n:'Netherite Monstrosity',d:'ne',dl:'Nether',sub:'Lava-Koloss mit Lavabomben',
+  where:'Soul Forge, zufällig in Nether-Biomen. Finden mit dem Eye of Monstrous (Enderauge, 2 Netherite-Schrott, 4 Lavaeimer, 2 Schwarzstein).',
+  summon:'Keine Beschwörung nötig. Er wird aktiv, sobald man nah genug herankommt.',
+  loot:['<b>Infernal Forge</b>: Spitzhacke und Waffe zugleich, 13 Schaden, unzerstörbar','<b>Monstrous Horn</b> für den Monstrous Helm','<b>Lava Power Cell</b>: weckt die Netherite Effigy als kleinen Begleiter'],
+  gear:['Volle verzauberte Netherite-Rüstung','Schild gegen Lavabomben','Feuerresistenz-Tränke, vor allem für Phase 2'],
+  tip:'Heilt sich in Lava und lädt dort seinen Fernangriff auf. Vorher Lava an Säulen und Erhöhungen entfernen.',w:CG+'soul-forge/netherite-monstrosity/'},
+ {g:'cat',n:'Ender Guardian',d:'en',dl:'End',sub:'Endboss der Ruined Citadel',
+  where:'Ruined Citadel im End, dritte Etage am Altar of Void. Vorher muss der Enderdrache besiegt sein.',
+  summon:'Erscheint, sobald man sich dem Altar of Void nähert.',
+  loot:['<b>Gauntlet of Guard</b> (garantiert)','Musik-Disc (10 %)','Die Ender Golems in der Citadel droppen den <b>Void Core</b>'],
+  gear:['Volle Netherite-Rüstung','Schild','Federfall-Stiefel und Enderperlen'],
+  tip:'Die Ender Golems vorher als Aufwärmrunde nutzen. Ihr Void Core ist später ein wichtiges Upgrade-Material.',w:'https://lendercataclysm.wiki.gg/wiki/Ender_Guardian'},
+ {g:'cat',n:'The Harbinger',d:'ow',dl:'Overworld',sub:'Mechanischer Wither mit Lasern',
+  where:'Ancient Factory, eine große Struktur in den Höhlen der Overworld.',
+  summon:'Mit einem Nether Star. Ihr braucht also vorher einen besiegten Wither.',
+  loot:['Witherite-Material','<b>Wither Assault Shoulder Weapon</b>','Genaue Drops im Spiel per JEI prüfen'],
+  gear:['Mindestens spätes Diamant, besser Netherite','Schild gegen Raketen','EMP-Blöcke aus der Fabrik nutzen'],
+  tip:'EMP-Blöcke betäuben ihn kurz, nur nicht während des Todeslasers. In der Flugphase Deckung suchen.',w:'https://lendercataclysm.wiki.gg/wiki/The_Harbinger'},
+ {g:'cat',n:'Ancient Remnant',d:'ow',dl:'Overworld',sub:'Uralter Wüstenkoloss',
+  where:'Cursed Pyramid in der Wüste, im innersten Heiligtum.',
+  summon:'In der Pyramide Suspicious Sand mit einem Pinsel abtragen, bis die Desert Necklace auftaucht. Damit die Überreste im Bosssaal rechtsklicken.',
+  loot:['<b>Sandstorm in a Bottle</b>: zwei Sandstürme kreisen um dich','<b>Ancient Metal</b> für die Bone-Reptile-Rüstung','<b>Remnant Skull</b>: zähmbares Haustier','Musik-Disc (10 %)'],
+  gear:['Starke Nahkampfwaffe, er ist immun gegen Pfeile, Feuer und Lava','Netherite-Rüstung','Pinsel nicht vergessen'],
+  tip:'Über die Stampf-Schockwellen springen und Abstand zum Schwanz halten.',w:CG+'cursed-pyramid/ancient-remnant/'},
+ {g:'cat',n:'The Leviathan',d:'oc',dl:'Ozean',sub:'Herrscher der Sunken City',
+  where:'Sunken City unter Wasser. Der Kampf findet in der Kuppel in der Mitte statt.',
+  summon:'Eine Abyssal Sacrifice herstellen und am Altar of Abyss opfern. Zutaten: Athame (von Deepling Warlocks), Coral Chunks (vom Coralssus), Herz des Meeres, Nautilusschale und Edelmetall-Blöcke.',
+  loot:['<b>Tidal Claws</b>: Nahkampfwaffe und Enterhaken mit 32 Blöcken Reichweite','<b>Abyssal Egg</b>: schlüpft zu einem Baby-Leviathan','Musik-Disc (selten)'],
+  gear:['Netherite mit Schutz IV','Stiefel mit Wasserläufer III','Dreizack mit Harpune V oder Sog III','Wasseratmung, Nachtsicht und Goldäpfel'],
+  tip:'Der Altar ist unzerstörbar, der Kampf läuft also immer unter Wasser. Ohne Wasseratmung keine Chance.',w:CG+'sunken-city/leviathan/'},
+ {g:'cat',n:'Scylla',d:'oc',dl:'Ozean',sub:'Sturmgöttin der Acropolis',
+  where:'Acropolis in der Tiefsee. Finden mit dem Eye of Storm.',
+  summon:'Ganz oben in der Kammer mit dem großen Anker den Anker rechtsklicken. Ihr könnt auch direkt hochfliegen.',
+  loot:['3 bis 4 <b>Essence of the Storm</b>','8 bis 16 <b>Lacrima</b>','Daraus: <b>Ceraunus</b>, <b>Astrape</b> und Scyllas Speer','Musik-Disc (10 %)'],
+  gear:['Volle Netherite-Rüstung','Schild gegen ihre Wellenattacke','Blöcke für schnelle Deckung'],
+  tip:'Der Nässe-Effekt erhöht ihren Blitzschaden stark. Danach erscheint ein Boss Respawner, mit dem Eye of Storm kann man sie erneut rufen.',w:CG+'acropolis/scylla/'},
+ {g:'cat',n:'Maledictus',d:'ow',dl:'Overworld',sub:'Verfluchter Krieger im Eis',
+  where:'Frosted Prison, selten in Schneebiomen. Der Bosssaal liegt ganz unten.',
+  summon:'Zuerst den Mini-Boss Aptgangr besiegen, er droppt den Strange Key. Damit die Door of Seal öffnen und den Cursed Tombstone unter dem Balkon rechtsklicken.',
+  loot:['3 bis 4 <b>Cursium-Barren</b> für Cursium-Rüstung und Top-Waffen','Musik-Disc (selten)','Wiederholbar, der Grabstein lädt nach dem Kampf wieder auf'],
+  gear:['Volle Netherite-Rüstung mit Schutz IV','Gute Stiefel für Beweglichkeit','Goldäpfel'],
+  tip:'Sehr schnell und aggressiv. Den roten Ringen ausweichen und ständig die Position wechseln.',w:CG+'frosted-prison/maledictus/'},
+ {g:'cat',n:'Ignis',d:'ne',dl:'Nether',sub:'Feuerritter, das große Finale',
+  where:'Burning Arena in den Nether Wastes. Finden mit dem Eye of Flame (Enderauge, 2 Netherite-Schrott, 3 Seelensand, 3 Lohenstaub).',
+  summon:'Die Ignited Revenants in der Arena besiegen, sie droppen Burning Ashes. Die Asche oben am Altar of Fire einsetzen.',
+  loot:['3 <b>Ignitium-Barren</b>','Daraus: <b>The Incinerator</b>, <b>Bulwark of the Flame</b> und die <b>Ignitium-Rüstung</b>','Musik-Disc (selten)'],
+  gear:['Netherite mit Schutz IV','Bogen mit Stärke V','Feuerresistenz, Stärke und Schnelligkeit','Goldäpfel, Enderperlen und Milch gegen Blazing Brand','Gear früherer Bosse, z. B. Void Core'],
+  tip:'Drei Phasen mit immer heftigeren Feuerattacken. Milch entfernt den Blazing-Brand-Debuff.',w:CG+'burning-arena/ignis/'},
+ {g:'tf',n:'Naga',d:'tf',dl:'Twilight',sub:'Riesenschlange, der Einstieg',
+  where:'Naga Courtyard, ein ummauerter Hof im normalen Twilight-Wald.',
+  summon:'Ist einfach im Hof unterwegs.',
+  loot:['<b>Naga-Schuppen</b> für Naga-Brustplatte und -Hose','Trophäe'],
+  gear:['Eisen- oder Diamantrüstung','Schwert und Schild'],
+  tip:'Wenn sie losrast, zur Seite ausweichen und von der Seite zuschlagen.',w:TF+'Naga'},
+ {g:'tf',n:'Lich',d:'tf',dl:'Twilight',sub:'Untoter Magier im Turm',
+  where:'Lich Tower, ein hoher Turm im Twilight-Wald.',
+  summon:'Ganz oben im Turm, er ist dort einfach anwesend.',
+  loot:['Eines der Szepter: Twilight, Lifedrain, Zombie oder Fortification','Goldausrüstung, Trophäe'],
+  gear:['Diamantrüstung','Bogen','Heiltränke'],
+  tip:'Er hat mehrere Schilde, jeder Treffer zerstört einen. Seine Feuerbälle kann man zurückschlagen.',w:TF+'Lich'},
+ {g:'tf',n:'Minoshroom',d:'tf',dl:'Twilight',sub:'Pilzminotaurus im Labyrinth',
+  where:'Labyrinth unter dem Pilzwald im Sumpf.',
+  summon:'Wartet im Bossraum des Labyrinths.',
+  loot:['<b>Diamond Minotaur Axe</b>','Meef Stroganoff'],
+  gear:['Diamantrüstung','Fackeln für das Labyrinth','Schild'],
+  tip:'Wenn er Anlauf nimmt, zur Seite ausweichen. Danach ist er kurz verwundbar.',w:TF+'Minoshroom'},
+ {g:'tf',n:'Hydra',d:'ne',dl:'Feuersumpf',sub:'Dreiköpfiger Drache',
+  where:'Hydra Lair im Feuersumpf.',
+  summon:'Taucht in ihrem Unterschlupf auf, sobald man herankommt.',
+  loot:['<b>Fiery Blood</b> für Fiery-Barren','Hydra Chops','Trophäe'],
+  gear:['Diamant oder besser','Feuerresistenz-Tränke','Bogen für die Köpfe'],
+  tip:'Die Köpfe angreifen, wenn sie zubeißen. Abgeschlagene Köpfe wachsen sonst nach.',w:TF+'Hydra'},
+ {g:'tf',n:'Knight Phantoms',d:'en',dl:'Dunkelwald',sub:'Geisterritter in der Festung',
+  where:'Goblin Knight Stronghold im Dunkelwald.',
+  summon:'Erscheinen im Thronsaal ganz innen.',
+  loot:['<b>Phantom-Rüstung</b> und Phantom-Waffen','Knightmetal-Material aus der Festung'],
+  gear:['Diamant oder Knightmetal','Schild','Teamkollegen'],
+  tip:'Es sind mehrere Gegner gleichzeitig. Besser zu zweit oder dritt rein.',w:TF+'Knight_Phantom'},
+ {g:'tf',n:'Ur-Ghast',d:'ne',dl:'Dunkelwald',sub:'Riesen-Ghast im Turm',
+  where:'Dark Tower im Dunkelwald.',
+  summon:'Ganz oben im Turm.',
+  loot:['<b>Fiery Tears</b> für Fiery-Barren','Trophäe'],
+  gear:['Guter Bogen mit viel Munition','Feuerresistenz','Schild'],
+  tip:'Viel Fernkampf. Feuerbälle zurückschlagen, wenn er sie abfeuert.',w:TF+'Ur-Ghast'},
+ {g:'tf',n:'Alpha Yeti',d:'oc',dl:'Schneewald',sub:'Anführer der Yetis',
+  where:'Yeti Lair im Schneewald.',
+  summon:'Wartet in der Höhle.',
+  loot:['<b>Alpha-Yeti-Fell</b> für die Alpha-Yeti-Rüstung'],
+  gear:['Diamant oder Fiery-Rüstung','Wärmende Ausrüstung aus Arctic Fur','Schild'],
+  tip:'Eiszapfen fallen von der Decke. Bleibt ständig in Bewegung.',w:TF+'Alpha_Yeti'},
+ {g:'tf',n:'Snow Queen',d:'oc',dl:'Gletscher',sub:'Herrin des Aurora-Palasts',
+  where:'Aurora Palace im Gletscher.',
+  summon:'Im obersten Raum des Palasts.',
+  loot:['<b>Ice Bow</b>','Zugang zum Hochland','Trophäe'],
+  gear:['Beste Twilight-Rüstung','Bogen','Heiltränke'],
+  tip:'Letzter großer Boss vor dem Endgebiet. Die Eisblöcke um sie herum zuerst zerstören.',w:TF+'Snow_Queen'},
+];
+function hash(t){let h=2166136261;for(const c of t){h^=c.charCodeAt(0);h=Math.imul(h,16777619)}return h>>>0}
+function emblem(cv,b){
+  const cs=getComputedStyle(document.documentElement),v=n=>cs.getPropertyValue(n).trim();
+  const map={ne:'--ember',en:'--void',oc:'--tide',ow:'--moss',tf:'--moss'};
+  const main=v(map[b.d]), dark=v('--fg'), eye=v('--ore-g');
+  const N=12, ctx=cv.getContext('2d'); cv.width=N; cv.height=N; ctx.clearRect(0,0,N,N);
+  let s=hash(b.n); const r=()=>{s=Math.imul(s^(s>>>15),2246822507)>>>0;s^=s>>>13;return (s%1000)/1000};
+  for(let y=1;y<N-1;y++)for(let x=1;x<N/2;x++){
+    const q=r(); const edge=Math.abs(y-N/2)/(N/2)+(N/2-x)/(N);
+    if(q>edge*.3-.05){ctx.fillStyle=q>.82?dark:main;ctx.fillRect(x,y,1,1);ctx.fillRect(N-1-x,y,1,1);}
+  }
+  ctx.fillStyle=eye; const ey=3+(hash(b.n)%3); ctx.fillRect(4,ey,1,1); ctx.fillRect(N-5,ey,1,1);
+}
+const colorOf={ne:'--ember',en:'--void',oc:'--tide',ow:'--moss',tf:'--moss'};
+document.querySelectorAll('[data-group]').forEach(box=>{
+  BOSSES.filter(b=>b.g===box.dataset.group).forEach((b,i)=>{
+    const el=document.createElement('button'); el.type='button'; el.className='boss';
+    el.style.setProperty('--c',`var(${colorOf[b.d]})`);
+    el.innerHTML=`<div class="bhead"><canvas class="emblem" aria-hidden="true"></canvas><div class="bname"><span class="dim ${b.d}">${b.dl}</span><h3>${b.n}</h3></div></div><p class="bwhere">${b.sub}</p><span class="more">Details ansehen →</span><span class="n">${String(i+1).padStart(2,'0')}</span>`;
+    emblem(el.querySelector('canvas'),b);
+    el.addEventListener('click',()=>openBoss(b));
+    box.appendChild(el); b.cv=el.querySelector('canvas');
+  });
+});
+const dlg=document.getElementById('bossdlg'), $=id=>document.getElementById(id);
+function openBoss(b){
+  dlg.querySelector('.dlg').style.setProperty('--c',`var(${colorOf[b.d]})`);
+  $('dlg-name').textContent=b.n; $('dlg-sub').textContent=b.sub;
+  const dim=$('dlg-dim'); dim.className='dim '+b.d; dim.textContent=b.dl;
+  $('dlg-where').textContent=b.where; $('dlg-summon').textContent=b.summon;
+  $('dlg-loot').innerHTML=b.loot.map(x=>`<li>${x}</li>`).join('');
+  $('dlg-gear').innerHTML=b.gear.map(x=>`<li>${x}</li>`).join('');
+  $('dlg-tip').textContent=b.tip; $('dlg-wiki').href=b.w;
+  emblem($('dlg-emblem'),b);
+  if(dlg.showModal) dlg.showModal(); else dlg.setAttribute('open','');
+}
+$('dlg-close').addEventListener('click',()=>dlg.close());
+dlg.addEventListener('click',e=>{if(e.target===dlg) dlg.close();});
+const redraw=()=>BOSSES.forEach(b=>b.cv&&emblem(b.cv,b));
+matchMedia('(prefers-color-scheme: dark)').addEventListener('change',redraw);
+new MutationObserver(redraw).observe(document.documentElement,{attributes:true,attributeFilter:['data-theme']});
+</script>
 </body>
 </html>
