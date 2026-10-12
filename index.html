@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
 <meta name="referrer" content="no-referrer">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src https://api.mcsrvstat.us https://api.mcstatus.io; base-uri 'self'; form-action 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src https://api.mcsrvstat.us; base-uri 'self'; form-action 'none'">
 <title>MC Projekt 2026</title>
 <link rel="icon" href="favicon.png" type="image/png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
@@ -393,7 +393,7 @@ footer.legal .disclaimer{font-family:var(--f-mono);font-size:.75rem;letter-spaci
         <div class="lnames" id="lnames"></div>
         <p class="lmeta" id="lmeta"></p>
       </div>
-      <p class="lnote" id="lnote">Mit dem Klick fragt dein Browser den Status bei mcsrvstat.us und mcstatus.io ab. Dabei wird deine IP-Adresse an diese Dienste übertragen, und dein Browser merkt sich die Wahl für den nächsten Besuch. <a href="datenschutz.html#status" class="flink">Mehr dazu</a></p>
+      <p class="lnote" id="lnote">Mit dem Klick fragt dein Browser den Status bei mcsrvstat.us (Dänemark) ab. Dabei wird deine IP-Adresse an diesen Dienst übertragen, und dein Browser merkt sich die Wahl für den nächsten Besuch. <a href="datenschutz.html#status" class="flink">Mehr dazu</a></p>
       <button type="button" class="lrevoke" id="lrevoke" hidden>Status nicht mehr automatisch laden</button>
     </div>
   </aside>
@@ -586,7 +586,7 @@ footer.legal .disclaimer{font-family:var(--f-mono);font-size:.75rem;letter-spaci
       <div class="block wide" id="dlg-eye" hidden><h4>Such-Auge herstellen</h4><div id="eye-body"></div></div>
     </div>
     <p class="tip" id="dlg-tip"></p>
-    <a class="wiki" id="dlg-wiki" href="#" target="_blank" rel="noopener">Echte Bilder und Details im Wiki ansehen ↗</a>
+    <a class="wiki" id="dlg-wiki" href="#" target="_blank" rel="noopener noreferrer">Echte Bilder und Details im Wiki ansehen ↗</a>
   </div>
 </dialog>
 
@@ -605,7 +605,7 @@ footer.legal .disclaimer{font-family:var(--f-mono);font-size:.75rem;letter-spaci
       <div class="block wide"><h4 id="rec-title">Rezept</h4><div id="rec"></div></div>
     </div>
     <p class="tip" id="it-tip"></p>
-    <a class="wiki" id="it-wiki" href="#" target="_blank" rel="noopener">Mehr Details und Bilder im Wiki ↗</a>
+    <a class="wiki" id="it-wiki" href="#" target="_blank" rel="noopener noreferrer">Mehr Details und Bilder im Wiki ↗</a>
   </div>
 </dialog>
 
@@ -898,14 +898,9 @@ matchMedia('(prefers-color-scheme: dark)').addEventListener('change',redrawItems
     return {online:!!d.online,on:d.players?.online??0,max:d.players?.max??0,names:(d.players?.list||[]).map(p=>p.name||p),ver:d.version||'',
       at:(d.debug?.cachetime||Date.now()/1000)*1000, exp:(d.debug?.cacheexpire||Date.now()/1000+60)*1000};
   }
-  async function getB(){ // mcstatus.io
-    const d=await (await fetch('https://api.mcstatus.io/v2/status/java/'+HOST+'?t='+Date.now(),{cache:'no-store'})).json();
-    return {online:!!d.online,on:d.players?.online??0,max:d.players?.max??0,names:(d.players?.list||[]).map(p=>p.name_clean||p.name_raw||''),ver:d.version?.name_clean||'',
-      at:d.retrieved_at||Date.now(), exp:d.expires_at||Date.now()+60000};
-  }
   async function load(){
     if(busy) return; busy=true; btn.disabled=true; btn.textContent='Lädt…'; dot.classList.add('pulse');
-    const res=(await Promise.allSettled([getA(),getB()])).filter(x=>x.status==='fulfilled').map(x=>x.value);
+    const res=(await Promise.allSettled([getA()])).filter(x=>x.status==='fulfilled').map(x=>x.value);
     if(res.length){
       const d=res.sort((x,y)=>y.at-x.at)[0];
       body.hidden=false; note.hidden=true;
