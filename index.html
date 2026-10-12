@@ -337,9 +337,18 @@ footer.legal{display:flex;flex-direction:column;gap:8px}
 footer.legal .disclaimer{font-family:var(--f-mono);font-size:.75rem;letter-spacing:.04em;color:var(--fg)}
 .legal-links{display:flex;gap:16px;flex-wrap:wrap}
 .lrevoke{background:none;border:0;padding:0;color:var(--muted);text-decoration:underline;font-size:.78rem;cursor:pointer;align-self:flex-start}
+.launch{margin-inline:-16px;display:flex;align-items:center;justify-content:center;gap:10px 16px;flex-wrap:wrap;padding:10px 16px;background:#c4521b;color:#fff;text-align:center;font-family:var(--f-body);font-weight:600}
+.launch[hidden]{display:none}
+.launch b{font-family:var(--f-display);font-size:1.15rem;letter-spacing:.02em}
+.launch .cd{font-family:var(--f-mono);font-variant-numeric:tabular-nums;background:rgba(0,0,0,.18);padding:2px 10px;border-radius:var(--r)}
 </style>
 </head>
 <body>
+<div class="launch" id="launch" role="status" hidden>
+  <b id="launch-title">Serverstart</b>
+  <span id="launch-text">Di, 13.10. um 19:00 Uhr</span>
+  <span class="cd" id="launch-cd"></span>
+</div>
 
 <nav class="topnav" aria-label="Bereiche">
   <a class="brand" href="#start" data-view="start" aria-label="MC Projekt 2026, Start"><img class="logo" src="logo.png" alt="" width="52" height="26">MP<span>26</span></a>
@@ -1018,6 +1027,28 @@ document.querySelectorAll('button.boss').forEach(btn=>btn.addEventListener('clic
   $('eye-body').innerHTML=`<p class="recnote" style="margin:0 0 10px">Zeigt beim Werfen die Richtung zur Struktur, wie ein Enderauge.</p>`+stepHTML({...e,title:e.out},'');
 }));
 
+</script>
+<script>
+(function(){
+  // Startbanner: zählt bis 13.10.2026 19:00 (deutsche Zeit) und verschwindet ab 14.10.2026 00:00 von selbst.
+  const START=Date.parse('2026-10-13T19:00:00+02:00'), END=Date.parse('2026-10-14T00:00:00+02:00');
+  const el=document.getElementById('launch'), cd=document.getElementById('launch-cd');
+  const pad=n=>String(n).padStart(2,'0');
+  function tick(){
+    const now=Date.now();
+    if(now>=END){ el.hidden=true; clearInterval(timer); return; }
+    el.hidden=false;
+    if(now>=START){
+      document.getElementById('launch-title').textContent='Der Server ist gestartet!';
+      document.getElementById('launch-text').textContent='Kommt rein, wir sind online.';
+      cd.hidden=true; return;
+    }
+    let s=Math.floor((START-now)/1000);
+    const d=Math.floor(s/86400); s%=86400;
+    cd.textContent=(d?d+(d===1?' Tag ':' Tage '):'')+pad(Math.floor(s/3600))+':'+pad(Math.floor(s%3600/60))+':'+pad(s%60);
+  }
+  const timer=setInterval(tick,1000); tick();
+})();
 </script>
 </body>
 </html>
