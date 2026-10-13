@@ -342,6 +342,63 @@ footer.legal .disclaimer{font-family:var(--f-mono);font-size:.75rem;letter-spaci
 .launch[hidden]{display:none}
 .launch b{font-family:var(--f-display);font-size:1.15rem;letter-spacing:.02em}
 .launch .cd{font-family:var(--f-mono);font-variant-numeric:tabular-nums;background:rgba(0,0,0,.18);padding:2px 10px;border-radius:var(--r)}
+
+/* Farmen-Vergleich */
+.farmnote{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.farmnote div{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:14px 16px;display:flex;flex-direction:column;gap:4px;min-width:0}
+.farmnote b{display:flex;align-items:center;gap:8px}
+.farmnote b::before{content:"";width:8px;height:8px;background:var(--tide)}
+.farmnote span{color:var(--muted);font-size:.9rem}
+.farmsub{font-size:1.25rem;margin-top:8px}
+.ftable-wrap{overflow-x:auto;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow)}
+.ftable{width:100%;border-collapse:collapse;font-size:.92rem;min-width:640px}
+.ftable th,.ftable td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+.ftable thead th{font-family:var(--f-mono);font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.ftable tbody tr:last-child>*{border-bottom:0}
+.ftable tbody th{font-weight:700;white-space:nowrap}
+.ftable td:nth-child(4){color:var(--muted)}
+.ftable td:last-child{white-space:nowrap;color:var(--muted)}
+.fcode{display:inline-flex;align-items:center;justify-content:center;min-width:30px;height:24px;padding:0 6px;margin-right:8px;background:var(--pc);color:var(--bg);font-family:var(--f-mono);font-size:.75rem;font-weight:600;border-radius:4px}
+.eff{display:inline-flex;gap:3px;vertical-align:middle}
+.eff i{width:10px;height:10px;border-radius:2px;background:var(--surface-2);border:1px solid var(--line)}
+.eff i.on{background:var(--ember);border-color:var(--ember)}
+.farms{display:flex;flex-direction:column;gap:16px;padding-top:8px}
+.farm{background:var(--surface);border:1px solid var(--line);border-top:4px solid var(--pc);border-radius:var(--r);padding:18px;display:flex;flex-direction:column;gap:14px;box-shadow:var(--shadow);min-width:0}
+.farm header{display:flex;align-items:center;gap:12px}
+.farm header .fcode{height:30px;min-width:38px;font-size:.85rem;margin:0}
+.farm header div{flex:1;min-width:0}
+.farm header h3{font-size:1.35rem}
+.farm header p{color:var(--muted);font-size:.9rem}
+.fintro{max-width:75ch}
+.designs{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:10px}
+.designs li{background:var(--surface-2);border-radius:var(--r);padding:14px;display:flex;flex-direction:column;gap:8px;min-width:0}
+.dtop{display:flex;flex-direction:column;gap:4px}
+.dtop b{font-weight:700}
+.rate{font-family:var(--f-mono);font-size:.75rem;color:var(--pc);font-weight:600}
+.designs p{font-size:.9rem;color:var(--muted)}
+.pm{display:flex;flex-direction:column;gap:3px;font-size:.88rem}
+.pm span{padding-left:18px;position:relative}
+.pm .plus::before{content:"+";position:absolute;left:2px;font-family:var(--f-mono);font-weight:700;color:var(--moss)}
+.pm .minus::before{content:"−";position:absolute;left:2px;font-family:var(--f-mono);font-weight:700;color:var(--ore-r)}
+.yt{margin-top:auto;align-self:flex-start;color:var(--fg);font-weight:600;font-size:.88rem;text-decoration:none;border:1px solid var(--line);background:var(--surface);border-radius:var(--r);padding:6px 10px}
+.yt:hover{border-color:var(--fg)}
+.yt:focus-visible{outline:2px solid var(--fg);outline-offset:2px}
+.ftips h4{margin:0 0 6px;font-family:var(--f-mono);font-size:.75rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.ftips ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:4px;font-size:.92rem}
+.frec{border-left:3px solid var(--pc);padding-left:12px;font-size:.95rem}
+.frec b{font-weight:700}
+.lede a,.farmlink{color:var(--fg);font-weight:600}
+@media (max-width:900px){.farmnote{grid-template-columns:1fr 1fr}}
+@media (max-width:600px){
+  .ftable{min-width:0}.ftable thead{display:none}
+  .ftable tr{display:grid;grid-template-columns:1fr auto;gap:4px 12px;padding:12px;border-bottom:1px solid var(--line)}
+  .ftable tbody tr:last-child{border-bottom:0}
+  .ftable th,.ftable td{padding:0;border:0}
+  .ftable td:nth-child(2),.ftable td:nth-child(4){grid-column:1/-1}
+  .ftable td:nth-child(3){grid-row:1;grid-column:2}
+  .ftable td:last-child{display:none}
+}
+@media (max-width:520px){.farmnote{grid-template-columns:1fr}.farm{padding:16px 14px}.designs{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -357,6 +414,7 @@ footer.legal .disclaimer{font-family:var(--f-mono);font-size:.75rem;letter-spaci
     <a href="#start" data-view="start" aria-current="page">Start</a>
     <a href="#mods" data-view="mods">Mods</a>
     <a href="#route" data-view="route">Fortschritt</a>
+    <a href="#farmen" data-view="farmen">Farmen</a>
     <a href="#bosses" data-view="bosses">Bosse</a>
     <a href="#tiers" data-view="tiers">Tierlist</a>
     <a href="#tips" data-view="tips">Tipps</a>
@@ -467,7 +525,7 @@ footer.legal .disclaimer{font-family:var(--f-mono);font-size:.75rem;letter-spaci
     </ol>
   </div>
 </div>
-  <div class="sec-head farm-head"><span class="eyebrow">Farmen</span><h2>Was wir bauen müssen</h2><p class="lede">Die Farmen, die den Fortschritt tragen, passend zu den Phasen oben. Wer eine baut, sagt kurz in der Gruppe Bescheid, damit nichts doppelt entsteht.</p></div>
+  <div class="sec-head farm-head"><span class="eyebrow">Farmen</span><h2>Was wir bauen müssen</h2><p class="lede">Die Farmen, die den Fortschritt tragen, passend zu den Phasen oben. Wer eine baut, sagt kurz in der Gruppe Bescheid, damit nichts doppelt entsteht. Bauvarianten und Videos stehen im Tab <a href="#farmen" data-view="farmen" class="farmlink">Farmen</a>.</p></div>
   <div class="phases">
   <div class="phase" style="--pc:var(--moss)">
     <div class="phase-head"><span class="phase-tag">Early Game</span><span class="phase-sub">Grundversorgung</span></div>
@@ -494,6 +552,147 @@ footer.legal .disclaimer{font-family:var(--f-mono);font-size:.75rem;letter-spaci
     </ol>
   </div>
   </div>
+</section>
+
+<section id="farmen" class="view" hidden>
+  <div class="sec-head"><span class="eyebrow">Farmen</span><h2>Farmen im Vergleich</h2><p class="lede">Alle Farmen aus dem Fortschritt, mit mehreren Bauvarianten und einem Video pro Variante. Jedes Video ist für Minecraft 1.21 oder 1.21+ gemacht und passt damit zu unserem Server.</p></div>
+  <div class="farmnote">
+    <div><b>Version</b><span>Unser Server läuft auf 1.21.1. Videos für 1.21 und 1.21+ passen. Unsere Mods ändern an Farm-Mechaniken nichts.</span></div>
+    <div><b>Nur in der Nähe</b><span>Farmen laufen nur, wenn jemand in der Nähe ist. Farmen nah an die Basis bauen, dann laufen beim AFK-Stehen mehrere gleichzeitig.</span></div>
+    <div><b>Lag vermeiden</b><span>Volle Kisten lassen Items auf dem Boden liegen, das bremst den Server. Kisten leeren oder Überlauf in Lava leiten.</span></div>
+    <div><b>Videos</b><span>Die Links öffnen YouTube in einem neuen Tab. Die Seite selbst bettet nichts ein.</span></div>
+  </div>
+  <h3 class="farmsub">Auf einen Blick</h3>
+  <div class="ftable-wrap"><table class="ftable">
+    <thead><tr><th scope="col">Farm</th><th scope="col">Liefert</th><th scope="col">Aufwand</th><th scope="col">Knackpunkt</th><th scope="col">Phase</th></tr></thead>
+    <tbody>
+      <tr><th scope="row"><span class="fcode" style="--pc:var(--moss)">F1</span>Essen</th><td>Karotten, Kartoffeln, Weizen, Steak, Leder, Hähnchen</td><td><span class="eff" aria-label="Aufwand 1 von 3"><i class="on"></i><i></i><i></i></span></td><td>Dorfbewohner und Tiere herbeischaffen</td><td>Early Game</td></tr>
+      <tr><th scope="row"><span class="fcode" style="--pc:var(--moss)">F2</span>Zuckerrohr</th><td>Papier, Bücher, Raketen, Zucker</td><td><span class="eff" aria-label="Aufwand 1 von 3"><i class="on"></i><i></i><i></i></span></td><td>Beobachter brauchen Netherquarz</td><td>Early Game</td></tr>
+      <tr><th scope="row"><span class="fcode" style="--pc:var(--moss)">F3</span>Holz</th><td>Stämme aller Sorten</td><td><span class="eff" aria-label="Aufwand 2 von 3"><i class="on"></i><i class="on"></i><i></i></span></td><td>Vollautomatisch ist aufwendig</td><td>Early Game</td></tr>
+      <tr><th scope="row"><span class="fcode" style="--pc:var(--tide)">F4</span>Trading Hall</th><td>Mending, Schutz IV, Diamant-Ausrüstung, Smaragde</td><td><span class="eff" aria-label="Aufwand 2 von 3"><i class="on"></i><i class="on"></i><i></i></span></td><td>Dorfbewohner einsammeln und transportieren</td><td>Mid Game</td></tr>
+      <tr><th scope="row"><span class="fcode" style="--pc:var(--tide)">F5</span>Eisenfarm</th><td>Eisen, Mohnblumen</td><td><span class="eff" aria-label="Aufwand 1 von 3"><i class="on"></i><i></i><i></i></span></td><td>Drei Dorfbewohner + Zombie hinbringen</td><td>Mid Game</td></tr>
+      <tr><th scope="row"><span class="fcode" style="--pc:var(--tide)">F6</span>Mob- &amp; XP-Farm</th><td>XP, Knochen, Pfeile, Verrottetes Fleisch</td><td><span class="eff" aria-label="Aufwand 1 von 3"><i class="on"></i><i></i><i></i></span></td><td>Passender Spawner</td><td>Mid Game</td></tr>
+      <tr><th scope="row"><span class="fcode" style="--pc:var(--ember)">F7</span>Gold &amp; Bartering</th><td>Gold, sehr viel XP, Enderperlen, Feuerresistenz</td><td><span class="eff" aria-label="Aufwand 2 von 3"><i class="on"></i><i class="on"></i><i></i></span></td><td>Weg aufs Nether-Dach</td><td>End Game</td></tr>
+      <tr><th scope="row"><span class="fcode" style="--pc:var(--ember)">F8</span>Raid-Farm</th><td>Totems, Smaragde, XP, Armbrüste</td><td><span class="eff" aria-label="Aufwand 3 von 3"><i class="on"></i><i class="on"></i><i class="on"></i></span></td><td>Unheilvolle Flaschen, großer Bau</td><td>End Game</td></tr>
+      <tr><th scope="row"><span class="fcode" style="--pc:var(--ember)">F9</span>End-Farmen</th><td>Enderperlen, XP, Shulkerkisten, Wither-Köpfe</td><td><span class="eff" aria-label="Aufwand 3 von 3"><i class="on"></i><i class="on"></i><i class="on"></i></span></td><td>Enderdrache, Endstadt, Netherfestung</td><td>End Game</td></tr>
+    </tbody>
+  </table></div>
+  <div class="tabs" role="tablist" aria-label="Phase">
+    <button class="tab" role="tab" id="tab-fe" aria-controls="p-fe" aria-selected="true" type="button">Early Game</button>
+    <button class="tab" role="tab" id="tab-fm" aria-controls="p-fm" aria-selected="false" type="button">Mid Game</button>
+    <button class="tab" role="tab" id="tab-fn" aria-controls="p-fn" aria-selected="false" type="button">End Game</button>
+  </div>
+  <div id="p-fe" role="tabpanel" aria-labelledby="tab-fe" class="farms">
+    <article class="farm" style="--pc:var(--moss)">
+      <header><span class="fcode">F1</span><div><h3>Essen</h3><p>Karotten, Kartoffeln, Weizen, Steak, Leder, Hähnchen</p></div><span class="eff" aria-label="Aufwand 1 von 3"><i class="on"></i><i></i><i></i></span></header>
+      <p class="fintro">Drei kleine Farmen statt einer großen. Die Kuhfarm ist wichtiger als sie aussieht: Leder brauchen wir für Bücher, Regale und die Trading Hall.</p>
+      <ul class="designs">
+        <li><div class="dtop"><b>Dorfbewohner-Feldfarm</b><span class="rate">4 Feldfrüchte</span></div><p>Bauer-Dorfbewohner ernten und pflanzen selbst, ihre Überschüsse landen per Trichter in Kisten.</p><div class="pm"><span class="plus">Kartoffel, Weizen, Karotte und Rote Bete in einer Farm</span><span class="minus">Braucht Bauer mit Komposter und Bett</span></div><a class="yt" href="https://www.youtube.com/watch?v=I1DrlEvboOM" target="_blank" rel="noopener noreferrer">Video von BrianCraft ansehen ↗</a></li>
+        <li><div class="dtop"><b>Dorfbewohner-Feldfarm, AFK</b><span class="rate">3 Feldfrüchte</span></div><p>Gleiches Prinzip, kompakter gebaut zum Danebenstehen.</p><div class="pm"><span class="plus">Klein und schnell gebaut</span><span class="minus">Nur Kartoffel, Weizen, Karotte</span></div><a class="yt" href="https://www.youtube.com/watch?v=zM3AguFCyAM" target="_blank" rel="noopener noreferrer">Video von Voltrox ansehen ↗</a></li>
+        <li><div class="dtop"><b>Halbautomatische Kuhfarm</b><span class="rate">Steak + Leder</span></div><p>Kühe vermehren, erwachsene Tiere per Knopf abernten.</p><div class="pm"><span class="plus">Sehr billig, sofort machbar</span><span class="minus">Man muss selbst füttern</span></div><a class="yt" href="https://www.youtube.com/watch?v=-bVVIdBktI8" target="_blank" rel="noopener noreferrer">Video von Taffy ansehen ↗</a></li>
+        <li><div class="dtop"><b>Automatische Kuhfarm</b><span class="rate">Steak + Leder</span></div><p>Kälber wachsen heraus, erwachsene Kühe werden automatisch verarbeitet.</p><div class="pm"><span class="plus">Kein Füttern nötig</span><span class="minus">Mehr Redstone, etwas Eisen</span></div><a class="yt" href="https://www.youtube.com/watch?v=8VWPLHsGk9o" target="_blank" rel="noopener noreferrer">Video von VowLa ansehen ↗</a></li>
+        <li><div class="dtop"><b>AFK-Hähnchen-Kochfarm</b><span class="rate">Gebratenes Hähnchen</span></div><p>Hühner legen Eier, Küken wachsen, erwachsene Hühner kommen gebraten in die Kiste.</p><div class="pm"><span class="plus">Läuft komplett allein, ab Tag 1 machbar</span><span class="minus">Hähnchen sättigt schlechter als Steak</span></div><a class="yt" href="https://www.youtube.com/watch?v=keqT2fiUf_w" target="_blank" rel="noopener noreferrer">Video von Go Out YT ansehen ↗</a></li>
+        <li><div class="dtop"><b>Automatische Hühnerfarm</b><span class="rate">Gebratenes Hähnchen + Federn</span></div><p>Alternative Bauweise der gleichen Idee.</p><div class="pm"><span class="plus">Federn für Pfeile gleich mit</span><span class="minus">Etwas größer</span></div><a class="yt" href="https://www.youtube.com/watch?v=4-U4MNp8E90" target="_blank" rel="noopener noreferrer">Video von VowLa ansehen ↗</a></li>
+      </ul>
+      <div class="ftips"><h4>Worauf achten</h4><ul><li>Bauer-Karotten verkauft ihr später beim Bauern gegen Smaragde, das finanziert die Trading Hall.</li><li>Sobald die Goldfarm läuft: Goldene Karotten sind das beste normale Essen im Spiel.</li></ul></div>
+      <p class="frec"><b>Unser Tipp:</b> Zuerst die Hähnchen-Kochfarm (kaum Material), dann die Kuhfarm für Leder.</p>
+    </article>
+    <article class="farm" style="--pc:var(--moss)">
+      <header><span class="fcode">F2</span><div><h3>Zuckerrohr</h3><p>Papier, Bücher, Raketen, Zucker</p></div><span class="eff" aria-label="Aufwand 1 von 3"><i class="on"></i><i></i><i></i></span></header>
+      <p class="fintro">Zuckerrohr wächst langsam, also lohnt sich eine lange Reihe mit Beobachtern. Ohne Netherquarz geht es nur halbautomatisch.</p>
+      <ul class="designs">
+        <li><div class="dtop"><b>Große Beobachter-Farm</b><span class="rate">5.000+ pro Stunde (laut Video)</span></div><p>Reihen aus Beobachter und Kolben, Trichterlore sammelt alles ein.</p><div class="pm"><span class="plus">Höchste Rate, lässt sich beliebig verlängern</span><span class="minus">Viele Beobachter, also viel Quarz</span></div><a class="yt" href="https://www.youtube.com/watch?v=mgYWd6Aq2fc" target="_blank" rel="noopener noreferrer">Video von Power Playzz ansehen ↗</a></li>
+        <li><div class="dtop"><b>Einfache Automatikfarm</b><span class="rate">mittel</span></div><p>Kleinere Variante zum Einstieg.</p><div class="pm"><span class="plus">Wenig Material</span><span class="minus">Weniger Ertrag, später verlängern</span></div><a class="yt" href="https://www.youtube.com/watch?v=fc_f2aSCCZY" target="_blank" rel="noopener noreferrer">Video von MT GAMER ansehen ↗</a></li>
+      </ul>
+      <div class="ftips"><h4>Worauf achten</h4><ul><li>Beobachter brauchen Netherquarz. Vorher reicht ein Wasserkanal, den ihr mit der Hand aberntet.</li><li>Läuft nur, solange jemand in der Nähe ist. Neben die Basis bauen, nicht irgendwo in die Wildnis.</li></ul></div>
+      <p class="frec"><b>Unser Tipp:</b> Klein anfangen und nach dem ersten Nether-Ausflug auf die große Beobachter-Farm verlängern.</p>
+    </article>
+    <article class="farm" style="--pc:var(--moss)">
+      <header><span class="fcode">F3</span><div><h3>Holz</h3><p>Stämme aller Sorten</p></div><span class="eff" aria-label="Aufwand 2 von 3"><i class="on"></i><i class="on"></i><i></i></span></header>
+      <p class="fintro">Vollautomatische Holzfarmen sind in Vanilla knifflig. Für sieben Leute reicht meist eine halbautomatische Farm mit Knochenmehl.</p>
+      <ul class="designs">
+        <li><div class="dtop"><b>Unendliche 12-Sorten-Farm</b><span class="rate">13.000+ Stämme pro Stunde (laut Video)</span></div><p>Großes Design für alle zwölf Holzarten, läuft von 1.16 bis 1.21+.</p><div class="pm"><span class="plus">Alle Holzarten an einem Ort, sehr hoher Ertrag</span><span class="minus">Großes Projekt für später</span></div><a class="yt" href="https://www.youtube.com/watch?v=KNs2Aqn5aro" target="_blank" rel="noopener noreferrer">Video von ncolyer ansehen ↗</a></li>
+        <li><div class="dtop"><b>Einfache Automatik-Baumfarm</b><span class="rate">mittel</span></div><p>Kleines, simples Design für den Alltag.</p><div class="pm"><span class="plus">Schnell nachgebaut</span><span class="minus">Nur eine Holzsorte gleichzeitig</span></div><a class="yt" href="https://www.youtube.com/watch?v=LZI-7CMYLN4" target="_blank" rel="noopener noreferrer">Video von BrianCraft ansehen ↗</a></li>
+      </ul>
+      <div class="ftips"><h4>Worauf achten</h4><ul><li>FallingTree steht nicht in unserer Mod-Liste. Vorher im Pack prüfen, ob ganze Bäume fallen.</li><li>Eine Axt mit Effizienz V und Mending macht jede Holzfarm doppelt so angenehm.</li></ul></div>
+      <p class="frec"><b>Unser Tipp:</b> Am Anfang einfach Fichten mit Knochenmehl. Die große Farm baut, wer gerne baut.</p>
+    </article>
+  </div>
+  <div id="p-fm" role="tabpanel" aria-labelledby="tab-fm" class="farms" hidden>
+    <article class="farm" style="--pc:var(--tide)">
+      <header><span class="fcode">F4</span><div><h3>Trading Hall</h3><p>Mending, Schutz IV, Diamant-Ausrüstung, Smaragde</p></div><span class="eff" aria-label="Aufwand 2 von 3"><i class="on"></i><i class="on"></i><i></i></span></header>
+      <p class="fintro">Das wichtigste Projekt im Mid Game. Jeder Bibliothekar bekommt einen festen Platz mit Lesepult, so kann man Angebote neu würfeln.</p>
+      <ul class="designs">
+        <li><div class="dtop"><b>Dorfbewohner-Zucht + Trading Hall</b><span class="rate">Zucht + Handel</span></div><p>Brüter und Handelshalle in einem Bau, Babys werden direkt an ihre Plätze geleitet.</p><div class="pm"><span class="plus">Nie wieder Dorfbewohner per Boot schleppen</span><span class="minus">Größerer Bau</span></div><a class="yt" href="https://www.youtube.com/watch?v=ns0pbWfmV1w" target="_blank" rel="noopener noreferrer">Video von ReytGood ansehen ↗</a></li>
+        <li><div class="dtop"><b>Einfache Trading Hall</b><span class="rate">nur Handel</span></div><p>Kompakte Reihe von Handelsplätzen ohne Brüter.</p><div class="pm"><span class="plus">Schnell gebaut, wenig Material</span><span class="minus">Dorfbewohner müsst ihr selbst holen</span></div><a class="yt" href="https://www.youtube.com/watch?v=NFMPiCmbsAE" target="_blank" rel="noopener noreferrer">Video von BuildoroMC ansehen ↗</a></li>
+      </ul>
+      <div class="ftips"><h4>Worauf achten</h4><ul><li>Angebot neu würfeln: Lesepult abbauen und neu setzen, solange ihr noch nicht gehandelt habt.</li><li>Zombie-Dorfbewohner heilen (Schwäche-Trank + Goldapfel) gibt dauerhaft große Rabatte. Auf Normal wird ein von Zombies getöteter Dorfbewohner nur zur Hälfte zum Zombie-Dorfbewohner, auf Schwer immer.</li><li>In 1.21.1 ist der neue Handels-Rebalance nur experimentell. Jeder Bibliothekar kann also jedes Buch haben, das Biom ist egal.</li></ul></div>
+      <p class="frec"><b>Unser Tipp:</b> Mit der einfachen Halle anfangen, den Brüter später daneben setzen.</p>
+    </article>
+    <article class="farm" style="--pc:var(--tide)">
+      <header><span class="fcode">F5</span><div><h3>Eisenfarm</h3><p>Eisen, Mohnblumen</p></div><span class="eff" aria-label="Aufwand 1 von 3"><i class="on"></i><i></i><i></i></span></header>
+      <p class="fintro">Dorfbewohner, die einen Zombie sehen, rufen Eisengolems. Die Golems werden getötet und das Eisen landet in Kisten. Billig und sehr zuverlässig.</p>
+      <ul class="designs">
+        <li><div class="dtop"><b>Zuverlässige Eisenfarm</b><span class="rate">600 pro Stunde (laut Video)</span></div><p>Bewährtes Drei-Dorfbewohner-Design, genau erklärt.</p><div class="pm"><span class="plus">Gute Rate, sehr verlässlich</span><span class="minus">Etwas mehr Material</span></div><a class="yt" href="https://www.youtube.com/watch?v=TTzDzMD5OEY" target="_blank" rel="noopener noreferrer">Video von Shulkercraft ansehen ↗</a></li>
+        <li><div class="dtop"><b>Einfachste Eisenfarm</b><span class="rate">mittel</span></div><p>Minimal-Design für den frühen Einstieg.</p><div class="pm"><span class="plus">Sehr wenig Material</span><span class="minus">Weniger Ertrag</span></div><a class="yt" href="https://www.youtube.com/watch?v=7UBIF92y0E8" target="_blank" rel="noopener noreferrer">Video von Taffy ansehen ↗</a></li>
+        <li><div class="dtop"><b>Alternative Bauweise</b><span class="rate">mittel</span></div><p>Ebenfalls für Java 1.21 erklärt.</p><div class="pm"><span class="plus">Gut als Vergleich</span><span class="minus">Ähnlicher Aufwand</span></div><a class="yt" href="https://www.youtube.com/watch?v=jspAaXAjdLo" target="_blank" rel="noopener noreferrer">Video von UForced ansehen ↗</a></li>
+      </ul>
+      <div class="ftips"><h4>Worauf achten</h4><ul><li>Weit weg von Dörfern und euren Betten bauen (rund 100 Blöcke). Fremde Betten in der Nähe stören die Golem-Spawns.</li><li>Dorfbewohner brauchen Betten, sonst rufen sie irgendwann keine Golems mehr. Genau wie im Video bauen.</li></ul></div>
+      <p class="frec"><b>Unser Tipp:</b> Shulkercraft-Design. Lohnt sich auch doppelt, wenn zwei Leute Eisen brauchen.</p>
+    </article>
+    <article class="farm" style="--pc:var(--tide)">
+      <header><span class="fcode">F6</span><div><h3>Mob- &amp; XP-Farm</h3><p>XP, Knochen, Pfeile, Verrottetes Fleisch</p></div><span class="eff" aria-label="Aufwand 1 von 3"><i class="on"></i><i></i><i></i></span></header>
+      <p class="fintro">Ein Zombie- oder Skelett-Spawner aus einem Dungeon wird umgebaut. Mobs werden zusammengespült, ihr gebt den letzten Schlag und bekommt die XP.</p>
+      <ul class="designs">
+        <li><div class="dtop"><b>Zombie-/Skelett-Spawner-Farm</b><span class="rate">XP + Drops</span></div><p>Mobs werden mit Wasser in eine Falltür-Kammer gespült.</p><div class="pm"><span class="plus">Gut erklärt, läuft mit jedem der beiden Spawner</span><span class="minus">Spawner muss passend liegen</span></div><a class="yt" href="https://www.youtube.com/watch?v=xhP_JaGyazQ" target="_blank" rel="noopener noreferrer">Video von OinkOink ansehen ↗</a></li>
+        <li><div class="dtop"><b>Spawner-Farm Java + Bedrock</b><span class="rate">XP + Drops</span></div><p>Ähnliches Prinzip, andere Bauweise.</p><div class="pm"><span class="plus">Leicht nachzubauen</span><span class="minus">Für Java und Bedrock zugleich erklärt</span></div><a class="yt" href="https://www.youtube.com/watch?v=7IGn7GX9IU4" target="_blank" rel="noopener noreferrer">Video von ReytGood ansehen ↗</a></li>
+      </ul>
+      <div class="ftips"><h4>Worauf achten</h4><ul><li>Spawner arbeiten nur, wenn jemand höchstens 16 Blöcke entfernt ist. Der AFK-Platz muss also nah dran sein.</li><li>Mit YUNG&#x27;s Better Dungeons gibt es mehr Dungeons mit Spawnern. Auf der Karte markieren, wenn ihr einen findet.</li><li>Skelett-Spawner sind besser: Knochen für Knochenmehl, Pfeile und ab und zu Bögen.</li></ul></div>
+      <p class="frec"><b>Unser Tipp:</b> Den ersten Skelett-Spawner nahe der Basis umbauen. Ideal zum Reparieren mit Mending.</p>
+    </article>
+  </div>
+  <div id="p-fn" role="tabpanel" aria-labelledby="tab-fn" class="farms" hidden>
+    <article class="farm" style="--pc:var(--ember)">
+      <header><span class="fcode">F7</span><div><h3>Gold &amp; Bartering</h3><p>Gold, sehr viel XP, Enderperlen, Feuerresistenz</p></div><span class="eff" aria-label="Aufwand 2 von 3"><i class="on"></i><i class="on"></i><i></i></span></header>
+      <p class="fintro">Auf dem Nether-Dach spawnen zombifizierte Piglins. Die Farm lockt sie in eine Falle. Das Ergebnis: Gold in Massen und die beste XP-Quelle im Spiel. Mit dem Gold handelt eine zweite Anlage bei Piglins.</p>
+      <ul class="designs">
+        <li><div class="dtop"><b>Gold- &amp; XP-Farm</b><span class="rate">1.000+ Items pro Stunde (laut Video)</span></div><p>Einfaches Design auf dem Nether-Dach mit hohem Ertrag.</p><div class="pm"><span class="plus">Sehr viel XP, einfach erklärt</span><span class="minus">Nether-Dach nötig</span></div><a class="yt" href="https://www.youtube.com/watch?v=X-NAZER9Wvs" target="_blank" rel="noopener noreferrer">Video von MineZeo ansehen ↗</a></li>
+        <li><div class="dtop"><b>Einfachste Gold- &amp; XP-Farm</b><span class="rate">mittel</span></div><p>Kleinere Version für den Einstieg.</p><div class="pm"><span class="plus">Günstig</span><span class="minus">Weniger Gold</span></div><a class="yt" href="https://www.youtube.com/watch?v=nfVz_2JGsa8" target="_blank" rel="noopener noreferrer">Video von Voltrox ansehen ↗</a></li>
+        <li><div class="dtop"><b>Gold-zu-Bartering-Farm</b><span class="rate">Tauschwaren</span></div><p>Gold wird automatisch an Piglins gegeben, die Tauschwaren landen sortiert in Kisten.</p><div class="pm"><span class="plus">Enderperlen, Feuerresistenz, Obsidian, Fäden</span><span class="minus">Braucht eine laufende Goldfarm</span></div><a class="yt" href="https://www.youtube.com/watch?v=Vr6mqQ4QMoo" target="_blank" rel="noopener noreferrer">Video von MrBareBunz ansehen ↗</a></li>
+      </ul>
+      <div class="ftips"><h4>Worauf achten</h4><ul><li>Aufs Nether-Dach kommt man per Enderperle durch die Bedrock-Decke. Vorher die Methode im Video ansehen.</li><li>Ohne Goldfarm kein Bartering: Gold ist der Rohstoff dafür.</li><li>Der Nether ist für alle gleich. Diese Farm einmal für die ganze Gruppe bauen.</li></ul></div>
+      <p class="frec"><b>Unser Tipp:</b> MineZeo-Farm für Gold und XP, daneben die Bartering-Anlage für Perlen und Feuerresistenz.</p>
+    </article>
+    <article class="farm" style="--pc:var(--ember)">
+      <header><span class="fcode">F8</span><div><h3>Raid-Farm</h3><p>Totems, Smaragde, XP, Armbrüste</p></div><span class="eff" aria-label="Aufwand 3 von 3"><i class="on"></i><i class="on"></i><i class="on"></i></span></header>
+      <p class="fintro">Totems der Unsterblichkeit gibt es nur von Magiern, also nur aus Raids. Seit 1.21 startet ein Raid nur noch über eine Unheilvolle Flasche. Die droppen Plünderer-Hauptleute, die gerade nicht in einem Raid sind, also von Patrouillen und Außenposten, oder sie liegen in Trial-Kammer-Tresoren.</p>
+      <ul class="designs">
+        <li><div class="dtop"><b>Einfache Raid-Farm</b><span class="rate">13.000 Items pro Stunde (laut Video)</span></div><p>Bewährte Raid-Farm für 1.21, gut erklärt.</p><div class="pm"><span class="plus">Hoher Ertrag, nachvollziehbar</span><span class="minus">Großer Bau</span></div><a class="yt" href="https://www.youtube.com/watch?v=hhOXu1HRSq0" target="_blank" rel="noopener noreferrer">Video von Shulkercraft ansehen ↗</a></li>
+        <li><div class="dtop"><b>Unheilvolle Raid-Farm</b><span class="rate">2.900 pro Stunde (laut Video)</span></div><p>Einfache Variante mit der neuen Flaschen-Mechanik.</p><div class="pm"><span class="plus">Leichter zu bauen</span><span class="minus">Geringerer Ertrag</span></div><a class="yt" href="https://www.youtube.com/watch?v=alN-ED1RgY8" target="_blank" rel="noopener noreferrer">Video von TheySix ansehen ↗</a></li>
+        <li><div class="dtop"><b>AFK-Raid-Farm</b><span class="rate">24.700 pro Stunde (laut Video)</span></div><p>Großes Design, läuft während man AFK ist.</p><div class="pm"><span class="plus">Höchster Ertrag</span><span class="minus">Am aufwendigsten</span></div><a class="yt" href="https://www.youtube.com/watch?v=WgMO_BySfT8" target="_blank" rel="noopener noreferrer">Video von TheySix ansehen ↗</a></li>
+        <li><div class="dtop"><b>Raid-Farm mit Totems</b><span class="rate">Totems, Smaragde, XP</span></div><p>Alternative mit Fokus auf Totems.</p><div class="pm"><span class="plus">Gut für Einsteiger erklärt</span><span class="minus">Ohne Angabe zur Rate</span></div><a class="yt" href="https://www.youtube.com/watch?v=CoO7bKF9uyY" target="_blank" rel="noopener noreferrer">Video von ReytGood ansehen ↗</a></li>
+      </ul>
+      <div class="ftips"><h4>Worauf achten</h4><ul><li>Vorher klären, wie das Design an neue Unheilvolle Flaschen kommt. Ohne Flaschen-Nachschub ist jeder Raid Handarbeit.</li><li>Die Farm muss weit weg von echten Dörfern stehen, sonst startet der Raid an der falschen Stelle.</li><li>Gute Rüstung mitnehmen, Verwüster und Magier sind auch in der Farm gefährlich.</li></ul></div>
+      <p class="frec"><b>Unser Tipp:</b> Die einfache Variante von TheySix für die ersten Totems. Die große Farm nur, wenn die Gruppe mehr will.</p>
+    </article>
+    <article class="farm" style="--pc:var(--ember)">
+      <header><span class="fcode">F9</span><div><h3>End-Farmen</h3><p>Enderperlen, XP, Shulkerkisten, Wither-Köpfe</p></div><span class="eff" aria-label="Aufwand 3 von 3"><i class="on"></i><i class="on"></i><i class="on"></i></span></header>
+      <p class="fintro">Drei Farmen für das End Game. Die Enderman-Farm liefert XP und Perlen, die Shulker-Farm Kisten für alle, die Wither-Skelett-Farm Köpfe für den Wither und damit Nether-Sterne für den Harbinger.</p>
+      <ul class="designs">
+        <li><div class="dtop"><b>Enderman-XP-Farm</b><span class="rate">XP + Perlen</span></div><p>Plattform im End, Endermen werden mit einer Endermite angelockt.</p><div class="pm"><span class="plus">Schnelles XP, einfach erklärt</span><span class="minus">Weit draußen im End bauen</span></div><a class="yt" href="https://www.youtube.com/watch?v=JmGzGZkclY8" target="_blank" rel="noopener noreferrer">Video von ReytGood ansehen ↗</a></li>
+        <li><div class="dtop"><b>Enderman-Farm</b><span class="rate">XP + Perlen</span></div><p>Alternative Bauweise für 1.21+.</p><div class="pm"><span class="plus">Gut als Vergleich</span><span class="minus">Ähnlicher Aufwand</span></div><a class="yt" href="https://www.youtube.com/watch?v=P4nnswSmGC0" target="_blank" rel="noopener noreferrer">Video von Revxte ansehen ↗</a></li>
+        <li><div class="dtop"><b>Enderman-XP-Farm, Java</b><span class="rate">XP + Perlen</span></div><p>Weitere Java-Variante.</p><div class="pm"><span class="plus">Kompakt</span><span class="minus">Endermite muss geschützt werden</span></div><a class="yt" href="https://www.youtube.com/watch?v=D-EaZO96Wvc" target="_blank" rel="noopener noreferrer">Video von Markov357 ansehen ↗</a></li>
+        <li><div class="dtop"><b>Shulkerschalen-Farm</b><span class="rate">950 Schalen pro Stunde (laut Video)</span></div><p>Shulker vermehren sich, wenn sie von Shulker-Geschossen getroffen werden.</p><div class="pm"><span class="plus">Gute Rate, gut erklärt</span><span class="minus">Shulker aus einer Endstadt mitbringen</span></div><a class="yt" href="https://www.youtube.com/watch?v=pQfJChwRpXs" target="_blank" rel="noopener noreferrer">Video von Shulkercraft ansehen ↗</a></li>
+        <li><div class="dtop"><b>2D-Shulker-Farm</b><span class="rate">700+ pro Stunde (laut Video)</span></div><p>Flaches Design, leichter nachzubauen.</p><div class="pm"><span class="plus">Einfacher Bau</span><span class="minus">Etwas weniger Ertrag</span></div><a class="yt" href="https://www.youtube.com/watch?v=Y7d2_nfpxw0" target="_blank" rel="noopener noreferrer">Video von TheySix ansehen ↗</a></li>
+        <li><div class="dtop"><b>Shulker-Farm mit Crafter</b><span class="rate">1.175 Kisten pro Stunde (laut Video)</span></div><p>Ein Crafter baut gleich fertige Shulkerkisten.</p><div class="pm"><span class="plus">Fertige Kisten statt Schalen</span><span class="minus">Komplexer</span></div><a class="yt" href="https://www.youtube.com/watch?v=tKKedsW8ljw" target="_blank" rel="noopener noreferrer">Video von TheySix ansehen ↗</a></li>
+        <li><div class="dtop"><b>Wither-Skelett-Farm</b><span class="rate">150+ pro Stunde (laut Video)</span></div><p>Plattformen in einer Netherfestung, alles andere wird spawn-sicher gemacht.</p><div class="pm"><span class="plus">Gute Rate</span><span class="minus">Viel Spawn-Proofing</span></div><a class="yt" href="https://www.youtube.com/watch?v=ILm0IbuSIqA" target="_blank" rel="noopener noreferrer">Video von TheySix ansehen ↗</a></li>
+        <li><div class="dtop"><b>Wither-Skelett-Farm</b><span class="rate">130+ pro Stunde (laut Video)</span></div><p>Ebenfalls für Java 1.21.</p><div class="pm"><span class="plus">Gut erklärt</span><span class="minus">Etwas weniger Ertrag</span></div><a class="yt" href="https://www.youtube.com/watch?v=YilwUD3nh7I" target="_blank" rel="noopener noreferrer">Video von Voltrox ansehen ↗</a></li>
+      </ul>
+      <div class="ftips"><h4>Worauf achten</h4><ul><li>Endermen spawnen auf den äußeren End-Inseln. Weit genug von der Hauptinsel bauen, wie im Video beschrieben.</li><li>Wither-Skelette spawnen nur im Bereich einer Netherfestung. Ein Kopf droppt mit 2,5 %, mit Plünderung III mit 5,5 %. Für einen Wither braucht ihr drei.</li><li>Für die Shulker-Farm einen Shulker aus einer Endstadt per Boot oder Lore holen. Vorsicht, Shulker teleportieren sich.</li></ul></div>
+      <p class="frec"><b>Unser Tipp:</b> Reihenfolge: Enderman-Farm zuerst (XP + Perlen), dann Shulker, dann Wither-Skelette.</p>
+    </article>
+  </div>
+  <p class="note">Raten stammen aus den Videotiteln und gelten für die dort gezeigte Bauweise. Auf unserem Server können sie abweichen. Stand der Videoauswahl: Oktober 2026.</p>
 </section>
 
 <section id="bosses" class="view" hidden>
